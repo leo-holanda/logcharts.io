@@ -1,13 +1,26 @@
-const reader = new FileReader()
+// Each field in the csv file becomes a button
+function createButtons(fields){
+  let btn
+  for (field of fields){    
+    if(field){
+      btn = document.createElement("button")
+      btn.innerHTML = field 
+      document.body.appendChild(btn)     
+    }
+  }
+}
 
-document.getElementById("form_btn").addEventListener('click', () => {
+// When user sends csv...
+document.getElementById("log_input").addEventListener('change', () => {
   const log = document.getElementById("log_input").files[0]
 
-  reader.onload = function(){
-    d3.csvParse(reader.result, function(data) {
-      console.log(data);
-    });
-  }
-
-  reader.readAsText(log)
+  // Parse the csv and process the results
+  Papa.parse(log, {
+    header: true,
+    encoding: 'latin3', // Important for degree symbol
+    skipEmptyLines: true,
+    complete: function(results){
+      createButtons(results.meta.fields)
+    }
+  })  
 })
