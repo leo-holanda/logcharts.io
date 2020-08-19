@@ -5,7 +5,7 @@ function createButtons(fields) {
     if (field) {
       btn = document.createElement("button");
       btn.innerHTML = field;
-      document.body.appendChild(btn);
+      document.querySelector("main").appendChild(btn);
     }
   }
 }

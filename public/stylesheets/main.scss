@@ -4,8 +4,8 @@
 @import "partials/header";
 
 html {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
 }
 
 body {
@@ -14,7 +14,13 @@ body {
   height: 100%;
   width: 100%;
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-direction: column;
   font-family: "Alata", Helvetica, Arial, sans-serif;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }

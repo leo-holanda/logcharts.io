@@ -1,30 +1,22 @@
-.log-form {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: max-content;
+.log-input {
+  width: 0.1px;
+  height: 0.1px;
+  opacity: 0;
+  overflow: hidden;
+  position: absolute;
+  z-index: -1;
+}
 
-  .log-input {
-    width: 0.1px;
-    height: 0.1px;
-    opacity: 0;
-    overflow: hidden;
-    position: absolute;
-    z-index: -1;
-  }
+label {
+  cursor: pointer;
+  padding: 15px;
+  font-family: "Source Sans Pro", sans-serif;
+  color: black;
+  border: 2px solid black;
+  font-size: 1.25em;
+  font-weight: 600;
 
-  label {
-    cursor: pointer;
-    padding: 15px;
-    font-family: "Source Sans Pro", sans-serif;
-    color: black;
-    border: 2px solid black;
-    font-size: 1.25em;
-    font-weight: 600;
-
-    &:hover {
-      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    }
+  &:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
   }
 }

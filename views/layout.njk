@@ -9,9 +9,12 @@
     <title>Log Viewer</title>
   </head>
   <body>
-
+    
     {% block header %} {% endblock %}
-    {% block form %} {% endblock %}
+    
+    <main>
+      {% block form %} {% endblock %}
+    </main>
 
     <script src="/javascripts/papaparse.min.js"></script>
     <script type="text/javascript" src="/javascripts/index.js"></script>
