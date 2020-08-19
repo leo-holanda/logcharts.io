@@ -1,0 +1,15 @@
+.header {
+  display: flex;
+  width: 100%;
+  height: fit-content;
+  background-color: black;
+  justify-content: center;
+  align-items: center;
+
+  h1 {
+    font-size: 3.5em;
+    color: white;
+    padding: 15px;
+    margin: 0px;
+  }
+}

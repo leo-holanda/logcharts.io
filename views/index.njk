@@ -1,7 +1,9 @@
-{% extends 'layout.njk' %}
+{% extends "layout.njk" %} 
 
-{% block content %}
-  <form>
-    <input type="file" id="log_input" name="log_input">
-  </form>  
+{% block header %} 
+  {% include "header.njk" %} 
+{% endblock %}
+
+{% block form %}
+  {% include "form.njk" %} 
 {% endblock %}
