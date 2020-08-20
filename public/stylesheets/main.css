@@ -6074,18 +6074,19 @@ readers do not read off random characters that represent icons */
 }
 
 label {
+  border-radius: 10px;
   cursor: pointer;
+  background-color: #4e7bffff;
   padding: 15px;
   font-family: "Source Sans Pro", sans-serif;
-  color: black;
-  border: 2px solid black;
+  color: white;
   font-size: 1.25em;
   font-weight: 600;
 }
 
 label:hover {
-  -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
 }
 
 .header {
@@ -6106,10 +6107,53 @@ label:hover {
 }
 
 .header h1 {
-  font-size: 3.5em;
+  font-size: 3.2em;
   color: white;
   padding: 15px;
   margin: 0px;
+}
+
+.btn-container {
+  text-align: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  width: 7%;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.btn-container-title {
+  padding: 5px;
+  background-color: #4e7bffff;
+  color: white;
+}
+
+.field-btn {
+  background-color: white;
+  color: #041219;
+  border: 0px;
+  text-decoration: none;
+  font-family: "Source Sans Pro", sans-serif;
+  padding: 5px;
+  margin: 2px;
+  width: auto;
+  height: auto;
+}
+
+.field-btn:hover {
+  background-color: #fa7921ff;
+  color: white;
+}
+
+.field-btn:focus {
+  background-color: #119da4ff;
+  color: white !important;
+  font-weight: 900;
 }
 
 html {
@@ -6136,12 +6180,16 @@ main {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  overflow: hidden;
+  height: 100%;
+}
+
+.aligned {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  height: 100%;
 }
 /*# sourceMappingURL=main.css.map */

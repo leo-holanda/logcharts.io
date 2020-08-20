@@ -1,0 +1,37 @@
+.btn-container {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  width: 7%;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.btn-container-title {
+  padding: 5px;
+  background-color: $primary;
+  color: white;
+}
+
+.field-btn {
+  background-color: white;
+  color: #041219;
+  border: 0px;
+  text-decoration: none;
+  font-family: "Source Sans Pro", sans-serif;
+  padding: 5px;
+  margin: 2px;
+  width: auto;
+  height: auto;
+
+  &:hover {
+    background-color: $hover;
+    color: white;
+  }
+
+  &:focus {
+    background-color: $focus;
+    color: white !important;
+    font-weight: 900;
+  }
+}

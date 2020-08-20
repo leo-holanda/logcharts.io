@@ -1,7 +1,12 @@
+$primary: #4e7bffff;
+$focus: #119da4ff;
+$hover: #fa7921ff;
+
 @import "font-awesome/scss/fontawesome.scss";
 @import "font-awesome/scss/solid.scss";
 @import "partials/form";
 @import "partials/header";
+@import "partials/btn-container";
 
 html {
   width: 100vw;
@@ -20,7 +25,11 @@ body {
 
 main {
   display: flex;
+  overflow: hidden;
+  height: 100%;
+}
+
+.aligned {
   justify-content: center;
   align-items: center;
-  height: 100%;
 }

@@ -8,15 +8,16 @@
 }
 
 label {
+  border-radius: 10px;
   cursor: pointer;
+  background-color: $primary;
   padding: 15px;
   font-family: "Source Sans Pro", sans-serif;
-  color: black;
-  border: 2px solid black;
+  color: white;
   font-size: 1.25em;
   font-weight: 600;
 
   &:hover {
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
   }
 }
