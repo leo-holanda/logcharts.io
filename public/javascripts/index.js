@@ -29,6 +29,13 @@ function createButtons(fields) {
   }
 }
 
+//Create a container for the chart
+function createChartContainer() {
+  let chart = document.createElement("div");
+  chart.classList.add("chart-container");
+  document.querySelector("main").appendChild(chart);
+}
+
 // When user sends csv...
 document.getElementById("log_input").addEventListener("change", () => {
   const log = document.getElementById("log_input").files[0];
@@ -42,6 +49,8 @@ document.getElementById("log_input").addEventListener("change", () => {
       removeForm();
       createBtnContainer();
       createButtons(results.meta.fields);
+      createChartContainer();
+      createChart(results.data);
     },
   });
 });
