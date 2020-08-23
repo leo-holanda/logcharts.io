@@ -6167,6 +6167,22 @@ svg {
   margin: 50px;
 }
 
+.y-axis .tick line {
+  opacity: 0.2;
+}
+
+.y-axis .tick:first-of-type line {
+  opacity: 1;
+}
+
+.grid .tick {
+  opacity: 0.2;
+}
+
+.grid .tick:first-of-type {
+  opacity: 1;
+}
+
 html {
   width: 100vw;
   height: 100vh;

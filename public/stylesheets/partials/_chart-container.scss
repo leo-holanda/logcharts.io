@@ -8,3 +8,25 @@ svg {
   background-color: white;
   margin: 50px;
 }
+
+.y-axis {
+  .tick {
+    line {
+      opacity: 0.2;
+    }
+    &:first-of-type {
+      line {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+.grid {
+  .tick {
+    opacity: 0.2;
+    &:first-of-type {
+      opacity: 1;
+    }
+  }
+}
