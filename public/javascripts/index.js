@@ -31,9 +31,21 @@ function createButtons(fields) {
 
 //Create a container for the chart
 function createChartContainer() {
-  let chart = document.createElement("div");
-  chart.classList.add("chart-container");
-  document.querySelector("main").appendChild(chart);
+  let chartContainer = document.createElement("div");
+  chartContainer.classList.add("chart-container");
+  document.querySelector("main").appendChild(chartContainer);
+}
+
+function addUpdateByField(chart) {
+  //When user click in a field button, update chart with field data
+  document
+    .querySelector(".btn-container")
+    .addEventListener("click", function (event) {
+      if (event.target.className == "field-btn") {
+        let selectedField = event.target.innerHTML;
+        chart.update(selectedField);
+      }
+    });
 }
 
 // When user sends csv...
@@ -50,7 +62,14 @@ document.getElementById("log_input").addEventListener("change", () => {
       createBtnContainer();
       createButtons(results.meta.fields);
       createChartContainer();
-      createChart(results.data);
+
+      let chart = new Chart({
+        container: document.querySelector(".chart-container"),
+        data: results.data,
+      });
+
+      chart.draw();
+      addUpdateByField(chart);
     },
   });
 });
