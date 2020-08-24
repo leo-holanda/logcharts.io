@@ -6104,6 +6104,7 @@ label:hover {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  font-family: "Alata", Helvetica, Arial, sans-serif;
 }
 
 .header h1 {
@@ -6131,6 +6132,8 @@ label:hover {
   padding: 5px;
   background-color: #4e7bffff;
   color: white;
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 800;
 }
 
 .field-btn {
@@ -6157,26 +6160,38 @@ label:hover {
 }
 
 .chart-container {
-  background-color: #f9f9f9;
+  background-color: #f5f5f5c7;
   width: 100%;
   height: 100%;
 }
 
 svg {
   background-color: white;
-  margin: 50px;
+  margin: 30px;
+}
+
+.y-axis {
+  font-size: 0.7em;
 }
 
 .y-axis .tick line {
-  opacity: 0.2;
+  opacity: 0.13;
 }
 
 .y-axis .tick:first-of-type line {
   opacity: 1;
 }
 
+.y-axis .domain {
+  opacity: 0;
+}
+
+.x-axis {
+  font-size: 0.7em;
+}
+
 .grid .tick {
-  opacity: 0.2;
+  opacity: 0.13;
 }
 
 .grid .tick:first-of-type {
@@ -6200,7 +6215,6 @@ body {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
-  font-family: "Alata", Helvetica, Arial, sans-serif;
 }
 
 main {

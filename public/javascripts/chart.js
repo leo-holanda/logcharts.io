@@ -41,14 +41,14 @@ function createChart(data){
     const containerWidth = document.querySelector(".chart-container").clientWidth
 
     //Define chart margin
-    const margin = {top: 50, right: 50, bottom: 50, left: 50}
+    const margin = {top: 50, right: 50, bottom: 40, left: 60}
     , width = containerWidth - margin.left - margin.right
     , height = containerHeight - margin.top - margin.bottom;
 	
 	//Define the scale of x
     const x = d3.scaleTime()
     .domain(d3.extent(data, d => fixTime(d["Time"])))
-    .range([margin.left + 10, width - margin.right]) // + 10 so the line doesn't touch the y axis
+    .range([margin.left, width - margin.right])
 	
 	//Define the x axis
     const xAxis = g => g
@@ -56,6 +56,7 @@ function createChart(data){
         .transition()
         .duration(1000)
         .call(d3.axisBottom(x).tickSizeOuter(0))
+        .attr("class", "x-axis")
 
 	//Define the scale of y
     let y = d3.scaleLinear()
@@ -73,6 +74,7 @@ function createChart(data){
 
 	//Define the chart line that will be drawn. The x point is the Time value and the Y point is the CPU temperature value
     let line = d3.line()
+        .defined(d => checkValue(d["CPU [°C]"]) !== undefined)
         .x(d => x(fixTime(d["Time"])))
         .y(d => y(checkValue(d["CPU [°C]"])))
 
@@ -102,7 +104,7 @@ function createChart(data){
         .datum(data)
         .attr("fill", "none")
         .attr("stroke", "#4E7BFF")
-        .attr("stroke-width", 1.5)
+        .attr("stroke-width", 2)
         .attr("stroke-linejoin", "round")
         .attr("stroke-linecap", "round")
         .attr("class", "line")
@@ -113,6 +115,7 @@ function createChart(data){
 
         //Update domain of y scale
         y.domain(d3.extent(data, d => checkValue(d[field]))).nice()
+
         //Select all y axis and update values by calling yAxis
         svg.selectAll(".y-axis")
             .transition()
@@ -127,11 +130,17 @@ function createChart(data){
                 .tickFormat(""))
             .call(g => g.select(".domain").remove())
 
+        // If there is only 1 grid line, remove it (Not necessary to have just 1 line)
+        if(svg.selectAll(".grid").selectAll(".tick").size() == 1){
+            svg.select(".grid").select(".tick").remove()
+        }
+
         //After update the y-axis, update the line in path object with new data
         svg.selectAll(".line")
             .transition()
             .duration(1000)
             .attr("d", d3.line()
+                .defined(d => checkValue(d[field]) !== undefined)
                 .x(d => x(fixTime(d["Time"])))
                 .y(d => y(checkValue(d[field]))))
     }
