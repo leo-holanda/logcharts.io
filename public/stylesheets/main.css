@@ -6198,6 +6198,60 @@ svg {
   opacity: 1;
 }
 
+.stats-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background-color: white;
+  font-family: "Source Sans Pro", sans-serif;
+  font-size: 1.5em;
+  font-weight: 700;
+  width: 100%;
+  height: 10%;
+}
+
+.stats {
+  border-right: 1px solid grey;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
+  height: 100%;
+  width: 25%;
+}
+
+.stats-title {
+  margin: 0;
+  color: #a9a9a9;
+}
+
+.stats-value {
+  -webkit-transition: opacity 0.5s ease-in-out;
+  transition: opacity 0.5s ease-in-out;
+  margin: 0;
+}
+
+.report-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
+  width: 100%;
+  height: 100%;
+}
+
 html {
   width: 100vw;
   height: 100vh;

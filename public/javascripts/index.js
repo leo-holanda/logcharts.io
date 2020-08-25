@@ -29,21 +29,29 @@ function createButtons(fields) {
   }
 }
 
-//Create a container for the chart
-function createChartContainer() {
-  let chartContainer = document.createElement("div");
-  chartContainer.classList.add("chart-container");
-  document.querySelector("main").appendChild(chartContainer);
+function createContainers() {
+  let container = document.createElement("div");
+  container.classList.add("report-container");
+  document.querySelector("main").appendChild(container);
+
+  container = document.createElement("div");
+  container.classList.add("stats-container");
+  document.querySelector(".report-container").appendChild(container);
+
+  container = document.createElement("div");
+  container.classList.add("chart-container");
+  document.querySelector(".report-container").appendChild(container);
 }
 
 function addUpdateByField(chart) {
-  //When user click in a field button, update chart with field data
+  //When user click in a field button, update chart and statistics with field data
   document
     .querySelector(".btn-container")
     .addEventListener("click", function (event) {
       if (event.target.className == "field-btn") {
         let selectedField = event.target.innerHTML;
         chart.update(selectedField);
+        updateStats(chart.data, selectedField);
       }
     });
 }
@@ -61,14 +69,15 @@ document.getElementById("log_input").addEventListener("change", () => {
       removeForm();
       createBtnContainer();
       createButtons(results.meta.fields);
-      createChartContainer();
+      createContainers();
 
       let chart = new Chart({
         container: document.querySelector(".chart-container"),
         data: results.data,
       });
-
       chart.draw();
+
+      createStats(results.data);
       addUpdateByField(chart);
     },
   });

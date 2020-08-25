@@ -99,7 +99,7 @@ Chart.prototype.addAxes = function(){
 			.attr("class", "y-axis");
 			
 	//Append the y Axis
-this.svg.append("g").call(this.yAxis);
+	this.svg.append("g").call(this.yAxis);
 }
 
 Chart.prototype.addGrid = function(){
