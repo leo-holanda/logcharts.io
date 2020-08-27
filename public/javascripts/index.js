@@ -21,14 +21,18 @@ function createContainers() {
   document.querySelector("main").classList.remove("aligned");
 
   let container = document.createElement("div");
-  container.classList.add("btn-container");
+  container.classList.add("field-container");
   document.querySelector("main").appendChild(container);
 
   //Add btn container title
-  let title = document.createElement("a");
+  let title = document.createElement("h4");
   title.innerHTML = "FIELDS";
-  title.classList.add("btn-container-title");
-  document.querySelector(".btn-container").appendChild(title);
+  title.classList.add("field-container-title");
+  document.querySelector(".field-container").appendChild(title);
+
+  container = document.createElement("div");
+  container.classList.add("btn-container");
+  document.querySelector(".field-container").appendChild(container);
 
   container = document.createElement("div");
   container.classList.add("report-container");

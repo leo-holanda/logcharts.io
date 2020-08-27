@@ -6114,7 +6114,7 @@ label:hover {
   margin: 0px;
 }
 
-.btn-container {
+.field-container {
   text-align: center;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -6125,15 +6125,20 @@ label:hover {
           flex-direction: column;
   width: 7%;
   height: 100%;
-  overflow-y: auto;
 }
 
-.btn-container-title {
+.field-container-title {
+  margin: 0px;
   padding: 5px;
   background-color: #4e7bffff;
   color: white;
   font-family: "Source Sans Pro", sans-serif;
   font-weight: 800;
+}
+
+.btn-container {
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .field-btn {
@@ -6144,7 +6149,7 @@ label:hover {
   font-family: "Source Sans Pro", sans-serif;
   padding: 5px;
   margin: 2px;
-  width: auto;
+  width: 98%;
   height: auto;
 }
 
@@ -6225,7 +6230,7 @@ svg {
 }
 
 .stats {
-  border-right: 1px solid grey;
+  border-right: 2px solid #a9a9a9;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
