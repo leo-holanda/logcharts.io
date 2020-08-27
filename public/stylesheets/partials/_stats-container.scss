@@ -10,12 +10,15 @@
 
 .stats {
   border-right: 1px solid grey;
+  &:last-of-type {
+    border: 0;
+  }
   display: flex;
   justify-content: center;
   align-items: center;
   flex-flow: column;
   height: 100%;
-  width: 25%;
+  width: 33%;
 }
 
 .stats-title {

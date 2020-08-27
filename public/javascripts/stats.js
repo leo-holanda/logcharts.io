@@ -1,5 +1,4 @@
-//We will use 4 statistics measures: minimum value, maximum value,
-//mean and standard deviation
+//We will use 3 statistics measures: minimum value, maximum value and mean
 function createStats(log) {
   let element;
   let title;
@@ -8,7 +7,7 @@ function createStats(log) {
   let mappedLog = log.map((row) => fixValue(row["CPU [°C]"]));
   let extent = d3.extent(mappedLog);
 
-  for (step = 0; step <= 3; step++) {
+  for (step = 0; step < 3; step++) {
     //For each measure, create a div that contains a title and a value
     element = document.createElement("div");
     title = document.createElement("h6");
@@ -36,11 +35,6 @@ function createStats(log) {
         value.innerHTML = extent[1];
         title.innerHTML = "Maximum Value";
         break;
-      case 3:
-        element.id = "deviation";
-        value.innerHTML = d3.deviation(mappedLog).toFixed(2);
-        title.innerHTML = "Deviation";
-        break;
     }
 
     //Append each measure to container
@@ -55,20 +49,14 @@ function createStats(log) {
 function updateStats(log, field) {
   let mappedLog = log.map((row) => fixValue(row[field]));
 
-  //May not be the most efficient way of calculate
-  //Passing through the array 4 times (d3.deviation may count as 2)
-  //I will implement something better later
   let extent = d3.extent(mappedLog);
   let mean = d3.mean(mappedLog).toFixed(2);
-  let deviation = d3.deviation(mappedLog).toFixed(2);
 
   let minValue = document.querySelector("#min_value");
   let meanValue = document.querySelector("#mean");
   let maxValue = document.querySelector("#max_value");
-  let deviationValue = document.querySelector("#deviation");
 
   minValue.children[0].innerHTML = extent[0];
   meanValue.children[0].innerHTML = mean;
   maxValue.children[0].innerHTML = extent[1];
-  deviationValue.children[0].innerHTML = deviation;
 }

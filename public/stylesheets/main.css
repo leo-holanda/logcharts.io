@@ -6240,7 +6240,11 @@ svg {
       -ms-flex-flow: column;
           flex-flow: column;
   height: 100%;
-  width: 25%;
+  width: 33%;
+}
+
+.stats:last-of-type {
+  border: 0;
 }
 
 .stats-title {
