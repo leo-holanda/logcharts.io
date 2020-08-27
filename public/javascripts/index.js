@@ -3,19 +3,6 @@ function removeForm() {
   document.querySelector("form").remove();
 }
 
-//Create a container for field buttons
-function createBtnContainer() {
-  document.querySelector("main").classList.remove("aligned");
-  let div = document.createElement("div");
-  div.classList.add("btn-container");
-  document.querySelector("main").appendChild(div);
-
-  let title = document.createElement("a");
-  title.innerHTML = "FIELDS";
-  title.classList.add("btn-container-title");
-  document.querySelector(".btn-container").appendChild(title);
-}
-
 // Each field in the csv file becomes a button
 function createButtons(fields) {
   let btn;
@@ -30,7 +17,20 @@ function createButtons(fields) {
 }
 
 function createContainers() {
+  //Remove aligned layout
+  document.querySelector("main").classList.remove("aligned");
+
   let container = document.createElement("div");
+  container.classList.add("btn-container");
+  document.querySelector("main").appendChild(container);
+
+  //Add btn container title
+  let title = document.createElement("a");
+  title.innerHTML = "FIELDS";
+  title.classList.add("btn-container-title");
+  document.querySelector(".btn-container").appendChild(title);
+
+  container = document.createElement("div");
   container.classList.add("report-container");
   document.querySelector("main").appendChild(container);
 
@@ -51,7 +51,7 @@ function addUpdateByField(chart) {
       if (event.target.className == "field-btn") {
         let selectedField = event.target.innerHTML;
         chart.update(selectedField);
-        updateStats(chart.data, selectedField);
+        updateStats(chart.log, selectedField);
       }
     });
 }
@@ -59,6 +59,7 @@ function addUpdateByField(chart) {
 // When user sends csv...
 document.getElementById("log_input").addEventListener("change", () => {
   const log = document.getElementById("log_input").files[0];
+  removeForm();
 
   // Parse the csv and process the results
   Papa.parse(log, {
@@ -66,15 +67,14 @@ document.getElementById("log_input").addEventListener("change", () => {
     encoding: "latin3", // Important for degree symbol
     skipEmptyLines: true,
     complete: function (results) {
-      removeForm();
-      createBtnContainer();
-      createButtons(results.meta.fields);
       createContainers();
+      createButtons(results.meta.fields);
 
       let chart = new Chart({
         container: document.querySelector(".chart-container"),
-        data: results.data,
+        parsedLog: results.data,
       });
+
       chart.draw();
 
       createStats(results.data);

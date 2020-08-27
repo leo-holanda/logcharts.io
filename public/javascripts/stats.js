@@ -1,18 +1,18 @@
 //We will use 4 statistics measures: minimum value, maximum value,
 //mean and standard deviation
-function createStats(data) {
+function createStats(log) {
   let element;
   let title;
   let value;
 
-  let mappedData = data.map((step) => checkValue(step["CPU [°C]"]));
-  let extent = d3.extent(mappedData);
+  let mappedLog = log.map((row) => fixValue(row["CPU [°C]"]));
+  let extent = d3.extent(mappedLog);
 
   for (step = 0; step <= 3; step++) {
     //For each measure, create a div that contains a title and a value
     element = document.createElement("div");
     title = document.createElement("h6");
-    value = document.createElement("p");
+    value = document.createElement("h4");
 
     element.classList.add("stats");
     title.classList.add("stats-title");
@@ -28,7 +28,7 @@ function createStats(data) {
         break;
       case 1:
         element.id = "mean";
-        value.innerHTML = d3.mean(mappedData).toFixed(2);
+        value.innerHTML = d3.mean(mappedLog).toFixed(2);
         title.innerHTML = "Mean";
         break;
       case 2:
@@ -38,7 +38,7 @@ function createStats(data) {
         break;
       case 3:
         element.id = "deviation";
-        value.innerHTML = d3.deviation(mappedData).toFixed(2);
+        value.innerHTML = d3.deviation(mappedLog).toFixed(2);
         title.innerHTML = "Deviation";
         break;
     }
@@ -52,15 +52,15 @@ function createStats(data) {
 
 //Get data by the selected field, calculate measures and
 //change innerHTML to receive respective results
-function updateStats(data, field) {
-  let mappedData = data.map((step) => step[field]);
+function updateStats(log, field) {
+  let mappedLog = log.map((row) => fixValue(row[field]));
 
   //May not be the most efficient way of calculate
   //Passing through the array 4 times (d3.deviation may count as 2)
   //I will implement something better later
-  let extent = d3.extent(mappedData);
-  let mean = d3.mean(mappedData).toFixed(2);
-  let deviation = d3.deviation(mappedData).toFixed(2);
+  let extent = d3.extent(mappedLog);
+  let mean = d3.mean(mappedLog).toFixed(2);
+  let deviation = d3.deviation(mappedLog).toFixed(2);
 
   let minValue = document.querySelector("#min_value");
   let meanValue = document.querySelector("#mean");

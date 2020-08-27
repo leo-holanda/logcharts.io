@@ -9,21 +9,31 @@ svg {
   margin: 30px;
 }
 
+/*
+    Except when we have just one tick
+    All ticks but the first one appears on the screen
+    This way we prevent the first tick from 
+    touching the domain line in x-axis
+    It's just aesthetics
+    And when we have just one tick it doesn't appear for the same reason
+    It woulnd't touch the domain line but the chart line
+*/
+
 .y-axis {
   font-size: 0.7em;
-  //To pair with the x-axis domain, all ticks but the first one have 0.13 opacity
   .tick {
     line {
       opacity: 0.13;
     }
+
     &:first-of-type {
       line {
-        opacity: 1;
+        opacity: 0;
       }
     }
   }
 
-  //Invisible domain in y-aixs
+  //Invisible domain in y-axis
   .domain {
     opacity: 0;
   }
@@ -33,12 +43,18 @@ svg {
   font-size: 0.7em;
 }
 
+/*
+  Except when we have just one grid line
+  All grid lines but the first one appears on the screen
+  Same way as the y-axis
+*/
+
 .grid {
-  //Same thing with the y-axis
   .tick {
     opacity: 0.13;
+
     &:first-of-type {
-      opacity: 1;
+      opacity: 0;
     }
   }
 }

@@ -6170,6 +6170,15 @@ svg {
   margin: 30px;
 }
 
+/*
+    Except when we have just one tick
+    All ticks but the first one appears on the screen
+    This way we prevent the first tick from 
+    touching the domain line in x-axis
+    It's just aesthetics
+    And when we have just one tick it doesn't appear for the same reason
+    It woulnd't touch the domain line but the chart line
+*/
 .y-axis {
   font-size: 0.7em;
 }
@@ -6179,7 +6188,7 @@ svg {
 }
 
 .y-axis .tick:first-of-type line {
-  opacity: 1;
+  opacity: 0;
 }
 
 .y-axis .domain {
@@ -6190,12 +6199,17 @@ svg {
   font-size: 0.7em;
 }
 
+/*
+  Except when we have just one grid line
+  All grid lines but the first one appears on the screen
+  Same way as the y-axis
+*/
 .grid .tick {
   opacity: 0.13;
 }
 
 .grid .tick:first-of-type {
-  opacity: 1;
+  opacity: 0;
 }
 
 .stats-container {
@@ -6235,8 +6249,6 @@ svg {
 }
 
 .stats-value {
-  -webkit-transition: opacity 0.5s ease-in-out;
-  transition: opacity 0.5s ease-in-out;
   margin: 0;
 }
 
