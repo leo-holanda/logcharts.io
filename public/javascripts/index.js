@@ -1,6 +1,6 @@
 //Remove form so buttons and graph can be displayed
 function removeForm() {
-  document.querySelector("form").remove();
+  document.querySelector(".form-container").remove();
 }
 
 // Each field in the csv file becomes a button
@@ -47,8 +47,8 @@ function createContainers() {
   document.querySelector(".report-container").appendChild(container);
 }
 
+//When user click in a field button, update chart and statistics with field data
 function addUpdateByField(chart) {
-  //When user click in a field button, update chart and statistics with field data
   document
     .querySelector(".btn-container")
     .addEventListener("click", function (event) {
@@ -60,29 +60,45 @@ function addUpdateByField(chart) {
     });
 }
 
+//Add an alert if there isn't one
+function addAlert() {
+  if (document.querySelector(".form-alert") == null) {
+    let alert = document.createElement("h3");
+    alert.innerHTML = "Please upload only CSV files!";
+    alert.classList.add("form-alert");
+    document.querySelector(".form-container").appendChild(alert);
+  }
+}
+
 // When user sends csv...
 document.getElementById("log_input").addEventListener("change", () => {
   const log = document.getElementById("log_input").files[0];
-  removeForm();
 
-  // Parse the csv and process the results
-  Papa.parse(log, {
-    header: true,
-    encoding: "latin3", // Important for degree symbol
-    skipEmptyLines: true,
-    complete: function (results) {
-      createContainers();
-      createButtons(results.meta.fields);
+  //If input file isn't an csv file
+  if (log.type != "text/csv") {
+    addAlert();
+  } else {
+    removeForm();
 
-      let chart = new Chart({
-        container: document.querySelector(".chart-container"),
-        parsedLog: results.data,
-      });
+    // Parse the csv and process the results
+    Papa.parse(log, {
+      header: true,
+      encoding: "latin3", // Important for degree symbol
+      skipEmptyLines: true,
+      complete: function (results) {
+        createContainers();
+        createButtons(results.meta.fields);
 
-      chart.draw();
+        let chart = new Chart({
+          container: document.querySelector(".chart-container"),
+          parsedLog: results.data,
+        });
 
-      createStats(results.data);
-      addUpdateByField(chart);
-    },
-  });
+        chart.draw();
+
+        createStats(results.data);
+        addUpdateByField(chart);
+      },
+    });
+  }
 });

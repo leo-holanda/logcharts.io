@@ -1,0 +1,15 @@
+.form-container {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-alert {
+  border-bottom: 1px solid red;
+  background-color: #fcecf0;
+  color: red;
+  font-family: "Source Sans Pro", sans-serif;
+  padding: 10px;
+  margin: 40px;
+}

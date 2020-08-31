@@ -13,7 +13,9 @@
     {% block header %} {% endblock %}
     
     <main class="aligned">
-      {% block form %} {% endblock %}
+      <div class="form-container">
+        {% block form %} {% endblock %}
+      </div>
     </main>
 
     <script src="/javascripts/papaparse.min.js"></script>
