@@ -11,20 +11,41 @@ function Chart(params) {
 	//Define chart margin, width and height
 	this.margin = { top: 50, right: 50, bottom: 40, left: 60 };
 	this.width = containerWidth - this.margin.left - this.margin.right;
-	this.height = containerHeight - this.margin.top - this.margin.bottom;
+	this.height = containerHeight - this.margin.top - this.margin.bottom - 100;
+	this.brushHeight = 80;
 }
 
 Chart.prototype.draw = function(){
-	//Append the svg element to the chart container
-	this.svg = d3
+	//Append the svg to the chart container
+	this.chartSVG = d3
 		.select(this.container)
 		.append("svg")
 		.attr("viewBox", `0 0 ${this.width} ${this.height}`);
 
+	//Append the context svg to the chart container
+	this.contextSVG = d3
+		.select(this.container)
+		.append("svg")
+		.attr("viewBox", `0 0 ${this.width} 100`)
+	
+	//Append the clip path to the svg to clip the line chart
+	this.clip = this.chartSVG.append("clipPath")
+		.attr("id", "line_clip")
+	.append("rect")
+		.attr("transform", `translate(${this.margin.left}, 0)`)
+		.attr("width", this.width - (this.margin.right * 2) - 9)
+		.attr("height", this.height)
+	
 	this.createScales()
 	this.addAxes()
 	this.addGrid()
 	this.addLine()
+	this.createBrush()
+
+	//Append the brush in context svg
+	this.contextSVG.append("g")
+		.call(this.brush)
+		.call(this.brush.move, this.xScale.range());
 }
 
 Chart.prototype.createScales = function(){
@@ -40,22 +61,29 @@ Chart.prototype.createScales = function(){
 		.domain(d3.extent(this.log, (row) => fixValue(row["CPU [°C]"])))
 		.nice()
 		.range([this.height - this.margin.bottom, this.margin.top]);
+
+	//Define the special y scale for the context svg
+	this.yContextScale = d3
+		.scaleLinear()
+		.domain(d3.extent(this.log, (row) => fixValue(row["CPU [°C]"])))
+		.range([this.brushHeight, this.margin.top]);
 }
 
 //g is a container used to group other SVG elements
 //In this case to group ticks and values in axis
 Chart.prototype.addAxes = function(){
 	//Define the x-axis
-	this.xAxis = (g) =>
+	this.xAxis = (g, scale = this.xScale, height = this.height, margin = this.margin.bottom) =>
 		g
-			.attr("transform", `translate(0,${this.height - this.margin.bottom})`)
+			.attr("transform", `translate(0, ${height - margin})`)
 			.transition()
 			.duration(1000)
-			.call(d3.axisBottom(this.xScale))
+			.call(d3.axisBottom(scale))
 			.attr("class", "x-axis");
 			
 	//Append the x-axis
-	this.svg.append("g").call(this.xAxis);
+	this.chartSVG.append("g").call(this.xAxis);
+	this.contextSVG.append("g").call(this.xAxis, this.xScale, 100, 20)
 
 	//Define the y-axis
 	this.yAxis = (g) =>
@@ -68,12 +96,12 @@ Chart.prototype.addAxes = function(){
 			.attr("class", "y-axis");
 			
 	//Append the y-axis
-	this.svg.append("g").call(this.yAxis);
+	this.chartSVG.append("g").call(this.yAxis);
 }
 
 Chart.prototype.addGrid = function(){
 	//Append the grid line in y-axis
-	this.svg
+	this.chartSVG
 		.append("g")
 		.attr("class", "grid")
 		.attr("transform", `translate(${this.margin.left}, 0)`)
@@ -84,38 +112,50 @@ Chart.prototype.addGrid = function(){
 }
 
 Chart.prototype.addLine = function(){
-	//Define the chart line that will be drawn. The x point is the Time value and the Y point is the CPU temperature value
-	let line = d3.line()
-		.defined((row) => fixValue(row["CPU [°C]"]) !== undefined)
-		.x((row) => this.xScale(parseTime(row["Time"])))
-		.y((row) => this.yScale(fixValue(row["CPU [°C]"])));
-		
 	//Append the path that contains the chart line
-	this.svg
+	this.chartSVG
 		.append("path")
 		.datum(this.log)
+		.attr("clip-path", "url(#line_clip)")
 		.attr("fill", "none")
 		.attr("stroke", "#4E7BFF")
 		.attr("stroke-width", 2)
 		.attr("stroke-linejoin", "round")
 		.attr("stroke-linecap", "round")
 		.attr("class", "line")
-		.attr("d", line);
+		.attr("d", d3.line()
+			.defined((row) => fixValue(row["CPU [°C]"]) !== undefined)
+			.x((row) => this.xScale(parseTime(row["Time"])))
+			.y((row) => this.yScale(fixValue(row["CPU [°C]"]))))
+
+	//Append the path that contains the line for the context svg
+	this.contextSVG.append("path")
+      .datum(this.log)
+	  .attr("fill", "none")
+	  .attr("stroke", "#4E7BFF")
+	  .attr("stroke-width", 2)
+	  .attr("stroke-linejoin", "round")
+	  .attr("stroke-linecap", "round")
+	  .attr("class", "line")
+      .attr("d", d3.line()
+		.defined((row) => fixValue(row["CPU [°C]"]) !== undefined)
+		.x((row) => this.xScale(parseTime(row["Time"])))
+		.y((row) => this.yContextScale(fixValue(row["CPU [°C]"]))));
 }
 
 //Update chart with the specified field data
-Chart.prototype.update = function(field){
+Chart.prototype.updateByField = function(field){
 	//Update domain of y scale
 	this.yScale.domain(d3.extent(this.log, (row) => fixValue(row[field]))).nice();
 
 	//Select y-axis and update ticks and values by calling yAxis function
-	this.svg.select(".y-axis")
+	this.chartSVG.select(".y-axis")
 		.transition()
 		.duration(1000)
 		.call(this.yAxis);
 
 	//Select grid in y-axis and update grid lines position
-	this.svg.select(".grid")
+	this.chartSVG.select(".grid")
 		.attr("transform", `translate(${this.margin.left}, 0)`)
 		.call(d3.axisLeft(this.yScale)
 			.tickSize(-this.width + this.margin.right * 2)
@@ -123,12 +163,12 @@ Chart.prototype.update = function(field){
 		.call((g) => g.select(".domain").remove());
 
 	// If there is only 1 grid line, remove it (Not necessary to have just 1 line)
-	if (this.svg.select(".grid").selectAll(".tick").size() == 1) {
-		this.svg.select(".grid").select(".tick").remove();
+	if (this.chartSVG.select(".grid").selectAll(".tick").size() == 1) {
+		this.chartSVG.select(".grid").select(".tick").remove();
 	}
 
 	//Update the line in path object with new data
-	this.svg
+	this.chartSVG
 		.select(".line")
 		.transition()
 		.duration(1000)
@@ -137,4 +177,29 @@ Chart.prototype.update = function(field){
 			.x((row) => this.xScale(parseTime(row["Time"])))
 			.y((row) => this.yScale(fixValue(row[field])))
 		);
+}
+
+Chart.prototype.createBrush = function(){
+	this.brush = d3.brushX()
+		.extent([[this.margin.left, 0], [this.width - this.margin.right, this.brushHeight]])
+		.on("brush", () => {
+			let selection = d3.event.selection
+			this.updateByBrush(selection, this.xScale.copy())
+		})
+}
+
+//Update chart by brush's selection.
+Chart.prototype.updateByBrush = function(selection, scale){
+	//Selection gives us the brush's coordinates
+	//We need to convert this coordinates to the equivalent Date value using scale.invert
+	//So we can use it in scale's domain
+
+	scale.domain([scale.invert(selection[0]), scale.invert(selection[1])])
+
+	this.chartSVG.select(".x-axis").call(this.xAxis, scale);
+
+	this.chartSVG.select(".line").attr("d", d3.line()
+		.defined((row) => fixValue(row["CPU [°C]"]) !== undefined)
+		.x((row) => scale(parseTime(row["Time"])))
+		.y((row) => this.yScale(fixValue(row["CPU [°C]"]))))
 }

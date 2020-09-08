@@ -54,7 +54,7 @@ function addUpdateByField(chart) {
     .addEventListener("click", function (event) {
       if (event.target.className == "field-btn") {
         let selectedField = event.target.innerHTML;
-        chart.update(selectedField);
+        chart.updateByField(selectedField);
         updateStats(chart.log, selectedField);
       }
     });
