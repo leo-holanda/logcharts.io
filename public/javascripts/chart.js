@@ -145,8 +145,12 @@ Chart.prototype.addLine = function(){
 
 //Update chart with the specified field data
 Chart.prototype.updateByField = function(field){
+	//We need this to be accessible in updateByBrush method
+	this.selectedField = field
+
 	//Update domain of y scale
 	this.yScale.domain(d3.extent(this.log, (row) => fixValue(row[field]))).nice();
+	this.yContextScale.domain(d3.extent(this.log, (row) => fixValue(row[field])));
 
 	//Select y-axis and update ticks and values by calling yAxis function
 	this.chartSVG.select(".y-axis")
@@ -177,6 +181,17 @@ Chart.prototype.updateByField = function(field){
 			.x((row) => this.xScale(parseTime(row["Time"])))
 			.y((row) => this.yScale(fixValue(row[field])))
 		);
+
+	//Update the line in context
+	this.contextSVG
+		.select(".line")
+		.transition()
+		.duration(1000)
+		.attr("d", d3.line()
+			.defined((row) => fixValue(row[field]) !== undefined)
+			.x((row) => this.xScale(parseTime(row["Time"])))
+			.y((row) => this.yContextScale(fixValue(row[field])))
+		);
 }
 
 Chart.prototype.createBrush = function(){
@@ -194,12 +209,14 @@ Chart.prototype.updateByBrush = function(selection, scale){
 	//We need to convert this coordinates to the equivalent Date value using scale.invert
 	//So we can use it in scale's domain
 
+	let field = this.selectedField ? this.selectedField : "CPU [°C]"
+
 	scale.domain([scale.invert(selection[0]), scale.invert(selection[1])])
 
 	this.chartSVG.select(".x-axis").call(this.xAxis, scale);
 
 	this.chartSVG.select(".line").attr("d", d3.line()
-		.defined((row) => fixValue(row["CPU [°C]"]) !== undefined)
+		.defined((row) => fixValue(row[field]) !== undefined)
 		.x((row) => scale(parseTime(row["Time"])))
-		.y((row) => this.yScale(fixValue(row["CPU [°C]"]))))
+		.y((row) => this.yScale(fixValue(row[field]))))
 }
