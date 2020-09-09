@@ -44,6 +44,7 @@ Chart.prototype.draw = function(){
 
 	//Append the brush in context svg
 	this.contextSVG.append("g")
+		.attr("class", "brush")
 		.call(this.brush)
 		.call(this.brush.move, this.xScale.range());
 }
@@ -192,12 +193,18 @@ Chart.prototype.updateByField = function(field){
 			.x((row) => this.xScale(parseTime(row["Time"])))
 			.y((row) => this.yContextScale(fixValue(row[field])))
 		);
+
+	this.contextSVG.select(".brush")
+		.transition()
+		.duration(1000)
+		.call(this.brush.move, this.xScale.range())
 }
 
 Chart.prototype.createBrush = function(){
 	this.brush = d3.brushX()
 		.extent([[this.margin.left, 0], [this.width - this.margin.right, this.brushHeight]])
 		.on("brush", () => {
+			//Selection gives us the brush's coordinates
 			let selection = d3.event.selection
 			this.updateByBrush(selection, this.xScale.copy())
 		})
@@ -205,8 +212,7 @@ Chart.prototype.createBrush = function(){
 
 //Update chart by brush's selection.
 Chart.prototype.updateByBrush = function(selection, scale){
-	//Selection gives us the brush's coordinates
-	//We need to convert this coordinates to the equivalent Date value using scale.invert
+	//We need to convert the brush's selection to the equivalent Date values using scale.invert
 	//So we can use it in scale's domain
 
 	let field = this.selectedField ? this.selectedField : "CPU [°C]"
