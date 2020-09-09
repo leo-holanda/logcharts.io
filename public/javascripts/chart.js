@@ -74,17 +74,17 @@ Chart.prototype.createScales = function(){
 //In this case to group ticks and values in axis
 Chart.prototype.addAxes = function(){
 	//Define the x-axis
-	this.xAxis = (g, scale = this.xScale, height = this.height, margin = this.margin.bottom) =>
+	this.xAxis = (g, duration = 1000, scale = this.xScale, height = this.height, margin = this.margin.bottom) =>
 		g
 			.attr("transform", `translate(0, ${height - margin})`)
 			.transition()
-			.duration(1000)
+			.duration(duration)
 			.call(d3.axisBottom(scale))
 			.attr("class", "x-axis");
 			
 	//Append the x-axis
 	this.chartSVG.append("g").call(this.xAxis);
-	this.contextSVG.append("g").call(this.xAxis, this.xScale, 100, 20)
+	this.contextSVG.append("g").call(this.xAxis, 1000, this.xScale, 100, 20)
 
 	//Define the y-axis
 	this.yAxis = (g) =>
@@ -219,7 +219,7 @@ Chart.prototype.updateByBrush = function(selection, scale){
 
 	scale.domain([scale.invert(selection[0]), scale.invert(selection[1])])
 
-	this.chartSVG.select(".x-axis").call(this.xAxis, scale);
+	this.chartSVG.select(".x-axis").call(this.xAxis, 0, scale);
 
 	this.chartSVG.select(".line").attr("d", d3.line()
 		.defined((row) => fixValue(row[field]) !== undefined)
