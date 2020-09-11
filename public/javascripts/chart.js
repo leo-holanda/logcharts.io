@@ -123,7 +123,7 @@ Chart.prototype.addLine = function(){
 		.attr("stroke-width", 2)
 		.attr("stroke-linejoin", "round")
 		.attr("stroke-linecap", "round")
-		.attr("class", "line")
+		.attr("class", "chart-line")
 		.attr("d", d3.line()
 			.defined((row) => fixValue(row["CPU [°C]"]) !== undefined)
 			.x((row) => this.xScale(parseTime(row["Time"])))
@@ -137,7 +137,7 @@ Chart.prototype.addLine = function(){
 	  .attr("stroke-width", 2)
 	  .attr("stroke-linejoin", "round")
 	  .attr("stroke-linecap", "round")
-	  .attr("class", "line")
+	  .attr("class", "context-line")
       .attr("d", d3.line()
 		.defined((row) => fixValue(row["CPU [°C]"]) !== undefined)
 		.x((row) => this.xScale(parseTime(row["Time"])))
@@ -174,7 +174,7 @@ Chart.prototype.updateByField = function(field){
 
 	//Update the line in path object with new data
 	this.chartSVG
-		.select(".line")
+		.select(".chart-line")
 		.transition()
 		.duration(1000)
 		.attr("d", d3.line()
@@ -185,7 +185,7 @@ Chart.prototype.updateByField = function(field){
 
 	//Update the line in context
 	this.contextSVG
-		.select(".line")
+		.select(".context-line")
 		.transition()
 		.duration(1000)
 		.attr("d", d3.line()
@@ -204,9 +204,17 @@ Chart.prototype.createBrush = function(){
 	this.brush = d3.brushX()
 		.extent([[this.margin.left, 0], [this.width - this.margin.right, this.brushHeight]])
 		.on("brush", () => {
-			//Selection gives us the brush's coordinates
-			let selection = d3.event.selection
-			this.updateByBrush(selection, this.xScale.copy())
+			/*
+			updateByField resets the brush, generating an event that prevents
+			the chart line transition from happening
+			Checking if sourceEvent isn't null fix this because
+			resetting the brush generates an event with null sourceEvent
+			*/
+			if(d3.event.sourceEvent){
+				//Selection gives us the brush's coordinates
+				let selection = d3.event.selection
+				this.updateByBrush(selection, this.xScale.copy())
+			}
 		})
 }
 
@@ -221,8 +229,9 @@ Chart.prototype.updateByBrush = function(selection, scale){
 
 	this.chartSVG.select(".x-axis").call(this.xAxis, 0, scale);
 
-	this.chartSVG.select(".line").attr("d", d3.line()
-		.defined((row) => fixValue(row[field]) !== undefined)
-		.x((row) => scale(parseTime(row["Time"])))
-		.y((row) => this.yScale(fixValue(row[field]))))
+	this.chartSVG.select(".chart-line")
+		.attr("d", d3.line()
+			.defined((row) => fixValue(row[field]) !== undefined)
+			.x((row) => scale(parseTime(row["Time"])))
+			.y((row) => this.yScale(fixValue(row[field]))))
 }
