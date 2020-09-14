@@ -203,18 +203,18 @@ Chart.prototype.updateByField = function(field){
 Chart.prototype.createBrush = function(){
 	this.brush = d3.brushX()
 		.extent([[this.margin.left, 0], [this.width - this.margin.right, this.brushHeight]])
-		.on("brush", () => {
+		.on("brush", (event) => {
 			/*
 			updateByField resets the brush, generating an event that prevents
 			the chart line transition from happening
 			Checking if sourceEvent isn't null fix this because
 			resetting the brush generates an event with null sourceEvent
 			*/
-			if(d3.event.sourceEvent){
-				//Selection gives us the brush's coordinates
-				let selection = d3.event.selection
-				this.updateByBrush(selection, this.xScale.copy())
-			}
+			if(event.sourceEvent){
+			 	//Selection gives us the brush's coordinates
+			 	let selection = event.selection
+			 	this.updateByBrush(selection, this.xScale.copy())
+			 }
 		})
 }
 
