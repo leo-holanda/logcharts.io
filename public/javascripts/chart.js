@@ -41,6 +41,7 @@ Chart.prototype.draw = function(){
 	this.addGrid()
 	this.addLine()
 	this.createBrush()
+	this.addTooltip()
 
 	//Append the brush in context svg
 	this.contextSVG.append("g")
@@ -149,6 +150,9 @@ Chart.prototype.updateByField = function(field){
 	//We need this to be accessible in updateByBrush method
 	this.selectedField = field
 
+	//And this in addTooltip method
+	this.chartSVG.select(".chart-line")._groups[0][0].setAttribute("field", field)
+
 	//Update domain of y scale
 	this.yScale.domain(d3.extent(this.log, (row) => fixValue(row[field]))).nice();
 	this.yContextScale.domain(d3.extent(this.log, (row) => fixValue(row[field])));
@@ -194,10 +198,14 @@ Chart.prototype.updateByField = function(field){
 			.y((row) => this.yContextScale(fixValue(row[field])))
 		);
 
+	//Reset brush
 	this.contextSVG.select(".brush")
 		.transition()
 		.duration(1000)
 		.call(this.brush.move, this.xScale.range())
+
+	//Reset domain so tooltip doesn't get lost when changing fields
+	this.chartSVG.select(".chart-line")._groups[0][0].setAttribute("domain", this.xScale.domain())
 }
 
 Chart.prototype.createBrush = function(){
@@ -226,6 +234,7 @@ Chart.prototype.updateByBrush = function(selection, scale){
 	let field = this.selectedField ? this.selectedField : "CPU [°C]"
 
 	scale.domain([scale.invert(selection[0]), scale.invert(selection[1])])
+	this.chartSVG.select(".chart-line")._groups[0][0].setAttribute("domain", scale.domain())
 
 	this.chartSVG.select(".x-axis").call(this.xAxis, 0, scale);
 
@@ -234,4 +243,46 @@ Chart.prototype.updateByBrush = function(selection, scale){
 			.defined((row) => fixValue(row[field]) !== undefined)
 			.x((row) => scale(parseTime(row["Time"])))
 			.y((row) => this.yScale(fixValue(row[field]))))
+}
+
+Chart.prototype.addTooltip = function(){
+
+	// Given the pointer position, find the equivalent time in x scale
+	// Then, find the equivalent row using the index given by bisector
+	function findLogRow(scale, pointer) {
+		const bisector = d3.bisector((d) => parseTime(d["Time"])).left;
+	
+		const currentTime = scale.invert(pointer);
+		const index = bisector(chart.log, currentTime, 1);
+		const previousRow = chart.log[index - 1];
+		const currentRow = chart.log[index];
+	
+		return currentRow && currentTime - parseTime(previousRow["Time"]) > parseTime(currentRow["Time"]) - currentTime ? currentRow : previousRow;
+	}
+
+	const chart = this;
+	const tooltip = this.chartSVG.append("g")
+
+	//Store domain and field data in chart so we can get it later
+	this.chartSVG.select(".chart-line")._groups[0][0].setAttribute("domain", this.xScale.domain())
+	this.chartSVG.select(".chart-line")._groups[0][0].setAttribute("field", "CPU [°C]")
+
+	this.chartSVG.on("touchmove mousemove", function(event){
+		//Get the current x domain and log field
+		const domain = this.childNodes[4].getAttribute("domain").split(",")
+		const field = this.childNodes[4].getAttribute("field")
+
+		const scale = d3
+			.scaleTime()
+			.domain(domain.map((d) => new Date(d)))
+			.range([chart.margin.left, chart.width - chart.margin.right]);
+
+		const row = findLogRow(scale, d3.pointer(event, this)[0]);
+			
+		tooltip
+			.attr("transform", `translate(${scale(parseTime(row["Time"]))},${chart.yScale(fixValue(row[field]))})`)
+			.call(changeTooltipData, `${fixValue(row[field])}|${parseTime(row["Time"]).toLocaleTimeString()}`)
+	})
+
+	this.chartSVG.on("touchend mouseleave", () => tooltip.style("display", "none"));
 }

@@ -1,3 +1,4 @@
 public/javascripts/papaparse.min.js
 *.njk
 public/javascripts/chart.js
+public/javascripts/helper.js
