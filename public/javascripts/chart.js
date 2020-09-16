@@ -28,29 +28,15 @@ Chart.prototype.draw = function(){
 		.append("svg")
 		.attr("viewBox", `0 0 ${this.width} 100`)
 	
-	//Append the clip path to the svg to clip the line chart
-	this.clip = this.chartSVG.append("clipPath")
-		.attr("id", "line_clip")
-	.append("rect")
-		.attr("transform", `translate(${this.margin.left}, 0)`)
-		.attr("width", this.width - (this.margin.right * 2) - 9)
-		.attr("height", this.height)
-	
-	this.createScales()
+	this.addScales()
 	this.addAxes()
 	this.addGrid()
 	this.addLine()
-	this.createBrush()
+	this.addBrush()
 	this.addTooltip()
-
-	//Append the brush in context svg
-	this.contextSVG.append("g")
-		.attr("class", "brush")
-		.call(this.brush)
-		.call(this.brush.move, this.xScale.range());
 }
 
-Chart.prototype.createScales = function(){
+Chart.prototype.addScales = function(){
 	//Define the scale of x
 	this.xScale = d3
 		.scaleTime()
@@ -114,6 +100,14 @@ Chart.prototype.addGrid = function(){
 }
 
 Chart.prototype.addLine = function(){
+	//Append the clip path to the svg to clip the line chart
+	this.clip = this.chartSVG.append("clipPath")
+		.attr("id", "line_clip")
+	.append("rect")
+		.attr("transform", `translate(${this.margin.left}, 0)`)
+		.attr("width", this.width - (this.margin.right * 2) - 9)
+		.attr("height", this.height)
+	
 	//Append the path that contains the chart line
 	this.chartSVG
 		.append("path")
@@ -204,11 +198,11 @@ Chart.prototype.updateByField = function(field){
 		.duration(1000)
 		.call(this.brush.move, this.xScale.range())
 
-	//Reset domain so tooltip doesn't get lost when changing fields
+	//Reset domain to prevent tooltip using previous domain
 	this.chartSVG.select(".chart-line")._groups[0][0].setAttribute("domain", this.xScale.domain())
 }
 
-Chart.prototype.createBrush = function(){
+Chart.prototype.addBrush = function(){
 	this.brush = d3.brushX()
 		.extent([[this.margin.left, 0], [this.width - this.margin.right, this.brushHeight]])
 		.on("brush", (event) => {
@@ -224,6 +218,12 @@ Chart.prototype.createBrush = function(){
 			 	this.updateByBrush(selection, this.xScale.copy())
 			 }
 		})
+	
+	//Append the brush in context svg
+	this.contextSVG.append("g")
+		.attr("class", "brush")
+		.call(this.brush)
+		.call(this.brush.move, this.xScale.range());
 }
 
 //Update chart by brush's selection.
@@ -234,6 +234,8 @@ Chart.prototype.updateByBrush = function(selection, scale){
 	let field = this.selectedField ? this.selectedField : "CPU [°C]"
 
 	scale.domain([scale.invert(selection[0]), scale.invert(selection[1])])
+
+	//Update domain used by tooltip
 	this.chartSVG.select(".chart-line")._groups[0][0].setAttribute("domain", scale.domain())
 
 	this.chartSVG.select(".x-axis").call(this.xAxis, 0, scale);

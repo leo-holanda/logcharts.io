@@ -20,13 +20,9 @@ function parseTime(time) {
 //Check if value ins't missing, convert Yes/No to 1/0 if necesssary or return the value in float
 function fixValue(value) {
   if (value) {
-    if (value == "No") {
-      return 0;
-    } else if (value == "Yes") {
-      return 1;
-    } else if (!isNaN(value)) {
-      return parseFloat(value);
-    }
+    if (value == "No") return 0;  
+    if (value == "Yes") return 1;  
+    if (!isNaN(value)) return parseFloat(value);
   }
   //return undefinied otherwise
 }
