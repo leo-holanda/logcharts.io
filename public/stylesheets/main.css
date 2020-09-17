@@ -6298,6 +6298,42 @@ svg {
   margin: 40px;
 }
 
+form {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
+}
+
+form button {
+  -webkit-transition-duration: 0.4s;
+          transition-duration: 0.4s;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin-top: 30px;
+  padding: 8px;
+  font-family: "Source Sans Pro", sans-serif;
+  cursor: pointer;
+  background-color: white;
+  border: 2px solid black;
+}
+
+form button:hover {
+  background-color: black;
+  /* Green */
+  color: white;
+}
+
 html {
   width: 100vw;
   height: 100vh;

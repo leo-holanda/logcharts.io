@@ -66,3 +66,12 @@ function changeTooltipData(g, value){
     `M${-w / 2 - 10},5H-5l5,-5l5,5H${w / 2 + 10}v${h + 20}h-${w + 20}z`
   );
 };
+
+
+async function getLogExample(){
+  const proxyurl = "https://cors-anywhere.herokuapp.com/";
+  return await fetch(proxyurl + "https://raw.githubusercontent.com/leo-holanda/logcharts.io/master/public/example.CSV")
+    .then((response) => { 
+      return response.text() 
+    })
+}

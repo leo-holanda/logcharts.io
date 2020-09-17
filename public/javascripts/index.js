@@ -70,35 +70,48 @@ function addAlert() {
   }
 }
 
-// When user sends csv...
-document.getElementById("log_input").addEventListener("change", () => {
-  const log = document.getElementById("log_input").files[0];
+// When user sends csv or click on example button...
+document.getElementById("log_input").addEventListener("change", createChart);
+document.getElementById("example").addEventListener("click", createChart);
 
-  //If input file isn't an csv file
-  if (log.type != "text/csv") {
-    addAlert();
+async function createChart(event) {
+  let log = undefined;
+
+  if (event.target.id == "example") {
+    //Get example log from repository
+    log = await getLogExample();
   } else {
-    removeForm();
+    log = document.getElementById("log_input").files[0];
 
-    // Parse the csv and process the results
-    Papa.parse(log, {
-      header: true,
-      encoding: "latin3", // Important for degree symbol
-      skipEmptyLines: true,
-      complete: function (results) {
-        createContainers();
-        createButtons(results.meta.fields);
-
-        let chart = new Chart({
-          container: document.querySelector(".chart-container"),
-          parsedLog: results.data,
-        });
-
-        chart.draw();
-
-        createStats(results.data);
-        addUpdateByField(chart);
-      },
-    });
+    //If input file isn't an csv file
+    if (log.type != "text/csv") {
+      return addAlert();
+    }
   }
-});
+
+  removeForm();
+
+  // Parse the csv and process the results
+  Papa.parse(log, {
+    header: true,
+    encoding: "latin3", // Important for degree symbol
+    skipEmptyLines: true,
+    transformHeader: function (header) {
+      return header.replace("�", "°");
+    },
+    complete: function (results) {
+      createContainers();
+      createButtons(results.meta.fields);
+
+      let chart = new Chart({
+        container: document.querySelector(".chart-container"),
+        parsedLog: results.data,
+      });
+
+      chart.draw();
+
+      createStats(results.data);
+      addUpdateByField(chart);
+    },
+  });
+}

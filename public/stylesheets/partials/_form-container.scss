@@ -13,3 +13,26 @@
   padding: 10px;
   margin: 40px;
 }
+
+form {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  flex-flow: column;
+
+  button {
+    transition-duration: 0.4s;
+    width: fit-content;
+    margin-top: 30px;
+    padding: 8px;
+    font-family: "Source Sans Pro", sans-serif;
+    cursor: pointer;
+    background-color: white;
+    border: 2px solid black;
+  }
+
+  button:hover {
+    background-color: black; /* Green */
+    color: white;
+  }
+}
