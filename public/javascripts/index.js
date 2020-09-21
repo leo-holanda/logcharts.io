@@ -83,10 +83,8 @@ async function createChart(event) {
   } else {
     log = document.getElementById("log_input").files[0];
 
-    //If input file isn't an csv file
-    if (log.type != "text/csv") {
-      return addAlert();
-    }
+    //Still need to see if log is from HWInfo
+    if (!isCSV(log)) return addAlert();
   }
 
   removeForm();

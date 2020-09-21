@@ -75,3 +75,7 @@ async function getLogExample(){
       return response.text() 
     })
 }
+
+function isCSV(file){
+  if (file.type == "text/csv" || !file.type) return true;
+}
