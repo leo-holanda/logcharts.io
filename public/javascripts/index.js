@@ -1,6 +1,7 @@
 //Remove form so buttons and graph can be displayed
 function removeForm() {
   document.querySelector(".form-container").remove();
+  if ((loader = document.querySelector(".loader-wrapper"))) loader.remove();
 }
 
 // Each field in the csv file becomes a button
@@ -73,11 +74,23 @@ function addAlert(message) {
   document.querySelector(".form-container").appendChild(alert);
 }
 
+function addLoadingOverlay() {
+  let loaderWrapper = document.createElement("div");
+  loaderWrapper.classList.add("loader-wrapper");
+
+  let loading = document.createElement("div");
+  loading.classList.add("loader");
+
+  loaderWrapper.appendChild(loading);
+  document.querySelector("main").appendChild(loaderWrapper);
+}
+
 // When user sends csv or click on example button...
 document.getElementById("log_input").addEventListener("change", showUserLog);
 document.getElementById("example").addEventListener("click", showExample);
 
 async function showExample() {
+  addLoadingOverlay();
   createChart(await getLogExample());
 }
 
