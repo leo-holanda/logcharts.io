@@ -74,22 +74,20 @@ function addAlert(message) {
 }
 
 // When user sends csv or click on example button...
-document.getElementById("log_input").addEventListener("change", createChart);
-document.getElementById("example").addEventListener("click", createChart);
+document.getElementById("log_input").addEventListener("change", showUserLog);
+document.getElementById("example").addEventListener("click", showExample);
 
-async function createChart(event) {
-  let log = undefined;
+async function showExample() {
+  createChart(await getLogExample());
+}
 
-  if (event.target.id == "example") {
-    //Get example log from repository
-    log = await getLogExample();
-  } else {
-    log = document.getElementById("log_input").files[0];
+function showUserLog() {
+  let log = document.getElementById("log_input").files[0];
+  if (!isCSV(log)) return addAlert("Please upload only CSV files!");
+  createChart(log);
+}
 
-    //Still need to see if log is from HWInfo
-    if (!isCSV(log)) return addAlert("Please upload only CSV files!");
-  }
-
+function createChart(log) {
   // Parse the csv and process the results
   Papa.parse(log, {
     header: true,
