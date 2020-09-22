@@ -76,6 +76,12 @@ async function getLogExample(){
     })
 }
 
+//Sometimes file type can be empty. In this case
+//We will assume that is an CSV and validate in isHWLog()
 function isCSV(file){
   if (file.type == "text/csv" || !file.type) return true;
+}
+
+function isHWLog(fields){
+  if(fields.includes("Time") && fields.includes("CPU [°C]")) return true
 }

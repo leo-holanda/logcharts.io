@@ -61,13 +61,16 @@ function addUpdateByField(chart) {
 }
 
 //Add an alert if there isn't one
-function addAlert() {
-  if (document.querySelector(".form-alert") == null) {
-    let alert = document.createElement("h3");
-    alert.innerHTML = "Please upload only CSV files!";
-    alert.classList.add("form-alert");
-    document.querySelector(".form-container").appendChild(alert);
+function addAlert(message) {
+  if (document.querySelector(".form-alert") != null) {
+    document.querySelector(".form-alert").innerHTML = message;
+    return;
   }
+
+  let alert = document.createElement("h3");
+  alert.innerHTML = message;
+  alert.classList.add("form-alert");
+  document.querySelector(".form-container").appendChild(alert);
 }
 
 // When user sends csv or click on example button...
@@ -84,10 +87,8 @@ async function createChart(event) {
     log = document.getElementById("log_input").files[0];
 
     //Still need to see if log is from HWInfo
-    if (!isCSV(log)) return addAlert();
+    if (!isCSV(log)) return addAlert("Please upload only CSV files!");
   }
-
-  removeForm();
 
   // Parse the csv and process the results
   Papa.parse(log, {
@@ -98,18 +99,23 @@ async function createChart(event) {
       return header.replace("�", "°");
     },
     complete: function (results) {
-      createContainers();
-      createButtons(results.meta.fields);
+      if (isHWLog(results.meta.fields)) {
+        removeForm();
+        createContainers();
+        createButtons(results.meta.fields);
 
-      let chart = new Chart({
-        container: document.querySelector(".chart-container"),
-        parsedLog: results.data,
-      });
+        let chart = new Chart({
+          container: document.querySelector(".chart-container"),
+          parsedLog: results.data,
+        });
 
-      chart.draw();
+        chart.draw();
 
-      createStats(results.data);
-      addUpdateByField(chart);
+        createStats(results.data);
+        addUpdateByField(chart);
+      } else {
+        addAlert("Please send only logs from HWInfo!");
+      }
     },
   });
 }
