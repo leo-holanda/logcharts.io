@@ -1,10 +1,9 @@
-$primary: #4e7bffff;
+$primary: #07132c;
 $focus: #119da4ff;
 $hover: #fa7921ff;
 
 @import "font-awesome/scss/fontawesome.scss";
 @import "font-awesome/scss/solid.scss";
-@import "partials/form";
 @import "partials/header";
 @import "partials/btn-container";
 @import "partials/chart-container";
@@ -12,6 +11,7 @@ $hover: #fa7921ff;
 @import "partials/report-container";
 @import "partials/form-container";
 @import "partials/loading";
+@import "partials/guide";
 
 html {
   width: 100vw;

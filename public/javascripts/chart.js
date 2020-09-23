@@ -20,12 +20,14 @@ Chart.prototype.draw = function(){
 	this.chartSVG = d3
 		.select(this.container)
 		.append("svg")
+		.attr("class", "chart-svg")
 		.attr("viewBox", `0 0 ${this.width} ${this.height}`);
 
 	//Append the context svg to the chart container
 	this.contextSVG = d3
 		.select(this.container)
 		.append("svg")
+		.attr("class", "context-svg")
 		.attr("viewBox", `0 0 ${this.width} 100`)
 	
 	this.addScales()

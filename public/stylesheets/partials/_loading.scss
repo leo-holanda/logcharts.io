@@ -1,8 +1,11 @@
 //https://www.w3schools.com/howto/howto_css_loader.asp
 .loader-wrapper {
   backdrop-filter: blur(8px);
-  position: relative;
-  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 100px;
+  right: 0;
+  bottom: 0;
   width: 100%;
   display: flex;
   justify-content: center;

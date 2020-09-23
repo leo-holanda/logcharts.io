@@ -2,6 +2,8 @@
 function removeForm() {
   document.querySelector(".form-container").remove();
   if ((loader = document.querySelector(".loader-wrapper"))) loader.remove();
+
+  document.querySelector(".header").remove();
 }
 
 // Each field in the csv file becomes a button
