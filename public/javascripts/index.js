@@ -73,7 +73,7 @@ function addAlert(message) {
   let alert = document.createElement("h3");
   alert.innerHTML = message;
   alert.classList.add("form-alert");
-  document.querySelector(".form-container").appendChild(alert);
+  document.querySelector(".third-step").appendChild(alert);
 }
 
 function addLoadingOverlay() {

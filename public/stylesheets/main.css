@@ -6286,9 +6286,8 @@ svg {
 }
 
 .form-alert {
-  border-bottom: 1px solid red;
-  background-color: #fcecf0;
-  color: red;
+  background-color: red;
+  color: white;
   font-family: "Source Sans Pro", sans-serif;
   padding: 10px;
   margin: 40px;
@@ -6439,6 +6438,10 @@ label:hover {
 }
 
 .third-step {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column;
+          flex-flow: column;
   background-color: #abe1ed;
 }
 
