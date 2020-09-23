@@ -6118,6 +6118,8 @@ readers do not read off random characters that represent icons */
 }
 
 .field-btn {
+  -webkit-transition: 0.1s;
+  transition: 0.1s;
   background-color: white;
   color: #041219;
   border: 0px;

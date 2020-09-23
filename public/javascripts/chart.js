@@ -234,6 +234,7 @@ Chart.prototype.updateByBrush = function(selection, scale){
 	//So we can use it in scale's domain
 
 	let field = this.selectedField ? this.selectedField : "CPU [°C]"
+	document.getElementById(field).focus();
 
 	scale.domain([scale.invert(selection[0]), scale.invert(selection[1])])
 

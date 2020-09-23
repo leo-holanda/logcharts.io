@@ -12,11 +12,16 @@ function createButtons(fields) {
   for (field of fields) {
     if (field && !field.includes("Time") && !field.includes("Date")) {
       btn = document.createElement("button");
+      btn.id = field;
       btn.innerHTML = field;
       btn.classList.add("field-btn");
       document.querySelector(".btn-container").appendChild(btn);
     }
   }
+
+  let cpuBtn = document.getElementById("CPU [°C]");
+  cpuBtn.focus();
+  cpuBtn.scrollIntoView({ block: "center" });
 }
 
 function createContainers() {
