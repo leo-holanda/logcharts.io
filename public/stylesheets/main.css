@@ -6212,6 +6212,18 @@ svg {
   opacity: 0;
 }
 
+.handle {
+  y: 28;
+  height: 30px;
+  width: 10px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  fill: white;
+  stroke: black;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+
 .stats-container {
   display: -webkit-box;
   display: -ms-flexbox;

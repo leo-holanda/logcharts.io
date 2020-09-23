@@ -68,3 +68,14 @@ svg {
     }
   }
 }
+
+.handle {
+  y: 28;
+  height: 30px;
+  width: 10px;
+  box-sizing: border-box;
+  fill: white;
+  stroke: black;
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
