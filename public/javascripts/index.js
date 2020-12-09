@@ -51,6 +51,33 @@ function createContainers() {
   document.querySelector(".report-container").appendChild(container);
 
   container = document.createElement("div");
+  container.classList.add("line-container");
+  document.querySelector(".report-container").appendChild(container);
+
+  container = document.createElement("div");
+  container.classList.add("line-btn-container");
+  document.querySelector(".line-container").appendChild(container);
+
+  let addLineBtn = document.createElement("button")
+	addLineBtn.classList.add("add-line-btn")
+	addLineBtn.classList.add("fas")
+  addLineBtn.classList.add("fa-plus-circle")
+  addLineBtn.id = "add_line_btn"
+	document.querySelector(".line-container").appendChild(addLineBtn)
+
+  let lineBtn = document.createElement("div")
+  lineBtn.classList.add("line-btn")
+  let btn = document.createElement("input")
+  btn.setAttribute("type", "radio")
+  btn.setAttribute("id", "1")
+  btn.setAttribute("name", "line-btn")
+  let label = document.createElement("label")
+  label.innerHTML = "Line 1"
+  lineBtn.appendChild(btn)
+  lineBtn.appendChild(label)
+	document.querySelector(".line-btn-container").appendChild(lineBtn)
+
+  container = document.createElement("div");
   container.classList.add("chart-container");
   document.querySelector(".report-container").appendChild(container);
 }
@@ -92,9 +119,36 @@ function addLoadingOverlay() {
   document.querySelector("main").appendChild(loaderWrapper);
 }
 
+// VER UMA FORMA DE TORNAR O BOTAO TIPO RADIO
+// ATRIBUIR CADA BOTAO A UMA LINHA COM IDENTIFICACAO COMO COR POR EXEMPLO
+// PERMITIR ALTERACAO DE LINHAS MEDIANTE SELECAO DE BOTAO
+// PERMITIR EXCLUSAO DE LINHAS
+
+function addNewLine(){
+  let lineContainer = document.querySelector(".line-btn-container")
+
+  let lineBtn = document.createElement("div")
+  lineBtn.classList.add("line-btn")
+
+  let btn = document.createElement("input")
+  btn.setAttribute("type", "radio")
+  btn.setAttribute("id", (lineContainer.children.length + 1))
+  btn.setAttribute("name", "line-btn")
+
+  let label = document.createElement("label")
+  label.innerHTML = "Line " + (lineContainer.children.length + 1)
+
+  lineBtn.appendChild(btn)
+  lineBtn.appendChild(label)
+
+  lineContainer.appendChild(lineBtn)
+  chart.addLine()
+}
+
 // When user sends csv or click on example button...
 document.getElementById("log_input").addEventListener("change", showUserLog);
 document.getElementById("example").addEventListener("click", showExample);
+
 
 async function showExample() {
   addLoadingOverlay();
@@ -107,6 +161,7 @@ function showUserLog() {
   createChart(log);
 }
 
+let chart = undefined
 function createChart(log) {
   // Parse the csv and process the results
   Papa.parse(log, {
@@ -120,9 +175,10 @@ function createChart(log) {
       if (isHWLog(results.meta.fields)) {
         removeForm();
         createContainers();
+        document.getElementById("add_line_btn").addEventListener("click", addNewLine);
         createButtons(results.meta.fields);
 
-        let chart = new Chart({
+        chart = new Chart({
           container: document.querySelector(".chart-container"),
           parsedLog: results.data,
         });

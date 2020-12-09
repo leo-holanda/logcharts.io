@@ -1,0 +1,31 @@
+.line-container {
+    display: flex;
+    background-color: white;
+    font-family: "Source Sans Pro", sans-serif;
+    margin: 50px 20px 0px 20px;
+    border-bottom: 2px solid #f7f7f7;
+}
+
+.add-line-btn {
+    color: #4E7BFF;
+    background-color: white;
+    border: 0px;
+    text-decoration: none;
+    padding: 5px;
+    margin: 2px;
+    height: auto;
+}
+
+.line-btn-container {
+    display: flex;
+}
+
+.line-btn {
+    display: flex;
+    align-items: center;
+    margin: 5px;
+
+    input{
+        margin: 5px;
+    }
+}

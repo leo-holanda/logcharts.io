@@ -30,6 +30,14 @@ Chart.prototype.draw = function(){
 		.attr("class", "context-svg")
 		.attr("viewBox", `0 0 ${this.width} 100`)
 	
+	//Append the clip path to the svg to clip the line chart
+	this.clip = this.chartSVG.append("clipPath")
+		.attr("id", "line_clip")
+			.append("rect")
+		.attr("transform", `translate(${this.margin.left}, 0)`)
+		.attr("width", this.width - (this.margin.right * 2) - 9)
+		.attr("height", this.height)
+
 	this.addScales()
 	this.addAxes()
 	this.addGrid()
@@ -102,13 +110,7 @@ Chart.prototype.addGrid = function(){
 }
 
 Chart.prototype.addLine = function(){
-	//Append the clip path to the svg to clip the line chart
-	this.clip = this.chartSVG.append("clipPath")
-		.attr("id", "line_clip")
-	.append("rect")
-		.attr("transform", `translate(${this.margin.left}, 0)`)
-		.attr("width", this.width - (this.margin.right * 2) - 9)
-		.attr("height", this.height)
+
 	
 	//Append the path that contains the chart line
 	this.chartSVG

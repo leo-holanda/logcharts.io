@@ -6160,7 +6160,7 @@ svg {
 }
 
 .chart-svg {
-  margin: 20px 20px 0px 20px;
+  margin: 0px 20px 0px 20px;
 }
 
 .context-svg {
@@ -6269,7 +6269,7 @@ svg {
 }
 
 .report-container {
-  background-color: #07132c;
+  background-color: #f7f7f7;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -6351,7 +6351,7 @@ form button:hover {
   color: white;
 }
 
-label {
+.log-input-label {
   margin: 30px;
   border-radius: 10px;
   cursor: pointer;
@@ -6363,7 +6363,7 @@ label {
   font-weight: 600;
 }
 
-label:hover {
+.log-input-label:hover {
   -webkit-box-shadow: 0 8px 18px rgba(0, 0, 0, 0.5);
           box-shadow: 0 8px 18px rgba(0, 0, 0, 0.5);
 }
@@ -6457,6 +6457,46 @@ label:hover {
       -ms-flex-flow: column;
           flex-flow: column;
   background-color: #abe1ed;
+}
+
+.line-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  background-color: white;
+  font-family: "Source Sans Pro", sans-serif;
+  margin: 50px 20px 0px 20px;
+  border-bottom: 2px solid #f7f7f7;
+}
+
+.add-line-btn {
+  color: #4E7BFF;
+  background-color: white;
+  border: 0px;
+  text-decoration: none;
+  padding: 5px;
+  margin: 2px;
+  height: auto;
+}
+
+.line-btn-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.line-btn {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin: 5px;
+}
+
+.line-btn input {
+  margin: 5px;
 }
 
 html {
