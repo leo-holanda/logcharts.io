@@ -110,8 +110,6 @@ Chart.prototype.addGrid = function(){
 }
 
 Chart.prototype.addLine = function(){
-
-	
 	//Append the path that contains the chart line
 	this.chartSVG
 		.append("path")
@@ -141,6 +139,26 @@ Chart.prototype.addLine = function(){
 		.defined((row) => fixValue(row["CPU [°C]"]) !== undefined)
 		.x((row) => this.xScale(parseTime(row["Time"])))
 		.y((row) => this.yContextScale(fixValue(row["CPU [°C]"]))));
+}
+
+Chart.prototype.addNewLine = function(id){
+	//https://css-tricks.com/snippets/javascript/random-hex-color/
+	let randomColor = Math.floor(Math.random()*16777215).toString(16);
+	this.chartSVG
+		.append("path")
+		.datum(this.log)
+		.attr("clip-path", "url(#line_clip)")
+		.attr("fill", "none")
+		.attr("stroke", "#" + randomColor)
+		.attr("stroke-width", 2)
+		.attr("stroke-linejoin", "round")
+		.attr("stroke-linecap", "round")
+		.attr("class", "chart-line")
+		.attr("id", id)
+		.attr("d", d3.line()
+			.defined((row) => fixValue(row["CPU [°C]"]) !== undefined)
+			.x((row) => this.xScale(parseTime(row["Time"])))
+			.y((row) => this.yScale(fixValue(row["CPU [°C]"]))))
 }
 
 //Update chart with the specified field data
@@ -204,6 +222,20 @@ Chart.prototype.updateByField = function(field){
 
 	//Reset domain to prevent tooltip using previous domain
 	this.chartSVG.select(".chart-line")._groups[0][0].setAttribute("domain", this.xScale.domain())
+}
+
+Chart.prototype.updateLineByField = function(field, id){
+	this.yScale.domain(d3.extent(this.log, (row) => fixValue(row[field]))).nice();
+
+	this.chartSVG
+		.select('#' + id)
+		.transition()
+		.duration(1000)
+		.attr("d", d3.line()
+			.defined((row) => fixValue(row[field]) !== undefined)
+			.x((row) => this.xScale(parseTime(row["Time"])))
+			.y((row) => this.yScale(fixValue(row[field])))
+		);
 }
 
 Chart.prototype.addBrush = function(){

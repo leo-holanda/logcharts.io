@@ -69,10 +69,12 @@ function createContainers() {
   lineBtn.classList.add("line-btn")
   let btn = document.createElement("input")
   btn.setAttribute("type", "radio")
-  btn.setAttribute("id", "1")
+  btn.setAttribute("id", "line1")
   btn.setAttribute("name", "line-btn")
+  btn.classList.add("line-selector")
+  btn.checked = true
   let label = document.createElement("label")
-  label.innerHTML = "Line 1"
+  label.innerHTML = "CPU [°C]"
   lineBtn.appendChild(btn)
   lineBtn.appendChild(label)
 	document.querySelector(".line-btn-container").appendChild(lineBtn)
@@ -89,8 +91,16 @@ function addUpdateByField(chart) {
     .addEventListener("click", function (event) {
       if (event.target.className == "field-btn") {
         let selectedField = event.target.innerHTML;
-        chart.updateByField(selectedField);
-        updateStats(chart.log, selectedField);
+        document.querySelector(".line-selector:checked").parentNode.querySelector("label").innerHTML = selectedField
+        let lineID = document.querySelector(".line-selector:checked").id
+        if (lineID != "line1"){
+          
+          chart.updateLineByField(selectedField, "line" + lineID)
+        }
+        else{
+          chart.updateByField(selectedField);
+          updateStats(chart.log, selectedField);
+        }
       }
     });
 }
@@ -119,8 +129,6 @@ function addLoadingOverlay() {
   document.querySelector("main").appendChild(loaderWrapper);
 }
 
-// VER UMA FORMA DE TORNAR O BOTAO TIPO RADIO
-// ATRIBUIR CADA BOTAO A UMA LINHA COM IDENTIFICACAO COMO COR POR EXEMPLO
 // PERMITIR ALTERACAO DE LINHAS MEDIANTE SELECAO DE BOTAO
 // PERMITIR EXCLUSAO DE LINHAS
 
@@ -130,19 +138,21 @@ function addNewLine(){
   let lineBtn = document.createElement("div")
   lineBtn.classList.add("line-btn")
 
+  let childrenLength = lineContainer.children.length + 1
   let btn = document.createElement("input")
   btn.setAttribute("type", "radio")
-  btn.setAttribute("id", (lineContainer.children.length + 1))
+  btn.setAttribute("id", childrenLength)
   btn.setAttribute("name", "line-btn")
+  btn.classList.add("line-selector")
 
   let label = document.createElement("label")
-  label.innerHTML = "Line " + (lineContainer.children.length + 1)
+  label.innerHTML = "Line " + childrenLength
 
   lineBtn.appendChild(btn)
   lineBtn.appendChild(label)
 
   lineContainer.appendChild(lineBtn)
-  chart.addLine()
+  chart.addNewLine("line" + childrenLength)
 }
 
 // When user sends csv or click on example button...
