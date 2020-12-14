@@ -42,8 +42,8 @@ Chart.prototype.draw = function(){
 	this.addAxes()
 	this.addGrid()
 	this.addLine()
-	this.addBrush()
-	this.addTooltip()
+	//this.addBrush()
+	//this.addTooltip()
 }
 
 Chart.prototype.addScales = function(){
@@ -121,6 +121,7 @@ Chart.prototype.addLine = function(){
 		.attr("stroke-linejoin", "round")
 		.attr("stroke-linecap", "round")
 		.attr("class", "chart-line")
+		.attr("id", "line1")
 		.attr("d", d3.line()
 			.defined((row) => fixValue(row["CPU [°C]"]) !== undefined)
 			.x((row) => this.xScale(parseTime(row["Time"])))
@@ -141,9 +142,13 @@ Chart.prototype.addLine = function(){
 		.y((row) => this.yContextScale(fixValue(row["CPU [°C]"]))));
 }
 
-Chart.prototype.addNewLine = function(id){
+Chart.prototype.addNewLine = function(id, xScale = this.xScale.copy(), yScale = this.yScale.copy()){
 	//https://css-tricks.com/snippets/javascript/random-hex-color/
 	let randomColor = Math.floor(Math.random()*16777215).toString(16);
+
+	xScale.domain(d3.extent(this.log, (row) => parseTime(row["Time"])))
+	yScale.domain(d3.extent(this.log, (row) => fixValue(row["CPU [°C]"]))).nice();
+
 	this.chartSVG
 		.append("path")
 		.datum(this.log)
@@ -154,11 +159,29 @@ Chart.prototype.addNewLine = function(id){
 		.attr("stroke-linejoin", "round")
 		.attr("stroke-linecap", "round")
 		.attr("class", "chart-line")
+		.attr("field", "CPU [°C]")
 		.attr("id", id)
 		.attr("d", d3.line()
 			.defined((row) => fixValue(row["CPU [°C]"]) !== undefined)
-			.x((row) => this.xScale(parseTime(row["Time"])))
-			.y((row) => this.yScale(fixValue(row["CPU [°C]"]))))
+			.x((row) => xScale(parseTime(row["Time"])))
+			.y((row) => yScale(fixValue(row["CPU [°C]"]))))
+}
+
+Chart.prototype.updateLineByField = function(field, id, xScale = this.xScale.copy(), yScale = this.yScale.copy()){
+
+	xScale.domain(d3.extent(this.log, (row) => parseTime(row["Time"])))
+	yScale.domain(d3.extent(this.log, (row) => fixValue(row[field]))).nice();
+
+	this.chartSVG
+		.select('#' + id)
+		.transition()
+		.duration(1000)
+		.attr("field", field)
+		.attr("d", d3.line()
+			.defined((row) => fixValue(row[field]) !== undefined)
+			.x((row) => xScale(parseTime(row["Time"])))
+			.y((row) => yScale(fixValue(row[field])))
+		);
 }
 
 //Update chart with the specified field data
@@ -169,11 +192,13 @@ Chart.prototype.updateByField = function(field){
 	//And this in addTooltip method
 	this.chartSVG.select(".chart-line")._groups[0][0].setAttribute("field", field)
 
-	//Update domain of y scale
+	//Update domain of x, y and context scale
+	this.xScale.domain(d3.extent(this.log, (row) => parseTime(row["Time"])))
 	this.yScale.domain(d3.extent(this.log, (row) => fixValue(row[field]))).nice();
 	this.yContextScale.domain(d3.extent(this.log, (row) => fixValue(row[field])));
 
-	//Select y-axis and update ticks and values by calling yAxis function
+	//Updating x-axis and y-axis ticks and values
+	this.chartSVG.select(".x-axis").call(this.xAxis);
 	this.chartSVG.select(".y-axis")
 		.transition()
 		.duration(1000)
@@ -214,28 +239,14 @@ Chart.prototype.updateByField = function(field){
 			.y((row) => this.yContextScale(fixValue(row[field])))
 		);
 
-	//Reset brush
-	this.contextSVG.select(".brush")
-		.transition()
-		.duration(1000)
-		.call(this.brush.move, this.xScale.range())
+	// //Reset brush
+	// this.contextSVG.select(".brush")
+	// 	.transition()
+	// 	.duration(1000)
+	// 	.call(this.brush.move, this.xScale.range())
 
 	//Reset domain to prevent tooltip using previous domain
 	this.chartSVG.select(".chart-line")._groups[0][0].setAttribute("domain", this.xScale.domain())
-}
-
-Chart.prototype.updateLineByField = function(field, id){
-	this.yScale.domain(d3.extent(this.log, (row) => fixValue(row[field]))).nice();
-
-	this.chartSVG
-		.select('#' + id)
-		.transition()
-		.duration(1000)
-		.attr("d", d3.line()
-			.defined((row) => fixValue(row[field]) !== undefined)
-			.x((row) => this.xScale(parseTime(row["Time"])))
-			.y((row) => this.yScale(fixValue(row[field])))
-		);
 }
 
 Chart.prototype.addBrush = function(){
@@ -267,21 +278,24 @@ Chart.prototype.updateByBrush = function(selection, scale){
 	//We need to convert the brush's selection to the equivalent Date values using scale.invert
 	//So we can use it in scale's domain
 
-	let field = this.selectedField ? this.selectedField : "CPU [°C]"
-	document.getElementById(field).focus();
-
 	scale.domain([scale.invert(selection[0]), scale.invert(selection[1])])
-
-	//Update domain used by tooltip
-	this.chartSVG.select(".chart-line")._groups[0][0].setAttribute("domain", scale.domain())
 
 	this.chartSVG.select(".x-axis").call(this.xAxis, 0, scale);
 
-	this.chartSVG.select(".chart-line")
-		.attr("d", d3.line()
-			.defined((row) => fixValue(row[field]) !== undefined)
-			.x((row) => scale(parseTime(row["Time"])))
-			.y((row) => this.yScale(fixValue(row[field]))))
+	let field
+	for (selector of document.querySelectorAll(".line-selector")){
+		field = selector.parentNode.querySelector("label").innerHTML
+		this.chartSVG.select("#" + selector.id)
+			.attr("d", d3.line()
+				.defined((row) => fixValue(row[field]) !== undefined)
+				.x((row) => scale(parseTime(row["Time"])))
+				.y((row) => this.yScale(fixValue(row[field]))))
+	}
+
+	// //Update domain used by tooltip
+	// this.chartSVG.select(".chart-line")._groups[0][0].setAttribute("domain", scale.domain())
+
+	this.chartSVG.select(".x-axis").call(this.xAxis, 0, scale);
 }
 
 Chart.prototype.addTooltip = function(){

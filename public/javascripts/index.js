@@ -95,7 +95,7 @@ function addUpdateByField(chart) {
         let lineID = document.querySelector(".line-selector:checked").id
         if (lineID != "line1"){
           
-          chart.updateLineByField(selectedField, "line" + lineID)
+          chart.updateLineByField(selectedField, lineID)
         }
         else{
           chart.updateByField(selectedField);
@@ -103,6 +103,32 @@ function addUpdateByField(chart) {
         }
       }
     });
+}
+
+// ENTENDER COMO O BRUSH MUDA AS ESCALAS
+// ENTENDER QUANDO AS ESCALAS PRECISAM MUDAR E QUAIS PRECISAM SER COPIADAS
+
+function addNewLine(){
+  let lineContainer = document.querySelector(".line-btn-container")
+
+  let lineBtn = document.createElement("div")
+  lineBtn.classList.add("line-btn")
+
+  let childrenLength = lineContainer.children.length + 1
+  let btn = document.createElement("input")
+  btn.setAttribute("type", "radio")
+  btn.setAttribute("id", "line" + childrenLength)
+  btn.setAttribute("name", "line-btn")
+  btn.classList.add("line-selector")
+
+  let label = document.createElement("label")
+  label.innerHTML = "CPU [°C]"
+
+  lineBtn.appendChild(btn)
+  lineBtn.appendChild(label)
+
+  lineContainer.appendChild(lineBtn)
+  chart.addNewLine("line" + childrenLength)
 }
 
 //Add an alert if there isn't one
@@ -127,32 +153,6 @@ function addLoadingOverlay() {
 
   loaderWrapper.appendChild(loading);
   document.querySelector("main").appendChild(loaderWrapper);
-}
-
-// PERMITIR ALTERACAO DE LINHAS MEDIANTE SELECAO DE BOTAO
-// PERMITIR EXCLUSAO DE LINHAS
-
-function addNewLine(){
-  let lineContainer = document.querySelector(".line-btn-container")
-
-  let lineBtn = document.createElement("div")
-  lineBtn.classList.add("line-btn")
-
-  let childrenLength = lineContainer.children.length + 1
-  let btn = document.createElement("input")
-  btn.setAttribute("type", "radio")
-  btn.setAttribute("id", childrenLength)
-  btn.setAttribute("name", "line-btn")
-  btn.classList.add("line-selector")
-
-  let label = document.createElement("label")
-  label.innerHTML = "Line " + childrenLength
-
-  lineBtn.appendChild(btn)
-  lineBtn.appendChild(label)
-
-  lineContainer.appendChild(lineBtn)
-  chart.addNewLine("line" + childrenLength)
 }
 
 // When user sends csv or click on example button...
