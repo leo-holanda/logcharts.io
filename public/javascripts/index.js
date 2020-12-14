@@ -105,9 +105,6 @@ function addUpdateByField(chart) {
     });
 }
 
-// ENTENDER COMO O BRUSH MUDA AS ESCALAS
-// ENTENDER QUANDO AS ESCALAS PRECISAM MUDAR E QUAIS PRECISAM SER COPIADAS
-
 function addNewLine(){
   let lineContainer = document.querySelector(".line-btn-container")
 

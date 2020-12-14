@@ -42,7 +42,7 @@ Chart.prototype.draw = function(){
 	this.addAxes()
 	this.addGrid()
 	this.addLine()
-	//this.addBrush()
+	this.addBrush()
 	//this.addTooltip()
 }
 
@@ -145,8 +145,10 @@ Chart.prototype.addLine = function(){
 Chart.prototype.addNewLine = function(id, xScale = this.xScale.copy(), yScale = this.yScale.copy()){
 	//https://css-tricks.com/snippets/javascript/random-hex-color/
 	let randomColor = Math.floor(Math.random()*16777215).toString(16);
-
-	xScale.domain(d3.extent(this.log, (row) => parseTime(row["Time"])))
+	
+	//When adding a new line, verify if scale was modified by brush
+	//if yes, use modified scale. if not, use normal scale
+	this.brushedXScale ? xScale = this.brushedXScale : xScale.domain(d3.extent(this.log, (row) => parseTime(row["Time"])))
 	yScale.domain(d3.extent(this.log, (row) => fixValue(row["CPU [°C]"]))).nice();
 
 	this.chartSVG
@@ -168,8 +170,9 @@ Chart.prototype.addNewLine = function(id, xScale = this.xScale.copy(), yScale = 
 }
 
 Chart.prototype.updateLineByField = function(field, id, xScale = this.xScale.copy(), yScale = this.yScale.copy()){
-
-	xScale.domain(d3.extent(this.log, (row) => parseTime(row["Time"])))
+	//When adding a new line, verify if scale was modified by brush
+	//if yes, use modified scale. if not, use normal scale
+	this.brushedXScale ? xScale = this.brushedXScale : xScale.domain(d3.extent(this.log, (row) => parseTime(row["Time"])))
 	yScale.domain(d3.extent(this.log, (row) => fixValue(row[field]))).nice();
 
 	this.chartSVG
@@ -186,6 +189,11 @@ Chart.prototype.updateLineByField = function(field, id, xScale = this.xScale.cop
 
 //Update chart with the specified field data
 Chart.prototype.updateByField = function(field){
+	//When updating the main line field, reset the scale modified by brush
+	//So new lines can be created with normal scale
+	//This makes sense because the brush will reset in the end of this function
+	this.brushedXScale = undefined
+
 	//We need this to be accessible in updateByBrush method
 	this.selectedField = field
 
@@ -239,14 +247,29 @@ Chart.prototype.updateByField = function(field){
 			.y((row) => this.yContextScale(fixValue(row[field])))
 		);
 
-	// //Reset brush
-	// this.contextSVG.select(".brush")
-	// 	.transition()
-	// 	.duration(1000)
-	// 	.call(this.brush.move, this.xScale.range())
+	//Reset brush
+	this.contextSVG.select(".brush")
+	 	.transition()
+	 	.duration(1000)
+	 	.call(this.brush.move, this.xScale.range())
 
 	//Reset domain to prevent tooltip using previous domain
 	this.chartSVG.select(".chart-line")._groups[0][0].setAttribute("domain", this.xScale.domain())
+
+	//We reset the brush so we must reset the lines too
+	yScale = this.yScale.copy()
+	for (selector of document.querySelectorAll(".line-selector")){
+		field = selector.parentNode.querySelector("label").innerHTML
+		yScale.domain(d3.extent(this.log, (row) => fixValue(row[field]))).nice();
+		
+		this.chartSVG.select("#" + selector.id)
+			.transition()
+			.duration(1000)
+			.attr("d", d3.line()
+				.defined((row) => fixValue(row[field]) !== undefined)
+				.x((row) => this.xScale(parseTime(row["Time"])))
+				.y((row) => yScale(fixValue(row[field]))))
+	}
 }
 
 Chart.prototype.addBrush = function(){
@@ -262,7 +285,7 @@ Chart.prototype.addBrush = function(){
 			if(event.sourceEvent){
 			 	//Selection gives us the brush's coordinates
 			 	let selection = event.selection
-			 	this.updateByBrush(selection, this.xScale.copy())
+			 	this.updateByBrush(selection)
 			 }
 		})
 	
@@ -274,28 +297,32 @@ Chart.prototype.addBrush = function(){
 }
 
 //Update chart by brush's selection.
-Chart.prototype.updateByBrush = function(selection, scale){
+Chart.prototype.updateByBrush = function(selection, xScale = this.xScale.copy(), yScale = this.yScale.copy()){
 	//We need to convert the brush's selection to the equivalent Date values using scale.invert
 	//So we can use it in scale's domain
+	xScale.domain([xScale.invert(selection[0]), xScale.invert(selection[1])])
 
-	scale.domain([scale.invert(selection[0]), scale.invert(selection[1])])
+	//Store the scale modified by brush so adding and changing lines can use this scale as reference while brushing
+	this.brushedXScale = xScale
 
-	this.chartSVG.select(".x-axis").call(this.xAxis, 0, scale);
+	//Update x-axis
+	this.chartSVG.select(".x-axis").call(this.xAxis, 0, xScale);
 
+	//For every line selector, update the respective line in chart
 	let field
 	for (selector of document.querySelectorAll(".line-selector")){
 		field = selector.parentNode.querySelector("label").innerHTML
+		yScale.domain(d3.extent(this.log, (row) => fixValue(row[field]))).nice();
+		
 		this.chartSVG.select("#" + selector.id)
 			.attr("d", d3.line()
 				.defined((row) => fixValue(row[field]) !== undefined)
-				.x((row) => scale(parseTime(row["Time"])))
-				.y((row) => this.yScale(fixValue(row[field]))))
+				.x((row) => xScale(parseTime(row["Time"])))
+				.y((row) => yScale(fixValue(row[field]))))
 	}
 
 	// //Update domain used by tooltip
 	// this.chartSVG.select(".chart-line")._groups[0][0].setAttribute("domain", scale.domain())
-
-	this.chartSVG.select(".x-axis").call(this.xAxis, 0, scale);
 }
 
 Chart.prototype.addTooltip = function(){
