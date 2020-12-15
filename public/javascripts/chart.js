@@ -43,7 +43,7 @@ Chart.prototype.draw = function(){
 	this.addGrid()
 	this.addLine()
 	this.addBrush()
-	//this.addTooltip()
+	this.addTooltip()
 }
 
 Chart.prototype.addScales = function(){
@@ -320,49 +320,111 @@ Chart.prototype.updateByBrush = function(selection, xScale = this.xScale.copy(),
 				.x((row) => xScale(parseTime(row["Time"])))
 				.y((row) => yScale(fixValue(row[field]))))
 	}
-
-	// //Update domain used by tooltip
-	// this.chartSVG.select(".chart-line")._groups[0][0].setAttribute("domain", scale.domain())
 }
 
+// Given the pointer position, find the equivalent time in x scale
+// Then, find the equivalent row using the index given by bisector
+// Find the value of the main field in the row and calculate the coordinates
+// Move the tooltip to the coordinates
 Chart.prototype.addTooltip = function(){
 
-	// Given the pointer position, find the equivalent time in x scale
-	// Then, find the equivalent row using the index given by bisector
-	function findLogRow(scale, pointer) {
-		const bisector = d3.bisector((d) => parseTime(d["Time"])).left;
+	const focus = this.chartSVG.append("g")
+		.attr("class", "focus")
+		.style("display", "none")
+		
+	const line = this.chartSVG.append('line')
+		.attr("class", "tooltip-line")
+		.style("stroke", "black")
+		.style("stroke-width", 2)
+		.attr("x1", 0)
+		.attr("x2", 0)
+		.attr("y1", -this.height)
+		.attr("y2", 587);
 	
-		const currentTime = scale.invert(pointer);
+	focus.append("circle")
+		.attr("class", "tooltip-circle")
+		.attr("r", 5)
+
+	focus.append("rect")
+		.attr("class", "tooltip-background-stroke")
+	 	.attr("width", 100)
+		.attr("height", 30)
+
+	focus.append("rect")
+		.attr("class", "tooltip-background")
+	 	.attr("width", 100)
+		.attr("height", 30)
+
+	let tooltip = focus.append("text")
+		.attr("class", "tooltip-value-container")
+		.attr("width", 100)
+		.attr("height", 30)
+
+	tooltip.append("tspan")
+		.attr("class", "tooltip-time")
+		.attr("x", 5)
+		.attr("dy", 15)
+
+	const chart = this
+	let xScale
+	let yScale = chart.yScale
+	let tooltipBackground = document.querySelector(".tooltip-background")
+	let tooltipBackgroundStroke = document.querySelector(".tooltip-background-stroke")
+	let tooltipTextContainer = document.querySelector(".tooltip-value-container")
+
+	this.chartSVG.on("touchmove mousemove", function(event){
+		//Reset the tooltip background height to the standard
+		tooltipBackground.setAttribute("height", 30)
+		
+		//Verify if scale was modified by brush
+		//If yes, use modified scale. if not, use normal scale
+		xScale = chart.brushedXScale ? chart.brushedXScale : chart.xScale
+
+		//Reset values in tooltip
+		focus.selectAll(".tooltip-value").remove()
+
+		const bisector = d3.bisector((d) => parseTime(d["Time"])).left;
+		const currentTime = xScale.invert(d3.pointer(event, this)[0]);
 		const index = bisector(chart.log, currentTime, 1);
 		const previousRow = chart.log[index - 1];
 		const currentRow = chart.log[index];
-	
-		return currentRow && currentTime - parseTime(previousRow["Time"]) > parseTime(currentRow["Time"]) - currentTime ? currentRow : previousRow;
-	}
-
-	const chart = this;
-	const tooltip = this.chartSVG.append("g")
-
-	//Store domain and field data in chart so we can get it later
-	this.chartSVG.select(".chart-line")._groups[0][0].setAttribute("domain", this.xScale.domain())
-	this.chartSVG.select(".chart-line")._groups[0][0].setAttribute("field", "CPU [°C]")
-
-	this.chartSVG.on("touchmove mousemove", function(event){
-		//Get the current x domain and log field
-		const domain = this.childNodes[4].getAttribute("domain").split(",")
-		const field = this.childNodes[4].getAttribute("field")
-
-		const scale = d3
-			.scaleTime()
-			.domain(domain.map((d) => new Date(d)))
-			.range([chart.margin.left, chart.width - chart.margin.right]);
-
-		const row = findLogRow(scale, d3.pointer(event, this)[0]);
 			
-		tooltip
-			.attr("transform", `translate(${scale(parseTime(row["Time"]))},${chart.yScale(fixValue(row[field]))})`)
-			.call(changeTooltipData, `${fixValue(row[field])}|${parseTime(row["Time"]).toLocaleTimeString()}`)
-	})
+		//Honestly I don't know why this line work or why it is here
+		//I just got this here https://observablehq.com/@d3/line-chart-with-tooltip
+		let row = currentRow && currentTime - parseTime(previousRow["Time"]) > parseTime(currentRow["Time"]) - currentTime ? currentRow : previousRow;
 
-	this.chartSVG.on("touchend mouseleave", () => tooltip.style("display", "none"));
+		let field, value, firstField, first = true
+		for (selector of document.querySelectorAll(".line-selector")){
+			field = selector.parentNode.querySelector("label").innerHTML
+			
+			//We need to store the first field because it is the main field
+			//Which we use as a reference
+			if (first){
+				firstField = field
+			} 
+			first = false
+
+			value = field + ": " +  fixValue(row[field])
+			tooltip.append("tspan")
+				.text(value)
+				.attr("id", field)
+				.attr("class", "tooltip-value")
+				.attr("x", 5)
+				.attr("dy", 15)
+
+			//For every tooltip value, increase tooltip background height in 15 to accommodate all values
+			//Same thing with width, but we get the width of the most wider value (which is the width of text container)
+			tooltipBackground.setAttribute("height", parseInt(tooltipBackground.getAttribute("height")) + 15)
+			tooltipBackground.setAttribute("width", parseInt(tooltipTextContainer.clientWidth))
+			tooltipBackgroundStroke.setAttribute("height", parseInt(tooltipBackground.getAttribute("height")))
+			tooltipBackgroundStroke.setAttribute("width", parseInt(tooltipTextContainer.clientWidth))
+		}
+
+		line.attr("transform", "translate(" + xScale(parseTime(row["Time"])) + "," + 0 + ")");
+		focus.attr("transform", "translate(" + xScale(parseTime(row["Time"])) + "," + yScale(fixValue(row[firstField])) + ")");
+		focus.select(".tooltip-time").text(parseTime(row["Time"]).toLocaleTimeString());
+	});
+
+	this.chartSVG.on("mouseover", function() { focus.style("display", null); })
+	this.chartSVG.on("mouseout", function() { focus.style("display", "none"); })
 }

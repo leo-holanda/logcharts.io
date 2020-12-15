@@ -6224,6 +6224,22 @@ svg {
   stroke-linejoin: round;
 }
 
+.tooltip-background {
+  fill: white;
+  opacity: 0.7;
+}
+
+.tooltip-background-stroke {
+  stroke: #000;
+  stroke-width: 1.5px;
+  stroke-linecap: round;
+  fill: transparent;
+}
+
+.focus {
+  font-family: "Source Sans Pro", sans-serif;
+}
+
 .stats-container {
   display: -webkit-box;
   display: -ms-flexbox;
