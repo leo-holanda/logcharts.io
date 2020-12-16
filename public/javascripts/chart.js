@@ -328,9 +328,8 @@ Chart.prototype.updateByBrush = function(selection, xScale = this.xScale.copy(),
 // Move the tooltip to the coordinates
 Chart.prototype.addTooltip = function(){
 
-	const focus = this.chartSVG.append("g")
-		.attr("class", "focus")
-		.style("display", "none")
+	const tooltip = this.chartSVG.append("g")
+		.attr("class", "tooltip")
 		
 	const line = this.chartSVG.append('line')
 		.attr("class", "tooltip-line")
@@ -341,90 +340,135 @@ Chart.prototype.addTooltip = function(){
 		.attr("y1", -this.height)
 		.attr("y2", 587);
 	
-	focus.append("circle")
+	tooltip.append("circle")
 		.attr("class", "tooltip-circle")
 		.attr("r", 5)
 
-	focus.append("rect")
+	tooltip.append("rect")
 		.attr("class", "tooltip-background-stroke")
 	 	.attr("width", 100)
 		.attr("height", 30)
+		.attr("x", 15)
+		.attr("y", -21)
 
-	focus.append("rect")
+	tooltip.append("rect")
 		.attr("class", "tooltip-background")
 	 	.attr("width", 100)
 		.attr("height", 30)
+		.attr("x", 15)
+		.attr("y", -21)
 
-	let tooltip = focus.append("text")
+	let tooltipText = tooltip.append("text")
 		.attr("class", "tooltip-value-container")
 		.attr("width", 100)
 		.attr("height", 30)
+		.attr("dx", 15)
+		.attr("y", -15)
 
-	tooltip.append("tspan")
+	tooltipText.append("tspan")
 		.attr("class", "tooltip-time")
-		.attr("x", 5)
 		.attr("dy", 15)
 
 	const chart = this
 	let xScale
 	let yScale = chart.yScale
+	let tooltipElement = document.querySelector(".tooltip")
 	let tooltipBackground = document.querySelector(".tooltip-background")
 	let tooltipBackgroundStroke = document.querySelector(".tooltip-background-stroke")
 	let tooltipTextContainer = document.querySelector(".tooltip-value-container")
+	let tooltipCircle = document.querySelector(".tooltip-circle")
+	let isTooltipOutOfScreen = false
+	let tooltipTime = document.querySelector(".tooltip-time")
 
 	this.chartSVG.on("touchmove mousemove", function(event){
-		//Reset the tooltip background height to the standard
-		tooltipBackground.setAttribute("height", 30)
-		
+		//Reset values in tooltip
+		tooltip.selectAll(".tooltip-value").remove()
+
 		//Verify if scale was modified by brush
 		//If yes, use modified scale. if not, use normal scale
 		xScale = chart.brushedXScale ? chart.brushedXScale : chart.xScale
-
-		//Reset values in tooltip
-		focus.selectAll(".tooltip-value").remove()
 
 		const bisector = d3.bisector((d) => parseTime(d["Time"])).left;
 		const currentTime = xScale.invert(d3.pointer(event, this)[0]);
 		const index = bisector(chart.log, currentTime, 1);
 		const previousRow = chart.log[index - 1];
 		const currentRow = chart.log[index];
-			
+
 		//Honestly I don't know why this line work or why it is here
 		//I just got this here https://observablehq.com/@d3/line-chart-with-tooltip
 		let row = currentRow && currentTime - parseTime(previousRow["Time"]) > parseTime(currentRow["Time"]) - currentTime ? currentRow : previousRow;
 
+		//We need to find the left location of the tiny circle
+		//If that location + the width of tooltip > the width of the chart
+		//So it means that the tooltip is outside the chart
+		//Then we must change the location of the tooltip to the left side
+		//We need to calculte areaOutisdeChart to have a more accurate condition to change location
+		bodyWidth = document.body.clientWidth
+		chartWidth = document.querySelector(".chart-svg").getBoundingClientRect().width
+		areaOutsideChart = bodyWidth - chartWidth
+		circleLocation = tooltipCircle.getBoundingClientRect().left
+		chartWidth = document.querySelector(".chart-svg").getBoundingClientRect().width
+		tooltipBox = circleLocation + tooltipBackground.getBoundingClientRect().width  - areaOutsideChart
+
+		tooltipWidth = tooltipBackground.getBoundingClientRect().width + 15
+
+		if (tooltipBox > chart.width) {
+			isTooltipOutOfScreen = true
+			tooltipElement.setAttribute("x", -tooltipWidth)
+			tooltipBackground.setAttribute("x", -tooltipWidth)
+			tooltipBackgroundStroke.setAttribute("x", -tooltipWidth)
+			tooltipTime.setAttribute("dx", -tooltipWidth + 5)
+		}
+		else{
+			isTooltipOutOfScreen = false
+			tooltipElement.setAttribute("x", 15)
+			tooltipBackground.setAttribute("x", 15)
+			tooltipBackgroundStroke.setAttribute("x", 15)
+			tooltipTime.setAttribute("dx", 20)
+		}
+
+		//Populate the tooltip with the values
 		let field, value, firstField, first = true
 		for (selector of document.querySelectorAll(".line-selector")){
 			field = selector.parentNode.querySelector("label").innerHTML
 			
 			//We need to store the first field because it is the main field
 			//Which we use as a reference
-			if (first){
-				firstField = field
-			} 
+			if (first) firstField = field
 			first = false
 
 			value = field + ": " +  fixValue(row[field])
-			tooltip.append("tspan")
+			xValue = isTooltipOutOfScreen ? -tooltipWidth + 5 : 20
+			tooltipText.append("tspan")
 				.text(value)
 				.attr("id", field)
 				.attr("class", "tooltip-value")
-				.attr("x", 5)
+				.attr("x", xValue)
 				.attr("dy", 15)
-
-			//For every tooltip value, increase tooltip background height in 15 to accommodate all values
-			//Same thing with width, but we get the width of the most wider value (which is the width of text container)
-			tooltipBackground.setAttribute("height", parseInt(tooltipBackground.getAttribute("height")) + 15)
-			tooltipBackground.setAttribute("width", parseInt(tooltipTextContainer.clientWidth))
-			tooltipBackgroundStroke.setAttribute("height", parseInt(tooltipBackground.getAttribute("height")))
-			tooltipBackgroundStroke.setAttribute("width", parseInt(tooltipTextContainer.clientWidth))
 		}
 
+		//For every tooltip value, increase tooltip background height in 15 to accommodate all values
+		//Same thing with width, but we get the width of the most wider value (which is the width of text container).
+		currentSize = tooltipTextContainer.getBoundingClientRect()
+		currentHeight = currentSize.height + 10
+		currentWidth = currentSize.width + 10
+
+		tooltipBackground.setAttribute("height", currentHeight)
+		tooltipBackground.setAttribute("width", currentWidth)
+		tooltipBackgroundStroke.setAttribute("height", currentHeight)
+		tooltipBackgroundStroke.setAttribute("width", currentWidth)
+		
 		line.attr("transform", "translate(" + xScale(parseTime(row["Time"])) + "," + 0 + ")");
-		focus.attr("transform", "translate(" + xScale(parseTime(row["Time"])) + "," + yScale(fixValue(row[firstField])) + ")");
-		focus.select(".tooltip-time").text(parseTime(row["Time"]).toLocaleTimeString());
+		tooltip.attr("transform", "translate(" + xScale(parseTime(row["Time"])) + "," + yScale(fixValue(row[firstField])) + ")");
+		tooltip.select(".tooltip-time").text(parseTime(row["Time"]).toLocaleTimeString());
 	});
 
-	this.chartSVG.on("mouseover", function() { focus.style("display", null); })
-	this.chartSVG.on("mouseout", function() { focus.style("display", "none"); })
+	this.chartSVG.on("mouseover", function() { 
+		tooltip.style("display", null) 
+		line.style("display", null);
+	})
+	this.chartSVG.on("mouseout", function() { 
+		tooltip.style("display", "none");
+		line.style("display", "none");
+	})
 }
