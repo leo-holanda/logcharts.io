@@ -388,7 +388,7 @@ Chart.prototype.addTooltip = function(){
 		//If yes, use modified scale. if not, use normal scale
 		xScale = chart.brushedXScale ? chart.brushedXScale : chart.xScale
 
-		const bisector = d3.bisector((d) => parseTime(d["Time"])).left;
+		const bisector = d3.bisector((d) => parseTime(d["Time"])).center;
 		const currentTime = xScale.invert(d3.pointer(event, this)[0]);
 		const index = bisector(chart.log, currentTime, 1);
 		const previousRow = chart.log[index - 1];
@@ -398,17 +398,20 @@ Chart.prototype.addTooltip = function(){
 		//I just got this here https://observablehq.com/@d3/line-chart-with-tooltip
 		let row = currentRow && currentTime - parseTime(previousRow["Time"]) > parseTime(currentRow["Time"]) - currentTime ? currentRow : previousRow;
 
-		//We need to find the left location of the tiny circle
-		//If that location + the width of tooltip > the width of the chart
-		//So it means that the tooltip is outside the chart
-		//Then we must change the location of the tooltip to the left side
-		//We need to calculte areaOutisdeChart to have a more accurate condition to change location
+		/*
+		We need to find the left location of the tiny circle
+		If that location + the width of tooltip > the width of the chart
+		So it means that the tooltip is outside the chart
+		Then we must change the location of the tooltip to the left side
+		We need to calculte areaOutisdeChart to have a more accurate condition to change location
+		*/
+
 		bodyWidth = document.body.clientWidth
 		chartWidth = document.querySelector(".chart-svg").getBoundingClientRect().width
 		areaOutsideChart = bodyWidth - chartWidth
-		circleLocation = tooltipCircle.getBoundingClientRect().left
+		circleLocation = tooltipCircle.getBoundingClientRect()
 		chartWidth = document.querySelector(".chart-svg").getBoundingClientRect().width
-		tooltipBox = circleLocation + tooltipBackground.getBoundingClientRect().width  - areaOutsideChart
+		tooltipBox = circleLocation.left + tooltipBackground.getBoundingClientRect().width  - areaOutsideChart
 
 		tooltipWidth = tooltipBackground.getBoundingClientRect().width + 15
 
@@ -425,6 +428,33 @@ Chart.prototype.addTooltip = function(){
 			tooltipBackground.setAttribute("x", 15)
 			tooltipBackgroundStroke.setAttribute("x", 15)
 			tooltipTime.setAttribute("dx", 20)
+		}
+
+		/*
+		In this case, we need to find the bottom location of the tiny circle
+		If that location + a little margin of 20 + offset which is the space occupied by values
+		is > than the y coordinate of the x axis, it means that the tooltip is above the x axis
+		To prevent that, we need to change the y coordinate of some elements in tooltip
+		*/
+		
+		offset = (document.querySelectorAll(".line-selector").length - 1) * 15
+		chartHeight = document.querySelector(".domain").getBoundingClientRect().y
+		tooltipVerticalLocation = circleLocation.bottom + 20 + offset
+
+		if (tooltipVerticalLocation > chartHeight)
+		{
+			difference = tooltipVerticalLocation - chartHeight + offset
+			tooltipElement.setAttribute("y", -21 - difference)
+			tooltipBackground.setAttribute("y", -21 - difference)
+			tooltipBackgroundStroke.setAttribute("y", -21 - difference)
+			tooltipTime.setAttribute("dy", 15 - difference)
+		}
+		else{
+			difference = chartHeight - tooltipVerticalLocation
+			tooltipElement.setAttribute("y", -21)
+			tooltipBackground.setAttribute("y", -21)
+			tooltipBackgroundStroke.setAttribute("y", -21)
+			tooltipTime.setAttribute("dy", 15)	
 		}
 
 		//Populate the tooltip with the values
