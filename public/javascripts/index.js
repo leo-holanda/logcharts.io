@@ -111,10 +111,16 @@ function addNewLine(){
   let lineBtn = document.createElement("div")
   lineBtn.classList.add("line-btn")
 
-  let childrenLength = lineContainer.children.length + 1
+  let colorPicker = document.createElement("div")
+  colorPicker.classList.add("color-picker")
+  lineBtn.appendChild(colorPicker)
+
+  let lineID = 'id' + new Date().valueOf();
+  console.log(lineID)
+
   let btn = document.createElement("input")
   btn.setAttribute("type", "radio")
-  btn.setAttribute("id", "line" + childrenLength)
+  btn.setAttribute("id", lineID)
   btn.setAttribute("name", "line-btn")
   btn.classList.add("line-selector")
 
@@ -125,7 +131,66 @@ function addNewLine(){
   lineBtn.appendChild(label)
 
   lineContainer.appendChild(lineBtn)
-  chart.addNewLine("line" + childrenLength)
+  
+  //https://css-tricks.com/snippets/javascript/random-hex-color/
+  let randomColor = Math.floor(Math.random()*16777215).toString(16);
+  chart.addNewLine(lineID, randomColor)
+
+  const pickr = Pickr.create({
+    el: '.color-picker',
+    theme: 'nano',
+    default: '#' + randomColor,
+    defaultRepresentation: 'HEX',
+
+    swatches: [
+        'rgba(244, 67, 54, 1)',
+        'rgba(233, 30, 99, 1)',
+        'rgba(156, 39, 176, 1)',
+        'rgba(103, 58, 183, 1)',
+        'rgba(63, 81, 181, 1)',
+        'rgba(33, 150, 243, 1)',
+        'rgba(3, 169, 244, 1)',
+        'rgba(0, 188, 212, 1)',
+        'rgba(0, 150, 136, 1)',
+        'rgba(76, 175, 80, 1)',
+        'rgba(139, 195, 74, 1)',
+        'rgba(205, 220, 57, 1)',
+        'rgba(255, 235, 59, 1)',
+        'rgba(255, 193, 7, 1)'
+    ],
+
+    components: {
+
+        // Main components
+        preview: true,
+        opacity: true,
+        hue: true,
+
+        // Input / output Options
+        interaction: {
+            input: true,
+            save: true
+        }
+    }
+  });
+
+  pickr.on('save', function(color){
+    document.querySelector('path#' + lineID).setAttribute("stroke", color.toHEXA())
+  })
+
+  let removeLine = document.createElement("i")
+  removeLine.classList.add("fas")
+  removeLine.classList.add("fa-trash")
+  removeLine.addEventListener("click", function(){
+    document.querySelector("path#" + lineID).remove()
+    lineBtn.remove()
+  })
+  
+  for (selector of document.querySelectorAll(".pickr")){
+    if(!selector.contains(removeLine)){
+      selector.appendChild(removeLine)
+    }
+  }
 }
 
 //Add an alert if there isn't one

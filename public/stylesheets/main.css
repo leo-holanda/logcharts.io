@@ -6502,6 +6502,7 @@ form button:hover {
 }
 
 .line-btn {
+  position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -6511,8 +6512,37 @@ form button:hover {
   margin: 5px;
 }
 
+.line-btn:hover > .pickr {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  text-align: center;
+}
+
 .line-selector input {
   margin: 5px;
+}
+
+.pickr {
+  display: none;
+  height: 40px;
+  margin: auto;
+  position: absolute;
+  top: -60px;
+  left: 0;
+  bottom: 0;
+  right: -21px;
+}
+
+.pickr i {
+  color: #07132c;
+  padding: .5em;
 }
 
 html {

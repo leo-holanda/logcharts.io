@@ -21,9 +21,17 @@
 }
 
 .line-btn {
+    position: relative;
     display: flex;
     align-items: center;
     margin: 5px;
+
+    &:hover > .pickr{
+        display: flex;
+        align-items: center;
+        justify-content: center; 
+        text-align: center;
+    }
 }
 
 .line-selector {

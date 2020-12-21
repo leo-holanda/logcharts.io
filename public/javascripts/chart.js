@@ -142,10 +142,7 @@ Chart.prototype.addLine = function(){
 		.y((row) => this.yContextScale(fixValue(row["CPU [°C]"]))));
 }
 
-Chart.prototype.addNewLine = function(id, xScale = this.xScale.copy(), yScale = this.yScale.copy()){
-	//https://css-tricks.com/snippets/javascript/random-hex-color/
-	let randomColor = Math.floor(Math.random()*16777215).toString(16);
-	
+Chart.prototype.addNewLine = function(id, color, xScale = this.xScale.copy(), yScale = this.yScale.copy()){
 	//When adding a new line, verify if scale was modified by brush
 	//if yes, use modified scale. if not, use normal scale
 	this.brushedXScale ? xScale = this.brushedXScale : xScale.domain(d3.extent(this.log, (row) => parseTime(row["Time"])))
@@ -156,7 +153,7 @@ Chart.prototype.addNewLine = function(id, xScale = this.xScale.copy(), yScale = 
 		.datum(this.log)
 		.attr("clip-path", "url(#line_clip)")
 		.attr("fill", "none")
-		.attr("stroke", "#" + randomColor)
+		.attr("stroke", "#" + color)
 		.attr("stroke-width", 2)
 		.attr("stroke-linejoin", "round")
 		.attr("stroke-linecap", "round")
