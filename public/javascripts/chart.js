@@ -41,7 +41,7 @@ Chart.prototype.draw = function(){
 	this.addScales()
 	this.addAxes()
 	this.addGrid()
-	this.addLine()
+	this.addMainLine()
 	this.addBrush()
 	this.addTooltip()
 }
@@ -109,7 +109,10 @@ Chart.prototype.addGrid = function(){
 		.call((g) => g.select(".domain").remove());
 }
 
-Chart.prototype.addLine = function(){
+Chart.prototype.addMainLine = function(){
+	let lineID = 'id' + new Date().valueOf();
+	addNewSelector(lineID, "#4E7BFF")
+
 	//Append the path that contains the chart line
 	this.chartSVG
 		.append("path")
@@ -121,7 +124,7 @@ Chart.prototype.addLine = function(){
 		.attr("stroke-linejoin", "round")
 		.attr("stroke-linecap", "round")
 		.attr("class", "chart-line")
-		.attr("id", "line1")
+		.attr("id", lineID)
 		.attr("d", d3.line()
 			.defined((row) => fixValue(row["CPU [°C]"]) !== undefined)
 			.x((row) => this.xScale(parseTime(row["Time"])))
@@ -153,7 +156,7 @@ Chart.prototype.addNewLine = function(id, color, xScale = this.xScale.copy(), yS
 		.datum(this.log)
 		.attr("clip-path", "url(#line_clip)")
 		.attr("fill", "none")
-		.attr("stroke", "#" + color)
+		.attr("stroke", color)
 		.attr("stroke-width", 2)
 		.attr("stroke-linejoin", "round")
 		.attr("stroke-linecap", "round")
@@ -166,8 +169,9 @@ Chart.prototype.addNewLine = function(id, color, xScale = this.xScale.copy(), yS
 			.y((row) => yScale(fixValue(row["CPU [°C]"]))))
 }
 
+//Updating a normal line so is not necessary to change nothing but the line itself
 Chart.prototype.updateLineByField = function(field, id, xScale = this.xScale.copy(), yScale = this.yScale.copy()){
-	//When adding a new line, verify if scale was modified by brush
+	//When updating a line, verify if scale was modified by brush
 	//if yes, use modified scale. if not, use normal scale
 	this.brushedXScale ? xScale = this.brushedXScale : xScale.domain(d3.extent(this.log, (row) => parseTime(row["Time"])))
 	yScale.domain(d3.extent(this.log, (row) => fixValue(row[field]))).nice();
@@ -185,7 +189,7 @@ Chart.prototype.updateLineByField = function(field, id, xScale = this.xScale.cop
 }
 
 //Update chart with the specified field data
-Chart.prototype.updateByField = function(field){
+Chart.prototype.updateMainLine = function(field){
 	//When updating the main line field, reset the scale modified by brush
 	//So new lines can be created with normal scale
 	//This makes sense because the brush will reset in the end of this function
@@ -407,7 +411,6 @@ Chart.prototype.addTooltip = function(){
 		chartWidth = document.querySelector(".chart-svg").getBoundingClientRect().width
 		areaOutsideChart = bodyWidth - chartWidth
 		circleLocation = tooltipCircle.getBoundingClientRect()
-		chartWidth = document.querySelector(".chart-svg").getBoundingClientRect().width
 		tooltipBox = circleLocation.left + tooltipBackground.getBoundingClientRect().width  - areaOutsideChart
 
 		tooltipWidth = tooltipBackground.getBoundingClientRect().width + 15

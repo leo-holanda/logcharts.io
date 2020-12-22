@@ -65,20 +65,6 @@ function createContainers() {
   addLineBtn.id = "add_line_btn"
 	document.querySelector(".line-container").appendChild(addLineBtn)
 
-  let lineBtn = document.createElement("div")
-  lineBtn.classList.add("line-btn")
-  let btn = document.createElement("input")
-  btn.setAttribute("type", "radio")
-  btn.setAttribute("id", "line1")
-  btn.setAttribute("name", "line-btn")
-  btn.classList.add("line-selector")
-  btn.checked = true
-  let label = document.createElement("label")
-  label.innerHTML = "CPU [°C]"
-  lineBtn.appendChild(btn)
-  lineBtn.appendChild(label)
-	document.querySelector(".line-btn-container").appendChild(lineBtn)
-
   container = document.createElement("div");
   container.classList.add("chart-container");
   document.querySelector(".report-container").appendChild(container);
@@ -91,22 +77,28 @@ function addUpdateByField(chart) {
     .addEventListener("click", function (event) {
       if (event.target.className == "field-btn") {
         let selectedField = event.target.innerHTML;
-        document.querySelector(".line-selector:checked").parentNode.querySelector("label").innerHTML = selectedField
-        let lineID = document.querySelector(".line-selector:checked").id
-        if (lineID != "line1"){
-          
-          chart.updateLineByField(selectedField, lineID)
+        let selector = document.querySelector(".line-selector:checked")
+        selector.parentNode.querySelector("label").innerHTML = selectedField
+
+        //If the selector is the first, it means it is the main selector
+        //Which means we change more stuff (like stats and context line) than the normal selectors
+        let firstSelector = document.querySelector(".line-selector:first-of-type")
+        if (selector.id == firstSelector.id){
+          chart.updateMainLine(selectedField);
+          updateStats(chart.log, selectedField);
         }
         else{
-          chart.updateByField(selectedField);
-          updateStats(chart.log, selectedField);
+          chart.updateLineByField(selectedField, selector.id)
         }
       }
     });
 }
 
-function addNewLine(){
+function addNewSelector(lineID, color){
   let lineContainer = document.querySelector(".line-btn-container")
+  let isFirstSelector = false
+
+  if (lineContainer.children.length == 0) isFirstSelector = true
 
   let lineBtn = document.createElement("div")
   lineBtn.classList.add("line-btn")
@@ -115,13 +107,11 @@ function addNewLine(){
   colorPicker.classList.add("color-picker")
   lineBtn.appendChild(colorPicker)
 
-  let lineID = 'id' + new Date().valueOf();
-  console.log(lineID)
-
   let btn = document.createElement("input")
   btn.setAttribute("type", "radio")
   btn.setAttribute("id", lineID)
   btn.setAttribute("name", "line-btn")
+  if(isFirstSelector) btn.checked = true
   btn.classList.add("line-selector")
 
   let label = document.createElement("label")
@@ -132,14 +122,10 @@ function addNewLine(){
 
   lineContainer.appendChild(lineBtn)
   
-  //https://css-tricks.com/snippets/javascript/random-hex-color/
-  let randomColor = Math.floor(Math.random()*16777215).toString(16);
-  chart.addNewLine(lineID, randomColor)
-
   const pickr = Pickr.create({
     el: '.color-picker',
     theme: 'nano',
-    default: '#' + randomColor,
+    default: color,
     defaultRepresentation: 'HEX',
 
     swatches: [
@@ -177,19 +163,29 @@ function addNewLine(){
     document.querySelector('path#' + lineID).setAttribute("stroke", color.toHEXA())
   })
 
-  let removeLine = document.createElement("i")
-  removeLine.classList.add("fas")
-  removeLine.classList.add("fa-trash")
-  removeLine.addEventListener("click", function(){
-    document.querySelector("path#" + lineID).remove()
-    lineBtn.remove()
-  })
-  
-  for (selector of document.querySelectorAll(".pickr")){
-    if(!selector.contains(removeLine)){
-      selector.appendChild(removeLine)
+  if(!isFirstSelector){
+    let removeLine = document.createElement("i")
+    removeLine.classList.add("fas")
+    removeLine.classList.add("fa-trash")
+    removeLine.addEventListener("click", function(){
+      document.querySelector("path#" + lineID).remove()
+      lineBtn.remove()
+    })
+    
+    for (selector of document.querySelectorAll(".pickr")){
+      if(!selector.contains(removeLine)){
+        selector.appendChild(removeLine)
+      }
     }
   }
+}
+
+function addNewLine(){
+  //https://css-tricks.com/snippets/javascript/random-hex-color/
+  let randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+  let lineID = 'id' + new Date().valueOf();
+  addNewSelector(lineID, randomColor)
+  chart.addNewLine(lineID, randomColor)
 }
 
 //Add an alert if there isn't one
