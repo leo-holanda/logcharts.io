@@ -184,8 +184,7 @@ function addNewSelector(lineID, color){
 }
 
 function addNewLine(){
-  //https://css-tricks.com/snippets/javascript/random-hex-color/
-  let randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+  let randomColor = generateRandomColor()
   let lineID = 'id' + new Date().valueOf();
   addNewSelector(lineID, randomColor)
   chart.addNewLine(lineID, randomColor)
