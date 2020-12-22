@@ -168,13 +168,12 @@ function addNewLine(){
 
         // Input / output Options
         interaction: {
-            input: true,
-            save: true
+            input: true
         }
     }
   });
 
-  pickr.on('save', function(color){
+  pickr.on('change', function(color){
     document.querySelector('path#' + lineID).setAttribute("stroke", color.toHEXA())
   })
 

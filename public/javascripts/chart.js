@@ -149,7 +149,7 @@ Chart.prototype.addNewLine = function(id, color, xScale = this.xScale.copy(), yS
 	yScale.domain(d3.extent(this.log, (row) => fixValue(row["CPU [°C]"]))).nice();
 
 	this.chartSVG
-		.append("path")
+		.insert("path", ".tooltip")
 		.datum(this.log)
 		.attr("clip-path", "url(#line_clip)")
 		.attr("fill", "none")
