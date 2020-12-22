@@ -160,9 +160,10 @@ function addNewSelector(lineID, color){
     }
   });
 
-  pickr.on('change', function(color){
+  pickr.on('change', function(color, source, instance){
     document.querySelector('path#' + lineID).setAttribute("stroke", color.toHEXA())
     lineBtn.style.borderBottom = "3px solid " + color.toHEXA()
+    instance.applyColor(instance._lastColor)
   })
 
   if(!isFirstSelector){
