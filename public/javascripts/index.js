@@ -102,6 +102,7 @@ function addNewSelector(lineID, color){
 
   let lineBtn = document.createElement("div")
   lineBtn.classList.add("line-btn")
+  lineBtn.style.borderBottom = "3px solid " + color
 
   let colorPicker = document.createElement("div")
   colorPicker.classList.add("color-picker")
@@ -161,6 +162,7 @@ function addNewSelector(lineID, color){
 
   pickr.on('change', function(color){
     document.querySelector('path#' + lineID).setAttribute("stroke", color.toHEXA())
+    lineBtn.style.borderBottom = "3px solid " + color.toHEXA()
   })
 
   if(!isFirstSelector){
