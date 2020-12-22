@@ -339,7 +339,7 @@ Chart.prototype.addTooltip = function(){
 		.attr("x1", 0)
 		.attr("x2", 0)
 		.attr("y1", -this.height)
-		.attr("y2", 587);
+		.attr("y2", 590);
 	
 	tooltip.append("circle")
 		.attr("class", "tooltip-circle")

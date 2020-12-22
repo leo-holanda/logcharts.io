@@ -218,7 +218,6 @@ function addLoadingOverlay() {
 document.getElementById("log_input").addEventListener("change", showUserLog);
 document.getElementById("example").addEventListener("click", showExample);
 
-
 async function showExample() {
   addLoadingOverlay();
   createChart(await getLogExample());
