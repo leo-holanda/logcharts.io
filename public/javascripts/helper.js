@@ -27,14 +27,6 @@ function fixValue(value) {
   //return undefinied otherwise
 }
 
-async function getLogExample(){
-  const proxyurl = "https://cors-anywhere.herokuapp.com/";
-  return await fetch(proxyurl + "https://raw.githubusercontent.com/leo-holanda/logcharts.io/master/public/example.CSV")
-    .then((response) => { 
-      return response.text() 
-    })
-}
-
 //Sometimes file type can be empty. In this case
 //We will assume that is an CSV and validate in isHWLog()
 function isCSV(file){
