@@ -220,9 +220,7 @@ document.getElementById("example").addEventListener("click", showExample);
 
 async function showExample() {
   addLoadingOverlay();
-  fetch('example.CSV')
-    .then(response => response.text())
-    .then(data => createChart(data))
+  createChart(await getLogExample());
 }
 
 function showUserLog() {
