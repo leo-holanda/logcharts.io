@@ -338,8 +338,8 @@ Chart.prototype.addTooltip = function(){
 		.style("stroke-width", 2)
 		.attr("x1", 0)
 		.attr("x2", 0)
-		.attr("y1", -this.height)
-		.attr("y2", 590);
+		.attr("y1", 0)
+		.attr("y2", this.height - this.margin.bottom, this.margin.top)
 	
 	tooltip.append("circle")
 		.attr("class", "tooltip-circle")
@@ -487,10 +487,6 @@ Chart.prototype.addTooltip = function(){
 		tooltipBackground.setAttribute("width", currentWidth)
 		tooltipBackgroundStroke.setAttribute("height", currentHeight)
 		tooltipBackgroundStroke.setAttribute("width", currentWidth)
-
-		xAxisLocation = document.querySelector(".domain").getBoundingClientRect().y
-		offsetLine = xAxisLocation - circleLocation.y
-		line.attr("y", offsetLine)
 		
 		line.attr("transform", "translate(" + xScale(parseTime(row["Time"])) + "," + 0 + ")");
 		tooltip.attr("transform", "translate(" + xScale(parseTime(row["Time"])) + "," + yScale(fixValue(row[firstField])) + ")");
