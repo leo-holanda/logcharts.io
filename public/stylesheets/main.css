@@ -6475,7 +6475,7 @@ form button:hover {
   background-color: #abe1ed;
 }
 
-.line-container {
+.selector-container {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -6485,7 +6485,7 @@ form button:hover {
   border-bottom: 2px solid #f7f7f7;
 }
 
-.add-line-btn {
+.add-selector-btn {
   color: #4E7BFF;
   background-color: white;
   border: 0px;
@@ -6495,7 +6495,7 @@ form button:hover {
   height: auto;
 }
 
-.line-btn-container {
+.selector-btn-container {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -6503,7 +6503,7 @@ form button:hover {
       flex-wrap: wrap;
 }
 
-.line-btn {
+.selector-div {
   position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -6514,7 +6514,7 @@ form button:hover {
   padding: 5px;
 }
 
-.line-btn:hover > .pickr {
+.selector-div:hover > .pickr {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -6527,7 +6527,7 @@ form button:hover {
   text-align: center;
 }
 
-.line-selector input {
+.selector-btn input {
   margin: 5px;
 }
 

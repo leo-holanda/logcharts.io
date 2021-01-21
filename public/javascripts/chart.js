@@ -259,7 +259,7 @@ Chart.prototype.updateMainLine = function(field){
 
 	//We reset the brush so we must reset the lines too
 	yScale = this.yScale.copy()
-	for (selector of document.querySelectorAll(".line-selector")){
+	for (selector of document.querySelectorAll(".selector-btn")){
 		field = selector.parentNode.querySelector("label").innerHTML
 		yScale.domain(d3.extent(this.log, (row) => fixValue(row[field]))).nice();
 		
@@ -311,7 +311,7 @@ Chart.prototype.updateByBrush = function(selection, xScale = this.xScale.copy(),
 
 	//For every line selector, update the respective line in chart
 	let field
-	for (selector of document.querySelectorAll(".line-selector")){
+	for (selector of document.querySelectorAll(".selector-btn")){
 		field = selector.parentNode.querySelector("label").innerHTML
 		yScale.domain(d3.extent(this.log, (row) => fixValue(row[field]))).nice();
 		
@@ -437,7 +437,7 @@ Chart.prototype.addTooltip = function(){
 		To prevent that, we need to change the y coordinate of some elements in tooltip
 		*/
 		
-		offset = (document.querySelectorAll(".line-selector").length - 1) * 15
+		offset = (document.querySelectorAll(".selector-btn").length - 1) * 15
 		chartHeight = document.querySelector(".domain").getBoundingClientRect().y
 		tooltipVerticalLocation = circleLocation.bottom + 20 + offset
 
@@ -459,7 +459,7 @@ Chart.prototype.addTooltip = function(){
 
 		//Populate the tooltip with the values
 		let field, value, firstField, first = true
-		for (selector of document.querySelectorAll(".line-selector")){
+		for (selector of document.querySelectorAll(".selector-btn")){
 			field = selector.parentNode.querySelector("label").innerHTML
 			
 			//We need to store the first field because it is the main field

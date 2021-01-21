@@ -1,4 +1,4 @@
-.line-container {
+.selector-container {
     display: flex;
     background-color: white;
     font-family: "Source Sans Pro", sans-serif;
@@ -6,7 +6,7 @@
     border-bottom: 2px solid #f7f7f7;
 }
 
-.add-line-btn {
+.add-selector-btn {
     color: #4E7BFF;
     background-color: white;
     border: 0px;
@@ -16,12 +16,12 @@
     height: auto;
 }
 
-.line-btn-container {
+.selector-btn-container {
     display: flex;
     flex-wrap: wrap;
 }
 
-.line-btn {
+.selector-div {
     position: relative;
     display: flex;
     align-items: center;
@@ -35,7 +35,7 @@
     }
 }
 
-.line-selector {
+.selector-btn {
     input{
         margin: 5px;
     }
