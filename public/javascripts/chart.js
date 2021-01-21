@@ -1,4 +1,7 @@
-function Chart(params) {
+import { parseTime, fixValue } from './helper.js'
+import { addNewSelector } from './lineSelectors.js'
+
+export function Chart(params) {
 
 	//Define the data that the chart will use
 	this.log = params.parsedLog
@@ -258,7 +261,8 @@ Chart.prototype.updateMainLine = function(field){
 	this.chartSVG.select(".chart-line")._groups[0][0].setAttribute("domain", this.xScale.domain())
 
 	//We reset the brush so we must reset the lines too
-	yScale = this.yScale.copy()
+	let yScale = this.yScale.copy()
+	let selector
 	for (selector of document.querySelectorAll(".selector-btn")){
 		field = selector.parentNode.querySelector("label").innerHTML
 		yScale.domain(d3.extent(this.log, (row) => fixValue(row[field]))).nice();
@@ -311,6 +315,7 @@ Chart.prototype.updateByBrush = function(selection, xScale = this.xScale.copy(),
 
 	//For every line selector, update the respective line in chart
 	let field
+	let selector
 	for (selector of document.querySelectorAll(".selector-btn")){
 		field = selector.parentNode.querySelector("label").innerHTML
 		yScale.domain(d3.extent(this.log, (row) => fixValue(row[field]))).nice();
@@ -407,13 +412,13 @@ Chart.prototype.addTooltip = function(){
 		We need to calculte areaOutisdeChart to have a more accurate condition to change location
 		*/
 
-		bodyWidth = document.body.clientWidth
-		chartWidth = document.querySelector(".chart-svg").getBoundingClientRect().width
-		areaOutsideChart = bodyWidth - chartWidth
-		circleLocation = tooltipCircle.getBoundingClientRect()
-		tooltipBox = circleLocation.left + tooltipBackground.getBoundingClientRect().width  - areaOutsideChart
+		let bodyWidth = document.body.clientWidth
+		let chartWidth = document.querySelector(".chart-svg").getBoundingClientRect().width
+		let areaOutsideChart = bodyWidth - chartWidth
+		let circleLocation = tooltipCircle.getBoundingClientRect()
+		let tooltipBox = circleLocation.left + tooltipBackground.getBoundingClientRect().width  - areaOutsideChart
 
-		tooltipWidth = tooltipBackground.getBoundingClientRect().width + 15
+		let tooltipWidth = tooltipBackground.getBoundingClientRect().width + 15
 
 		if (tooltipBox > chart.width) {
 			isTooltipOutOfScreen = true
@@ -437,20 +442,20 @@ Chart.prototype.addTooltip = function(){
 		To prevent that, we need to change the y coordinate of some elements in tooltip
 		*/
 		
-		offset = (document.querySelectorAll(".selector-btn").length - 1) * 15
-		chartHeight = document.querySelector(".domain").getBoundingClientRect().y
-		tooltipVerticalLocation = circleLocation.bottom + 20 + offset
+		let offset = (document.querySelectorAll(".selector-btn").length - 1) * 15
+		let chartHeight = document.querySelector(".domain").getBoundingClientRect().y
+		let tooltipVerticalLocation = circleLocation.bottom + 20 + offset
 
 		if (tooltipVerticalLocation > chartHeight)
 		{
-			difference = tooltipVerticalLocation - chartHeight + offset
+			let difference = tooltipVerticalLocation - chartHeight + offset
 			tooltipElement.setAttribute("y", -21 - difference)
 			tooltipBackground.setAttribute("y", -21 - difference)
 			tooltipBackgroundStroke.setAttribute("y", -21 - difference)
 			tooltipTime.setAttribute("dy", 15 - difference)
 		}
 		else{
-			difference = chartHeight - tooltipVerticalLocation
+			let difference = chartHeight - tooltipVerticalLocation
 			tooltipElement.setAttribute("y", -21)
 			tooltipBackground.setAttribute("y", -21)
 			tooltipBackgroundStroke.setAttribute("y", -21)
@@ -459,6 +464,7 @@ Chart.prototype.addTooltip = function(){
 
 		//Populate the tooltip with the values
 		let field, value, firstField, first = true
+		let selector
 		for (selector of document.querySelectorAll(".selector-btn")){
 			field = selector.parentNode.querySelector("label").innerHTML
 			
@@ -468,7 +474,7 @@ Chart.prototype.addTooltip = function(){
 			first = false
 
 			value = field + ": " +  fixValue(row[field])
-			xValue = isTooltipOutOfScreen ? -tooltipWidth + 5 : 20
+			let xValue = isTooltipOutOfScreen ? -tooltipWidth + 5 : 20
 			tooltipText.append("tspan")
 				.text(value)
 				.attr("id", field)
@@ -479,9 +485,9 @@ Chart.prototype.addTooltip = function(){
 
 		//For every tooltip value, increase tooltip background height in 15 to accommodate all values
 		//Same thing with width, but we get the width of the most wider value (which is the width of text container).
-		currentSize = tooltipTextContainer.getBoundingClientRect()
-		currentHeight = currentSize.height + 10
-		currentWidth = currentSize.width + 10
+		let currentSize = tooltipTextContainer.getBoundingClientRect()
+		let currentHeight = currentSize.height + 10
+		let currentWidth = currentSize.width + 10
 
 		tooltipBackground.setAttribute("height", currentHeight)
 		tooltipBackground.setAttribute("width", currentWidth)

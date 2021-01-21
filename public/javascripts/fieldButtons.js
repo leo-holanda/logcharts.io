@@ -1,6 +1,10 @@
+import { chart } from './index.js'
+import { updateStats } from './stats.js';
+
 // Each field in the csv file becomes a button
-function createButtons(fields) {
+export function createButtons(fields) {
     let btn;
+    let field
     for (field of fields) {
         if (field && !field.includes("Time") && !field.includes("Date")) {
             btn = document.createElement("button");
@@ -17,7 +21,7 @@ function createButtons(fields) {
 }
 
 //When user click in a field button, update chart and statistics with field data
-function addUpdateByField() {
+export function addUpdateByField() {
     document
         .querySelector(".btn-container")
         .addEventListener("click", (event) => {

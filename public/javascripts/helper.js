@@ -1,6 +1,6 @@
 // HWInfo store time in a string with this format: HH:MM:SS
 // So we must convert the string in a Date object so d3.scaleTime() can use it
-function parseTime(time) {
+export function parseTime(time) {
   if (time) {
     const data = time.split(":");
 
@@ -18,7 +18,7 @@ function parseTime(time) {
 }
 
 //Check if value ins't missing, convert Yes/No to 1/0 if necesssary or return the value in float
-function fixValue(value) {
+export function fixValue(value) {
   if (value) {
     if (value == "No") return 0;  
     if (value == "Yes") return 1;  
@@ -27,7 +27,7 @@ function fixValue(value) {
   //return undefinied otherwise
 }
 
-async function getLogExample(){
+export async function getLogExample(){
   const proxyurl = "https://cors-anywhere.herokuapp.com/";
   return await fetch(proxyurl + "https://raw.githubusercontent.com/leo-holanda/logcharts.io/master/public/example.CSV")
     .then((response) => { 
@@ -37,11 +37,11 @@ async function getLogExample(){
 
 //Sometimes file type can be empty. In this case
 //We will assume that is an CSV and validate in isHWLog()
-function isCSV(file){
+export function isCSV(file){
   if (file.type == "text/csv" || !file.type) return true;
 }
 
-function isHWLog(fields){
+export function isHWLog(fields){
   if(fields.includes("Time") && fields.includes("CPU [°C]")) return true
 }
 
@@ -66,7 +66,7 @@ function shuffle(array) {
 }
 
 //https://gomakethings.com/a-better-better-way-to-generate-a-random-color-with-vanilla-js/
-function generateRandomColor(){
+export function generateRandomColor(){
   // The available hex options
   var hex = ['a', 'b', 'c', 'd', 'e', 'f', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
   var color = '#';

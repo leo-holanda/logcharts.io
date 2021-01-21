@@ -1,6 +1,13 @@
+import { isCSV, isHWLog, getLogExample } from './helper.js'
+import { Chart } from './chart.js'
+import { createStats } from './stats.js'
+import { createButtons, addUpdateByField } from './fieldButtons.js'
+import { createAddSelectorBtn } from './lineSelectors.js'
+
 //Remove form so buttons and graph can be displayed
 function removeForm() {
   document.querySelector(".form-container").remove();
+  let loader
   if ((loader = document.querySelector(".loader-wrapper"))) loader.remove();
 
   document.querySelector(".header").remove();
@@ -84,7 +91,7 @@ async function showExample() {
   createChart(await getLogExample());
 }
 
-let chart = undefined
+export let chart = undefined
 function createChart(log) {
   // Parse the csv and process the results
   Papa.parse(log, {

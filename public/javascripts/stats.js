@@ -1,5 +1,7 @@
+import { fixValue } from './helper.js'
+
 //We will use 3 statistics measures: minimum value, maximum value and mean
-function createStats(log) {
+export function createStats(log) {
   let element;
   let title;
   let value;
@@ -7,7 +9,8 @@ function createStats(log) {
   let mappedLog = log.map((row) => fixValue(row["CPU [°C]"]));
   let extent = d3.extent(mappedLog);
 
-  for (step = 0; step < 3; step++) {
+  let step = 0
+  for (step; step < 3; step++) {
     //For each measure, create a div that contains a title and a value
     element = document.createElement("div");
     title = document.createElement("h6");
@@ -46,7 +49,7 @@ function createStats(log) {
 
 //Get data by the selected field, calculate measures and
 //change innerHTML to receive respective results
-function updateStats(log, field) {
+export function updateStats(log, field) {
   let mappedLog = log.map((row) => fixValue(row[field]));
 
   let extent = d3.extent(mappedLog);

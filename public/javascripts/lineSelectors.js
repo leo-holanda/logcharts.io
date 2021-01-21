@@ -1,4 +1,7 @@
-function createAddSelectorBtn() {
+import { generateRandomColor } from './helper.js'
+import { chart } from './index.js'
+
+export function createAddSelectorBtn() {
     let addSelectorBtn = document.createElement("button")
     addSelectorBtn.classList.add("add-selector-btn")
     addSelectorBtn.classList.add("fas")
@@ -8,7 +11,7 @@ function createAddSelectorBtn() {
     document.querySelector(".selector-container").appendChild(addSelectorBtn)
 }
 
-function addNewSelector(selectorID, color) {
+export function addNewSelector(selectorID, color) {
     let lineContainer = document.querySelector(".selector-btn-container")
    
     let isFirstSelector = false
@@ -89,6 +92,7 @@ function addNewSelector(selectorID, color) {
             selectorDiv.remove()
         })
 
+        let selector
         for (selector of document.querySelectorAll(".pickr")) {
             if (!selector.contains(removeSelector)) {
                 selector.appendChild(removeSelector)
