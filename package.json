@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "dev": "supervisor ./bin/www"
+    "dev": "supervisor ./bin/www",
+    "build" : "webpack --config webpack.config.js "
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -12,7 +13,9 @@
     "express": "~4.16.1",
     "morgan": "~1.9.1",
     "nunjucks": "^3.2.2",
-    "supervisor": "^0.12.0"
+    "supervisor": "^0.12.0",
+    "webpack": "^5.16.0",
+    "webpack-cli": "^4.4.0"
   },
   "devDependencies": {
     "prettier": "2.0.5"
