@@ -38,7 +38,7 @@ export async function getLogExample(){
 //Sometimes file type can be empty. In this case
 //We will assume that is an CSV and validate in isHWLog()
 export function isCSV(file){
-  if (file.type == "text/csv" || !file.type) return true;
+  if (file.type == "text/csv" || file.type == "application/vnd.ms-excel" || !file.type) return true;
 }
 
 export function isHWLog(fields){
