@@ -1,0 +1,13 @@
+.pickr{
+    display: none;
+    height: 40px;
+    margin: auto;
+    position: absolute;
+    top: -60px; left: 0; bottom: 0; right: -21px;
+
+    i{
+        color: #07132c;
+        padding: .5em;
+        cursor: pointer;
+    }
+}

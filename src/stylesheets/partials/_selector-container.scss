@@ -1,0 +1,42 @@
+.selector-container {
+    display: flex;
+    background-color: white;
+    font-family: "Source Sans Pro", sans-serif;
+    margin: 20px 20px 0px 20px;
+    border-bottom: 2px solid #f7f7f7;
+}
+
+.add-selector-btn {
+    color: #4E7BFF;
+    background-color: white;
+    border: 0px;
+    text-decoration: none;
+    padding: 5px;
+    margin: 2px;
+    height: auto;
+}
+
+.selector-btn-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.selector-div {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 5px;
+
+    &:hover > .pickr{
+        display: flex;
+        align-items: center;
+        justify-content: center; 
+        text-align: center;
+    }
+}
+
+.selector-btn {
+    input{
+        margin: 5px;
+    }
+}

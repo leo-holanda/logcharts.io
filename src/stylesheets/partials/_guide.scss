@@ -1,0 +1,28 @@
+.step {
+  font-family: "Source Sans Pro", sans-serif;
+  width: 100%;
+  height: 33.3%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: $primary;
+
+  a {
+    text-decoration: none;
+    color: white;
+  }
+}
+
+.first-step {
+  background-color: #8ad5e5;
+}
+
+.second-step {
+  background-color: #9bdbe9;
+}
+
+.third-step {
+  flex-flow: column;
+  background-color: #abe1ed;
+}

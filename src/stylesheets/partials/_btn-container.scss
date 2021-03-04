@@ -1,0 +1,45 @@
+.field-container {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  width: 7%;
+  height: 100%;
+}
+
+.field-container-title {
+  margin: 0px;
+  padding: 5px;
+  background-color: $primary;
+  color: white;
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 800;
+}
+
+.btn-container {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.field-btn {
+  transition: 0.1s;
+  background-color: white;
+  color: #041219;
+  border: 0px;
+  text-decoration: none;
+  font-family: "Source Sans Pro", sans-serif;
+  padding: 5px;
+  margin: 2px;
+  width: 98%;
+  height: auto;
+
+  &:hover {
+    background-color: $hover;
+    color: white;
+  }
+
+  &:focus {
+    background-color: $focus;
+    color: white !important;
+    font-weight: 900;
+  }
+}

@@ -1,0 +1,42 @@
+$primary: #07132c;
+$focus: #119da4ff;
+$hover: #fa7921ff;
+
+@import "font-awesome/scss/fontawesome.scss";
+@import "font-awesome/scss/solid.scss";
+@import "partials/header";
+@import "partials/btn-container";
+@import "partials/chart-container";
+@import "partials/stats-container";
+@import "partials/report-container";
+@import "partials/form-container";
+@import "partials/loading";
+@import "partials/guide";
+@import "partials/selector-container";
+@import "partials/color-picker";
+
+
+html {
+  width: 100vw;
+  height: 100vh;
+}
+
+body {
+  padding: 0px;
+  margin: 0px;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  display: flex;
+  overflow: hidden;
+  height: 100%;
+}
+
+.aligned {
+  justify-content: center;
+  align-items: center;
+}
