@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="Description" content="Visualization tool for HWInfo logs">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/nano.min.css"/> <!-- 'nano' theme -->
+    <link rel="stylesheet" type="text/css" href="dist/main.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Alata&family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <title>LogCharts</title>
+  </head>
+  <body>
+    
+    <header class="header">
+        <h1>LogCharts</h1>
+    </header>
+    
+    <main class="aligned">
+      <div class="form-container">
+        <div class="step first-step">
+            <h1>Download and install <a href="https://www.hwinfo.com/" target="_blank">HWInfo</a></h1>
+        </div>
+
+        <div class="step second-step">
+            <h1>Generate a <a href="guide.html" target="_blank">log</a></h1>
+        </div>
+
+        <div class="step third-step">
+          <form id="form">
+              <input class="log-input" type="file" id="log_input" name="log_input" accept=".csv" />
+              <label class="log-input-label" for="log_input">
+                  <i class="fas fa-folder-open"></i>
+                  <span>Upload your log</span>
+              </label>    
+              <h2>or</h2>
+              <button type="button" id="example">See an example</button>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <script src="dist/papaparse.min.js"></script>
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
+    <script src="dist/main.bundle.js"></script>
+  </body>
+</html>
