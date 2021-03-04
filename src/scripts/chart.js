@@ -1,4 +1,4 @@
-import { parseTime, fixValue } from './helper.js'
+import { parseTime, fixValue, repositionTooltipHorizontally, repositionTooltipVertically } from './helper.js'
 import { addNewSelector } from './lineSelectors.js'
 
 export function Chart(params) {
@@ -333,7 +333,7 @@ Chart.prototype.updateByBrush = function(selection, xScale = this.xScale.copy(),
 // Find the value of the main field in the row and calculate the coordinates
 // Move the tooltip to the coordinates
 Chart.prototype.addTooltip = function(){
-
+  
 	const tooltip = this.chartSVG.append("g")
 		.attr("class", "tooltip")
 		
@@ -346,45 +346,38 @@ Chart.prototype.addTooltip = function(){
 		.attr("y1", 0)
 		.attr("y2", this.height - this.margin.bottom, this.margin.top)
 	
-	tooltip.append("circle")
+	const tooltipCircle = tooltip.append("circle")
 		.attr("class", "tooltip-circle")
 		.attr("r", 5)
 
-	tooltip.append("rect")
+  const tooltipBackground = tooltip.append("rect")
+    .attr("class", "tooltip-background")
+    .attr("width", 100)
+    .attr("height", 30)
+    .attr("x", 15)
+    .attr("y", -21)
+
+  const tooltipBackgroundStroke = tooltip.append("rect")
 		.attr("class", "tooltip-background-stroke")
 	 	.attr("width", 100)
 		.attr("height", 30)
 		.attr("x", 15)
 		.attr("y", -21)
 
-	tooltip.append("rect")
-		.attr("class", "tooltip-background")
-	 	.attr("width", 100)
-		.attr("height", 30)
-		.attr("x", 15)
-		.attr("y", -21)
-
-	let tooltipText = tooltip.append("text")
+	const tooltipText = tooltip.append("text")
 		.attr("class", "tooltip-value-container")
 		.attr("width", 100)
 		.attr("height", 30)
 		.attr("dx", 15)
 		.attr("y", -15)
 
-	tooltipText.append("tspan")
+	const tooltipTime = tooltipText.append("tspan")
 		.attr("class", "tooltip-time")
 		.attr("dy", 15)
 
-	const chart = this
+  const chart = this
 	let xScale
 	let yScale = chart.yScale
-	let tooltipElement = document.querySelector(".tooltip")
-	let tooltipBackground = document.querySelector(".tooltip-background")
-	let tooltipBackgroundStroke = document.querySelector(".tooltip-background-stroke")
-	let tooltipTextContainer = document.querySelector(".tooltip-value-container")
-	let tooltipCircle = document.querySelector(".tooltip-circle")
-	let isTooltipOutOfScreen = false
-	let tooltipTime = document.querySelector(".tooltip-time")
 
 	this.chartSVG.on("touchmove mousemove", function(event){
 		//Reset values in tooltip
@@ -412,27 +405,25 @@ Chart.prototype.addTooltip = function(){
 		We need to calculte areaOutisdeChart to have a more accurate condition to change location
 		*/
 
+    //We use node() to get the HTML element and have access to functions like getBoundingClientRect 
+    //Without node() we still have access to D3 functions
+
 		let bodyWidth = document.body.clientWidth
 		let chartWidth = document.querySelector(".chart-svg").getBoundingClientRect().width
 		let areaOutsideChart = bodyWidth - chartWidth
-		let circleLocation = tooltipCircle.getBoundingClientRect()
-		let tooltipBox = circleLocation.left + tooltipBackground.getBoundingClientRect().width  - areaOutsideChart
+		let circleLocation = tooltipCircle.node().getBoundingClientRect()
+		let tooltipBox = circleLocation.left + tooltipBackground.node().getBoundingClientRect().width  - areaOutsideChart
 
-		let tooltipWidth = tooltipBackground.getBoundingClientRect().width + 15
+		let tooltipWidth = tooltipBackground.node().getBoundingClientRect().width + 15
 
+    let isTooltipOutOfScreen = false
 		if (tooltipBox > chart.width) {
-			isTooltipOutOfScreen = true
-			tooltipElement.setAttribute("x", -tooltipWidth)
-			tooltipBackground.setAttribute("x", -tooltipWidth)
-			tooltipBackgroundStroke.setAttribute("x", -tooltipWidth)
-			tooltipTime.setAttribute("dx", -tooltipWidth + 5)
+      isTooltipOutOfScreen = true
+      repositionTooltipHorizontally(true)
 		}
 		else{
 			isTooltipOutOfScreen = false
-			tooltipElement.setAttribute("x", 15)
-			tooltipBackground.setAttribute("x", 15)
-			tooltipBackgroundStroke.setAttribute("x", 15)
-			tooltipTime.setAttribute("dx", 20)
+      repositionTooltipHorizontally(false)
 		}
 
 		/*
@@ -441,25 +432,18 @@ Chart.prototype.addTooltip = function(){
 		is > than the y coordinate of the x axis, it means that the tooltip is above the x axis
 		To prevent that, we need to change the y coordinate of some elements in tooltip
 		*/
-		
-		let offset = (document.querySelectorAll(".selector-btn").length - 1) * 15
-		let chartHeight = document.querySelector(".domain").getBoundingClientRect().y
-		let tooltipVerticalLocation = circleLocation.bottom + 20 + offset
 
+    let offset = (document.querySelectorAll(".selector-btn").length - 1) * 15
+    let tooltipVerticalLocation = circleLocation.bottom + 20 + offset
+
+		let chartHeight = document.querySelector(".domain").getBoundingClientRect().y
 		if (tooltipVerticalLocation > chartHeight)
 		{
-			let difference = tooltipVerticalLocation - chartHeight + offset
-			tooltipElement.setAttribute("y", -21 - difference)
-			tooltipBackground.setAttribute("y", -21 - difference)
-			tooltipBackgroundStroke.setAttribute("y", -21 - difference)
-			tooltipTime.setAttribute("dy", 15 - difference)
+      let difference = tooltipVerticalLocation - chartHeight + offset
+      repositionTooltipVertically(true, difference)
 		}
 		else{
-			let difference = chartHeight - tooltipVerticalLocation
-			tooltipElement.setAttribute("y", -21)
-			tooltipBackground.setAttribute("y", -21)
-			tooltipBackgroundStroke.setAttribute("y", -21)
-			tooltipTime.setAttribute("dy", 15)	
+      repositionTooltipVertically(false)
 		}
 
 		//Populate the tooltip with the values
@@ -485,14 +469,14 @@ Chart.prototype.addTooltip = function(){
 
 		//For every tooltip value, increase tooltip background height in 15 to accommodate all values
 		//Same thing with width, but we get the width of the most wider value (which is the width of text container).
-		let currentSize = tooltipTextContainer.getBoundingClientRect()
+		let currentSize = tooltipText.node().getBoundingClientRect()
 		let currentHeight = currentSize.height + 10
 		let currentWidth = currentSize.width + 10
 
-		tooltipBackground.setAttribute("height", currentHeight)
-		tooltipBackground.setAttribute("width", currentWidth)
-		tooltipBackgroundStroke.setAttribute("height", currentHeight)
-		tooltipBackgroundStroke.setAttribute("width", currentWidth)
+		tooltipBackground.node().setAttribute("height", currentHeight)
+		tooltipBackground.node().setAttribute("width", currentWidth)
+		tooltipBackgroundStroke.node().setAttribute("height", currentHeight)
+		tooltipBackgroundStroke.node().setAttribute("width", currentWidth)
 		
 		line.attr("transform", "translate(" + xScale(parseTime(row["Time"])) + "," + 0 + ")");
 		tooltip.attr("transform", "translate(" + xScale(parseTime(row["Time"])) + "," + yScale(fixValue(row[firstField])) + ")");

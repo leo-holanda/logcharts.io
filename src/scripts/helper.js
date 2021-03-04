@@ -27,6 +27,32 @@ export function fixValue(value) {
   //return undefinied otherwise
 }
 
+export function repositionTooltipHorizontally(isTooltipOutOfScreen){
+  let tooltip = document.querySelector(".tooltip")
+  let tooltipBackground = document.querySelector(".tooltip-background")
+  let tooltipBackgroundStroke = document.querySelector(".tooltip-background-stroke")
+  let tooltipTime = document.querySelector(".tooltip-time")
+
+  let tooltipWidth = tooltipBackground.getBoundingClientRect().width + 15
+
+  tooltip.setAttribute("x", isTooltipOutOfScreen? -tooltipWidth : 15)
+  tooltipBackground.setAttribute("x", isTooltipOutOfScreen ? -tooltipWidth : 15)
+  tooltipBackgroundStroke.setAttribute("x", isTooltipOutOfScreen ? -tooltipWidth : 15)
+  tooltipTime.setAttribute("dx", isTooltipOutOfScreen ? -tooltipWidth + 5: 20)
+}
+
+export function repositionTooltipVertically(isTooltipOutOfScreen, difference = null){
+  let tooltip = document.querySelector(".tooltip")
+  let tooltipBackground = document.querySelector(".tooltip-background")
+  let tooltipBackgroundStroke = document.querySelector(".tooltip-background-stroke")
+  let tooltipTime = document.querySelector(".tooltip-time")
+
+  tooltip.setAttribute("y", isTooltipOutOfScreen? -21 - difference : -21)
+  tooltipBackground.setAttribute("y", isTooltipOutOfScreen? -21 - difference : -21)
+  tooltipBackgroundStroke.setAttribute("y", isTooltipOutOfScreen? -21 - difference : -21)
+  tooltipTime.setAttribute("dy", isTooltipOutOfScreen ? 15 - difference : 15)
+}
+
 export async function getLogExample(){
   return await fetch("./assets/example.CSV")
   .then((response) => {
