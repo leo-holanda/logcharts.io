@@ -1,4 +1,11 @@
-import { parseTime, fixValue, repositionTooltipHorizontally, repositionTooltipVertically } from './helper.js'
+import {
+  parseTime,
+  fixValue,
+  repositionTooltipHorizontally,
+  repositionTooltipVertically,
+  checkTooltipHorizontalPosition,
+  checkTooltipVerticalPosition
+} from './helpers/chartHelper.js'
 import { addNewSelector } from './lineSelectors.js'
 
 export function Chart(params) {
@@ -376,6 +383,18 @@ Chart.prototype.addTooltip = function(){
 		.attr("dy", 15)
 
   const chart = this
+
+  const tooltipParams = {
+    tooltip: tooltip,
+    line: line,
+    tooltipCircle: tooltipCircle,
+    tooltipBackground: tooltipBackground,
+    tooltipBackgroundStroke: tooltipBackgroundStroke,
+    tooltipText: tooltipText,
+    tooltipTime: tooltipTime,
+    chart: chart
+  }
+
 	let xScale
 	let yScale = chart.yScale
 
@@ -397,58 +416,28 @@ Chart.prototype.addTooltip = function(){
 		//I just got this here https://observablehq.com/@d3/line-chart-with-tooltip
 		let row = currentRow && currentTime - parseTime(previousRow["Time"]) > parseTime(currentRow["Time"]) - currentTime ? currentRow : previousRow;
 
-		/*
-		We need to find the left location of the tiny circle
-		If that location + the width of tooltip > the width of the chart
-		So it means that the tooltip is outside the chart
-		Then we must change the location of the tooltip to the left side
-		We need to calculte areaOutisdeChart to have a more accurate condition to change location
-		*/
-
     //We use node() to get the HTML element and have access to functions like getBoundingClientRect 
     //Without node() we still have access to D3 functions
 
-		let bodyWidth = document.body.clientWidth
-		let chartWidth = document.querySelector(".chart-svg").getBoundingClientRect().width
-		let areaOutsideChart = bodyWidth - chartWidth
-		let circleLocation = tooltipCircle.node().getBoundingClientRect()
-		let tooltipBox = circleLocation.left + tooltipBackground.node().getBoundingClientRect().width  - areaOutsideChart
-
-		let tooltipWidth = tooltipBackground.node().getBoundingClientRect().width + 15
-
-    let isTooltipOutOfScreen = false
-		if (tooltipBox > chart.width) {
-      isTooltipOutOfScreen = true
-      repositionTooltipHorizontally(true)
+    const isTooltipOutOfScreen = checkTooltipHorizontalPosition(tooltipParams)
+		if (isTooltipOutOfScreen) {
+      repositionTooltipHorizontally(tooltipParams, true)
 		}
 		else{
-			isTooltipOutOfScreen = false
-      repositionTooltipHorizontally(false)
+      repositionTooltipHorizontally(tooltipParams, false)
 		}
-
-		/*
-		In this case, we need to find the bottom location of the tiny circle
-		If that location + a little margin of 20 + offset which is the space occupied by values
-		is > than the y coordinate of the x axis, it means that the tooltip is above the x axis
-		To prevent that, we need to change the y coordinate of some elements in tooltip
-		*/
-
-    let offset = (document.querySelectorAll(".selector-btn").length - 1) * 15
-    let tooltipVerticalLocation = circleLocation.bottom + 20 + offset
-
-		let chartHeight = document.querySelector(".domain").getBoundingClientRect().y
-		if (tooltipVerticalLocation > chartHeight)
-		{
-      let difference = tooltipVerticalLocation - chartHeight + offset
-      repositionTooltipVertically(true, difference)
+    
+		if (checkTooltipVerticalPosition(tooltipParams)) {
+      repositionTooltipVertically(tooltipParams, true)
 		}
 		else{
-      repositionTooltipVertically(false)
+      repositionTooltipVertically(tooltipParams, false)
 		}
 
 		//Populate the tooltip with the values
 		let field, value, firstField, first = true
 		let selector
+    let tooltipWidth = tooltipBackground.node().getBoundingClientRect().width + 15
 		for (selector of document.querySelectorAll(".selector-btn")){
 			field = selector.parentNode.querySelector("label").innerHTML
 			

@@ -1,4 +1,4 @@
-import { isCSV, isHWLog, getLogExample } from './helper.js'
+import { isCSV, isHWLog, getLogExample } from './helpers/helper.js'
 import { Chart } from './chart.js'
 import { createStats } from './stats.js'
 import { createButtons, addUpdateByField } from './fieldButtons.js'

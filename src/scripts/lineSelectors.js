@@ -1,4 +1,4 @@
-import { generateRandomColor } from './helper.js'
+import { generateRandomColor } from './helpers/helper.js'
 import { chart } from './index.js'
 
 export function createAddSelectorBtn() {

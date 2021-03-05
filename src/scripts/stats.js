@@ -1,4 +1,4 @@
-import { fixValue } from './helper.js'
+import { fixValue } from './helpers/chartHelper.js'
 
 //We will use 3 statistics measures: minimum value, maximum value and mean
 export function createStats(log) {
