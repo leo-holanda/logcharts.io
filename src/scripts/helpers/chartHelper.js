@@ -92,6 +92,18 @@ export function repositionTooltipVertically(tooltipParams, isTooltipOutOfScreen)
   tooltipParams.tooltipTime.node().setAttribute("dy", dYValue)
 }
 
+export function getRow(tooltipParams, xScale) {
+  const bisector = d3.bisector((d) => parseTime(d["Time"])).center;
+  const currentTime = xScale.invert(d3.pointer(event, this)[0]);
+  const index = bisector(tooltipParams.chart.log, currentTime, 1);
+  const previousRow = tooltipParams.chart.log[index - 1];
+  const currentRow = tooltipParams.chart.log[index];
+
+  //Honestly I don't know why this line work or why it is here
+  //I just got this here https://observablehq.com/@d3/line-chart-with-tooltip
+  return currentRow && currentTime - parseTime(previousRow["Time"]) > parseTime(currentRow["Time"]) - currentTime ? currentRow : previousRow;
+}
+
 export function addFieldInTooltip(field, row, tooltipParams, isTooltipOutOfScreen){
   let value = field + ": " + fixValue(row[field])
   let tooltipWidth = tooltipParams.tooltipBackground.node().getBoundingClientRect().width + 15

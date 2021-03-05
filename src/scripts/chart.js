@@ -5,7 +5,8 @@ import {
   repositionTooltipVertically,
   checkTooltipHorizontalPosition,
   checkTooltipVerticalPosition,
-  addFieldInTooltip
+  addFieldInTooltip,
+  getRow,
 } from './helpers/chartHelper.js'
 import { addNewSelector } from './lineSelectors.js'
 
@@ -341,7 +342,6 @@ Chart.prototype.updateByBrush = function(selection, xScale = this.xScale.copy(),
 // Find the value of the main field in the row and calculate the coordinates
 // Move the tooltip to the coordinates
 Chart.prototype.addTooltip = function(){
-  
 	const tooltip = this.chartSVG.append("g")
 		.attr("class", "tooltip")
 		
@@ -396,26 +396,9 @@ Chart.prototype.addTooltip = function(){
     chart: chart
   }
 
-	let xScale
-	let yScale = chart.yScale
-
 	this.chartSVG.on("touchmove mousemove", function(event){
 		//Reset values in tooltip
 		tooltip.selectAll(".tooltip-value").remove()
-
-		//Verify if scale was modified by brush
-		//If yes, use modified scale. if not, use normal scale
-		xScale = chart.brushedXScale ? chart.brushedXScale : chart.xScale
-
-		const bisector = d3.bisector((d) => parseTime(d["Time"])).center;
-		const currentTime = xScale.invert(d3.pointer(event, this)[0]);
-		const index = bisector(chart.log, currentTime, 1);
-		const previousRow = chart.log[index - 1];
-		const currentRow = chart.log[index];
-
-		//Honestly I don't know why this line work or why it is here
-		//I just got this here https://observablehq.com/@d3/line-chart-with-tooltip
-		let row = currentRow && currentTime - parseTime(previousRow["Time"]) > parseTime(currentRow["Time"]) - currentTime ? currentRow : previousRow;
 
     const isTooltipOutOfScreen = checkTooltipHorizontalPosition(tooltipParams)
 		if (isTooltipOutOfScreen) {
@@ -432,7 +415,12 @@ Chart.prototype.addTooltip = function(){
       repositionTooltipVertically(tooltipParams, false)
 		}
 
-		//Populate the tooltip with fields and values
+    //Verify if scale was modified by brush
+    //If yes, use modified scale. if not, use normal scale
+    const xScale = chart.brushedXScale ? chart.brushedXScale : chart.xScale
+    let row = getRow(tooltipParams, xScale)
+
+    //Populate the tooltip with fields and values
     let selector
     let field
 		for (selector of document.querySelectorAll(".selector-btn")){
@@ -463,6 +451,7 @@ Chart.prototype.addTooltip = function(){
     //Which we use as a reference when positioning the tooltip in Y axis
     const firstField = document.querySelector(".selector-div").lastChild.innerHTML
 
+    const yScale = chart.yScale
 		line.attr("transform", "translate(" + xScale(parseTime(row["Time"])) + "," + 0 + ")");
 		tooltip.attr("transform", "translate(" + xScale(parseTime(row["Time"])) + "," + yScale(fixValue(row[firstField])) + ")");
 		tooltip.select(".tooltip-time").text(parseTime(row["Time"]).toLocaleTimeString());
