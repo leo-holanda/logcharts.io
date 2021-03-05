@@ -12,6 +12,7 @@
 * [Getting Started](#getting-started)
 * [Contributing](#contributing)
 * [Built with](#built-with)
+* [Acknowledgements](#acknowledgements)
 * [License](#contributing)
 
 ## Features
@@ -56,6 +57,10 @@ Feel free to submit any issues or enhancement requests! I will do my best to fix
 - [SCSS](https://sass-lang.com/)
 - [Font Awesome](https://fontawesome.com/)
 - [Pickr](https://github.com/Simonwep/pickr)
+
+## Acknowledgements
+- [Observable](https://observablehq.com/tutorials)
+- [The D3 Graph Gallery](https://www.d3-graph-gallery.com/index.html)
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
