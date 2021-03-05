@@ -4,7 +4,8 @@ import {
   repositionTooltipHorizontally,
   repositionTooltipVertically,
   checkTooltipHorizontalPosition,
-  checkTooltipVerticalPosition
+  checkTooltipVerticalPosition,
+  addFieldInTooltip
 } from './helpers/chartHelper.js'
 import { addNewSelector } from './lineSelectors.js'
 
@@ -416,9 +417,6 @@ Chart.prototype.addTooltip = function(){
 		//I just got this here https://observablehq.com/@d3/line-chart-with-tooltip
 		let row = currentRow && currentTime - parseTime(previousRow["Time"]) > parseTime(currentRow["Time"]) - currentTime ? currentRow : previousRow;
 
-    //We use node() to get the HTML element and have access to functions like getBoundingClientRect 
-    //Without node() we still have access to D3 functions
-
     const isTooltipOutOfScreen = checkTooltipHorizontalPosition(tooltipParams)
 		if (isTooltipOutOfScreen) {
       repositionTooltipHorizontally(tooltipParams, true)
@@ -434,39 +432,37 @@ Chart.prototype.addTooltip = function(){
       repositionTooltipVertically(tooltipParams, false)
 		}
 
-		//Populate the tooltip with the values
-		let field, value, firstField, first = true
-		let selector
-    let tooltipWidth = tooltipBackground.node().getBoundingClientRect().width + 15
+		//Populate the tooltip with fields and values
+    let selector
+    let field
 		for (selector of document.querySelectorAll(".selector-btn")){
-			field = selector.parentNode.querySelector("label").innerHTML
-			
-			//We need to store the first field because it is the main field
-			//Which we use as a reference
-			if (first) firstField = field
-			first = false
-
-			value = field + ": " +  fixValue(row[field])
-			let xValue = isTooltipOutOfScreen ? -tooltipWidth + 5 : 20
-			tooltipText.append("tspan")
-				.text(value)
-				.attr("id", field)
-				.attr("class", "tooltip-value")
-				.attr("x", xValue)
-				.attr("dy", 15)
+      field = selector.parentNode.querySelector("label").innerHTML
+      addFieldInTooltip(field, row, tooltipParams, isTooltipOutOfScreen)
 		}
 
-		//For every tooltip value, increase tooltip background height in 15 to accommodate all values
-		//Same thing with width, but we get the width of the most wider value (which is the width of text container).
-		let currentSize = tooltipText.node().getBoundingClientRect()
-		let currentHeight = currentSize.height + 10
-		let currentWidth = currentSize.width + 10
+		/*
+    Match the tooltip background and stroke height with the height occupied by tooltip values 
+    which is the height of text container
+		Same thing with width, but we get the width of the most wider value
+    which is the width of text container.
+		*/
+
+    const currentSize = tooltipText.node().getBoundingClientRect()
+		const currentHeight = currentSize.height + 10
+		const currentWidth = currentSize.width + 10
+
+    //We use node() to get the HTML element and have access to functions like getBoundingClientRect 
+    //Without node() we still have access to D3 functions
 
 		tooltipBackground.node().setAttribute("height", currentHeight)
 		tooltipBackground.node().setAttribute("width", currentWidth)
 		tooltipBackgroundStroke.node().setAttribute("height", currentHeight)
 		tooltipBackgroundStroke.node().setAttribute("width", currentWidth)
 		
+    //We need to store the first field because it is the main field
+    //Which we use as a reference when positioning the tooltip in Y axis
+    const firstField = document.querySelector(".selector-div").lastChild.innerHTML
+
 		line.attr("transform", "translate(" + xScale(parseTime(row["Time"])) + "," + 0 + ")");
 		tooltip.attr("transform", "translate(" + xScale(parseTime(row["Time"])) + "," + yScale(fixValue(row[firstField])) + ")");
 		tooltip.select(".tooltip-time").text(parseTime(row["Time"]).toLocaleTimeString());

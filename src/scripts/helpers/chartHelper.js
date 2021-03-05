@@ -91,3 +91,16 @@ export function repositionTooltipVertically(tooltipParams, isTooltipOutOfScreen)
   tooltipParams.tooltipBackgroundStroke.node().setAttribute("y", yValue)
   tooltipParams.tooltipTime.node().setAttribute("dy", dYValue)
 }
+
+export function addFieldInTooltip(field, row, tooltipParams, isTooltipOutOfScreen){
+  let value = field + ": " + fixValue(row[field])
+  let tooltipWidth = tooltipParams.tooltipBackground.node().getBoundingClientRect().width + 15
+  let xValue = isTooltipOutOfScreen ? -tooltipWidth + 5 : 20
+
+  tooltipParams.tooltipText.append("tspan")
+    .text(value)
+    .attr("id", field)
+    .attr("class", "tooltip-value")
+    .attr("x", xValue)
+    .attr("dy", 15)
+}
