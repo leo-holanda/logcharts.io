@@ -15,6 +15,7 @@ export function Chart(params) {
 	//Define the data that the chart will use
 	this.log = params.parsedLog
 	this.container = params.container
+  this.defaultField = params.defaultField
 
 	//Get container size
 	let containerHeight = this.container.clientHeight;
@@ -68,14 +69,14 @@ Chart.prototype.addScales = function(){
 	//Define the scale of y
 	this.yScale = d3
 		.scaleLinear()
-		.domain(d3.extent(this.log, (row) => fixValue(row["CPU [°C]"])))
+		.domain(d3.extent(this.log, (row) => fixValue(row[this.defaultField])))
 		.nice()
 		.range([this.height - this.margin.bottom, this.margin.top]);
 
 	//Define the special y scale for the context svg
 	this.yContextScale = d3
 		.scaleLinear()
-		.domain(d3.extent(this.log, (row) => fixValue(row["CPU [°C]"])))
+		.domain(d3.extent(this.log, (row) => fixValue(row[this.defaultField])))
 		.range([this.brushHeight, this.margin.top]);
 }
 
@@ -123,7 +124,7 @@ Chart.prototype.addGrid = function(){
 
 Chart.prototype.addMainLine = function(){
 	let lineID = 'id' + new Date().valueOf();
-	addNewSelector(lineID, "#4E7BFF")
+	addNewSelector(lineID, "#4E7BFF", this.defaultField)
 
 	//Append the path that contains the chart line
 	this.chartSVG
@@ -138,9 +139,9 @@ Chart.prototype.addMainLine = function(){
 		.attr("class", "chart-line")
 		.attr("id", lineID)
 		.attr("d", d3.line()
-			.defined((row) => fixValue(row["CPU [°C]"]) !== undefined)
+			.defined((row) => fixValue(row[this.defaultField]) !== undefined)
 			.x((row) => this.xScale(parseTime(row["Time"])))
-			.y((row) => this.yScale(fixValue(row["CPU [°C]"]))))
+			.y((row) => this.yScale(fixValue(row[this.defaultField]))))
 
 	//Append the path that contains the line for the context svg
 	this.contextSVG.append("path")
@@ -152,16 +153,16 @@ Chart.prototype.addMainLine = function(){
 	  .attr("stroke-linecap", "round")
 	  .attr("class", "context-line")
       .attr("d", d3.line()
-		.defined((row) => fixValue(row["CPU [°C]"]) !== undefined)
+		.defined((row) => fixValue(row[this.defaultField]) !== undefined)
 		.x((row) => this.xScale(parseTime(row["Time"])))
-		.y((row) => this.yContextScale(fixValue(row["CPU [°C]"]))));
+		.y((row) => this.yContextScale(fixValue(row[this.defaultField]))));
 }
 
 Chart.prototype.addNewLine = function(id, color, xScale = this.xScale.copy(), yScale = this.yScale.copy()){
 	//When adding a new line, verify if scale was modified by brush
 	//if yes, use modified scale. if not, use normal scale
 	this.brushedXScale ? xScale = this.brushedXScale : xScale.domain(d3.extent(this.log, (row) => parseTime(row["Time"])))
-	yScale.domain(d3.extent(this.log, (row) => fixValue(row["CPU [°C]"]))).nice();
+	yScale.domain(d3.extent(this.log, (row) => fixValue(row[this.defaultField]))).nice();
 
 	this.chartSVG
 		.insert("path", ".tooltip")
@@ -173,12 +174,12 @@ Chart.prototype.addNewLine = function(id, color, xScale = this.xScale.copy(), yS
 		.attr("stroke-linejoin", "round")
 		.attr("stroke-linecap", "round")
 		.attr("class", "chart-line")
-		.attr("field", "CPU [°C]")
+		.attr("field", this.defaultField)
 		.attr("id", id)
 		.attr("d", d3.line()
-			.defined((row) => fixValue(row["CPU [°C]"]) !== undefined)
+			.defined((row) => fixValue(row[this.defaultField]) !== undefined)
 			.x((row) => xScale(parseTime(row["Time"])))
-			.y((row) => yScale(fixValue(row["CPU [°C]"]))))
+			.y((row) => yScale(fixValue(row[this.defaultField]))))
 }
 
 //Updating a normal line so is not necessary to change nothing but the line itself

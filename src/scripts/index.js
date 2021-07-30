@@ -1,4 +1,4 @@
-import { isCSV, isHWLog, getLogExample, isValidField } from './helpers/helper.js'
+import { isCSV, hasTimeField, getLogExample, isValidField } from './helpers/helper.js'
 import { Chart } from './chart.js'
 import { createStats } from './stats.js'
 import { createButtons, addUpdateByField } from './fieldButtons.js'
@@ -76,6 +76,24 @@ function createContainers() {
   document.querySelector(".report-container").appendChild(container);
 }
 
+function createChart(results, defaultField){
+  removeForm();
+  createContainers();
+  createButtons(results.meta.fields, defaultField);
+  addUpdateByField();
+  createAddSelectorBtn();
+
+  chart = new Chart({
+    container: document.querySelector(".chart-container"),
+    parsedLog: results.data,
+    defaultField: defaultField 
+  });
+
+  chart.draw();
+
+  createStats(results.data, defaultField);
+}
+
 function addDefaultFieldForm(results){
   const container = document.querySelector(".third-step")
   container.querySelector("#form").remove()
@@ -99,7 +117,7 @@ function addDefaultFieldForm(results){
   fieldFormBtn.textContent = "Create chart"
   fieldFormBtn.setAttribute('type', 'button')
   fieldFormBtn.addEventListener('click', () => {
-    console.log(select.value)
+    createChart(results, select.value)
   })
 
   fieldForm.appendChild(select)
@@ -133,7 +151,7 @@ function handleLog(log) {
       return header.replace("�", "°");
     },
     complete: function (results) {
-      if (isHWLog(results.meta.fields)) {
+      if (hasTimeField(results.meta.fields)) {
         addDefaultFieldForm(results)
       } else {
         addAlert("Please send only logs from HWInfo!");

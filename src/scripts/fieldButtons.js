@@ -2,7 +2,7 @@ import { chart } from './index.js'
 import { updateStats } from './stats.js';
 
 // Each field in the csv file becomes a button
-export function createButtons(fields) {
+export function createButtons(fields, defaultField) {
     let btn;
     let field
     for (field of fields) {
@@ -15,9 +15,9 @@ export function createButtons(fields) {
         }
     }
 
-    let cpuBtn = document.getElementById("CPU [°C]");
-    cpuBtn.focus();
-    cpuBtn.scrollIntoView({ block: "center" });
+    let defaultBtn = document.getElementById(defaultField);
+    defaultBtn.focus();
+    defaultBtn.scrollIntoView({ block: "center" });
 }
 
 //When user click in a field button, update chart and statistics with field data

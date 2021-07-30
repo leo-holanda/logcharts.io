@@ -11,7 +11,7 @@ export function createAddSelectorBtn() {
     document.querySelector(".selector-container").appendChild(addSelectorBtn)
 }
 
-export function addNewSelector(selectorID, color) {
+export function addNewSelector(selectorID, color, defaultField) {
     let lineContainer = document.querySelector(".selector-btn-container")
    
     let isFirstSelector = false
@@ -33,7 +33,7 @@ export function addNewSelector(selectorID, color) {
     selectorBtn.classList.add("selector-btn")
 
     let selectorLabel = document.createElement("label")
-    selectorLabel.innerHTML = "CPU [°C]"
+    selectorLabel.innerHTML = defaultField
 
     selectorDiv.appendChild(selectorBtn)
     selectorDiv.appendChild(selectorLabel)

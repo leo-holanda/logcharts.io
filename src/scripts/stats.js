@@ -1,12 +1,12 @@
 import { fixValue } from './helpers/chartHelper.js'
 
 //We will use 3 statistics measures: minimum value, maximum value and mean
-export function createStats(log) {
+export function createStats(log, defaultField) {
   let element;
   let title;
   let value;
 
-  let mappedLog = log.map((row) => fixValue(row["CPU [°C]"]));
+  let mappedLog = log.map((row) => fixValue(row[defaultField]));
   let extent = d3.extent(mappedLog);
 
   let step = 0
