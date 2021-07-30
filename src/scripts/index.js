@@ -1,4 +1,4 @@
-import { isCSV, isHWLog, getLogExample } from './helpers/helper.js'
+import { isCSV, isHWLog, getLogExample, isValidField } from './helpers/helper.js'
 import { Chart } from './chart.js'
 import { createStats } from './stats.js'
 import { createButtons, addUpdateByField } from './fieldButtons.js'
@@ -76,6 +76,37 @@ function createContainers() {
   document.querySelector(".report-container").appendChild(container);
 }
 
+function addDefaultFieldForm(results){
+  const container = document.querySelector(".third-step")
+  container.querySelector("#form").remove()
+
+  const fieldFormTitle = document.createElement('h1')
+  fieldFormTitle.textContent = "Please, select the default field"
+  container.appendChild(fieldFormTitle)
+
+  const fieldForm = document.createElement('form')
+  const select = document.createElement('select')
+  for(let field of results.meta.fields){
+    if(isValidField(field)){
+      let option = document.createElement('option')
+      option.setAttribute('value', field)
+      option.textContent = field
+      select.appendChild(option)
+    }
+  }
+
+  const fieldFormBtn = document.createElement('button')
+  fieldFormBtn.textContent = "Create chart"
+  fieldFormBtn.setAttribute('type', 'button')
+  fieldFormBtn.addEventListener('click', () => {
+    console.log(select.value)
+  })
+
+  fieldForm.appendChild(select)
+  fieldForm.appendChild(fieldFormBtn)
+  container.appendChild(fieldForm)
+}
+
 // When user sends csv or click on example button...
 document.getElementById("log_input").addEventListener("change", showUserLog);
 document.getElementById("example").addEventListener("click", showExample);
@@ -83,16 +114,16 @@ document.getElementById("example").addEventListener("click", showExample);
 function showUserLog() {
   let log = document.getElementById("log_input").files[0];
   if (!isCSV(log)) return addAlert("Please upload only CSV files!");
-  createChart(log);
+  handleLog(log);
 }
 
 async function showExample() {
   addLoadingOverlay();
-  createChart(await getLogExample());
+  handleLog(await getLogExample());
 }
 
 export let chart = undefined
-function createChart(log) {
+function handleLog(log) {
   // Parse the csv and process the results
   Papa.parse(log, {
     header: true,
@@ -103,20 +134,7 @@ function createChart(log) {
     },
     complete: function (results) {
       if (isHWLog(results.meta.fields)) {
-        removeForm();
-        createContainers();
-        createButtons(results.meta.fields);
-        addUpdateByField();
-        createAddSelectorBtn();
-
-        chart = new Chart({
-          container: document.querySelector(".chart-container"),
-          parsedLog: results.data,
-        });
-
-        chart.draw();
-
-        createStats(results.data);
+        addDefaultFieldForm(results)
       } else {
         addAlert("Please send only logs from HWInfo!");
       }

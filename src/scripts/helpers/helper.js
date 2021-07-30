@@ -53,3 +53,7 @@ export function generateRandomColor(){
 
   return color
 }
+
+export function isValidField(field){
+  return ['Date', 'Time', ''].includes(field) ? false : true
+}
