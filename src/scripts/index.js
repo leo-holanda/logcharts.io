@@ -136,7 +136,6 @@ function showUserLog() {
 }
 
 async function showExample() {
-  addLoadingOverlay();
   handleLog(await getLogExample());
 }
 
