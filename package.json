@@ -4,15 +4,5 @@
   "main": "index.js",
   "repository": "https://github.com/leo-holanda/logcharts.git",
   "author": "leo-holanda <leo.uldholanda@gmail.com>",
-  "license": "MIT",
-  "scripts": {
-    "start": "node ./bin/www",
-    "dev": "supervisor ./bin/www",
-    "build": "webpack --config webpack.config.js "
-  },
-  "dependencies": {},
-  "devDependencies": {
-    "webpack": "^5.21.2",
-    "webpack-cli": "^4.5.0"
-  }
+  "license": "MIT"
 }
