@@ -10,7 +10,7 @@
 .form-alert {
   background-color: red;
   color: white;
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: 'Source Sans Pro', sans-serif;
   padding: 10px;
   margin: 40px;
 }
@@ -35,7 +35,7 @@ form {
     width: fit-content;
     margin: 30px;
     padding: 8px;
-    font-family: "Source Sans Pro", sans-serif;
+    font-family: 'Source Sans Pro', sans-serif;
     cursor: pointer;
     background-color: transparent;
     border: 2px solid #07132c;
@@ -54,7 +54,7 @@ form {
   cursor: pointer;
   background-color: #07132c;
   padding: 15px;
-  font-family: "Source Sans Pro", sans-serif;
+  font-family: 'Source Sans Pro', sans-serif;
   color: white;
   font-size: 1.25em;
   font-weight: 600;
@@ -62,7 +62,7 @@ form {
   .upload-icon {
     margin-right: 0.5rem;
   }
-  
+
   &:hover {
     box-shadow: 0 8px 18px rgba(0, 0, 0, 0.5);
   }

@@ -2,17 +2,16 @@ $primary: #07132c;
 $focus: #119da4ff;
 $hover: #fa7921ff;
 
-@import "partials/header";
-@import "partials/btn-container";
-@import "partials/chart-container";
-@import "partials/stats-container";
-@import "partials/report-container";
-@import "partials/form-container";
-@import "partials/loading";
-@import "partials/guide";
-@import "partials/selector-container";
-@import "partials/color-picker";
-
+@import 'partials/header';
+@import 'partials/btn-container';
+@import 'partials/chart-container';
+@import 'partials/stats-container';
+@import 'partials/report-container';
+@import 'partials/form-container';
+@import 'partials/loading';
+@import 'partials/guide';
+@import 'partials/selector-container';
+@import 'partials/color-picker';
 
 html {
   width: 100vw;
