@@ -33,8 +33,6 @@ By interpreting the HWInfo logs in a more intuitive way, you can have a better i
 
 `yarn`
 
-which is just Webpack if you want to contribute.
-
 ## Getting Started
 
 **Install Live Server extension in VSCode**
@@ -54,7 +52,6 @@ Feel free to submit any issues or enhancement requests! I will do my best to fix
 - [D3.js](https://d3js.org/)
 - [Papa Parse](https://www.papaparse.com/)
 - [SCSS](https://sass-lang.com/)
-- [Font Awesome](https://fontawesome.com/)
 - [Pickr](https://github.com/Simonwep/pickr)
 
 ## Acknowledgements
