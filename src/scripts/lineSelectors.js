@@ -3,11 +3,13 @@ import { chart } from './index.js'
 
 export function createAddSelectorBtn() {
     let addSelectorBtn = document.createElement("button")
+    let addSelectorIcon = document.createElement("span")
+    addSelectorIcon.classList.add("material-icons-round")
+    addSelectorIcon.innerHTML = 'add_circle'
     addSelectorBtn.classList.add("add-selector-btn")
-    addSelectorBtn.classList.add("fas")
-    addSelectorBtn.classList.add("fa-plus-circle")
     addSelectorBtn.id = "add_selector_btn"
     addSelectorBtn.addEventListener("click", createNewLine);
+    addSelectorBtn.appendChild(addSelectorIcon)
     document.querySelector(".selector-container").appendChild(addSelectorBtn)
 }
 

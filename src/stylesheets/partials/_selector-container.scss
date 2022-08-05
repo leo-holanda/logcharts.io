@@ -7,6 +7,7 @@
 }
 
 .add-selector-btn {
+    display: flex;
     color: #4E7BFF;
     background-color: white;
     border: 0px;
@@ -14,6 +15,7 @@
     padding: 5px;
     margin: 2px;
     height: auto;
+    cursor: pointer;
 }
 
 .selector-btn-container {

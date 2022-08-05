@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="Description" content="Visualization tool for HWInfo logs">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/themes/nano.min.css"/> <!-- 'nano' theme -->
-    <link rel="stylesheet" type="text/css" href="dist/main.min.css" />
+    <link rel="stylesheet" type="text/css" href="src/stylesheets/main.css" />
     <link href="https://fonts.googleapis.com/css2?family=Alata&family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
     <title>LogCharts</title>
   </head>
   <body>
@@ -29,8 +30,8 @@
           <form id="form">
               <input class="log-input" type="file" id="log_input" name="log_input" accept=".csv" />
               <label class="log-input-label" for="log_input">
-                  <i class="fas fa-folder-open"></i>
-                  <span>Upload your log</span>
+                <span class="material-icons-round upload-icon">file_upload</span>
+                <span>Upload your log</span>
               </label>    
               <h2>or</h2>
               <button type="button" id="example">See an example</button>
@@ -39,9 +40,9 @@
       </div>
     </main>
 
-    <script src="dist/papaparse.min.js"></script>
+    <script src="src/scripts/vendors/papaparse.min.js"></script>
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@simonwep/pickr/dist/pickr.min.js"></script>
-    <script src="dist/main.bundle.js"></script>
+    <script src="src/scripts/index.js" type="module"></script>
   </body>
 </html>

@@ -48,6 +48,7 @@ form {
 }
 
 .log-input-label {
+  display: flex;
   margin: 30px;
   border-radius: 10px;
   cursor: pointer;
@@ -58,6 +59,10 @@ form {
   font-size: 1.25em;
   font-weight: 600;
 
+  .upload-icon {
+    margin-right: 0.5rem;
+  }
+  
   &:hover {
     box-shadow: 0 8px 18px rgba(0, 0, 0, 0.5);
   }
