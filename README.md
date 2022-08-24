@@ -51,7 +51,7 @@ Feel free to submit any issues or enhancement requests! I will do my best to fix
 
 - [D3.js](https://d3js.org/)
 - [Papa Parse](https://www.papaparse.com/)
-- [SCSS](https://sass-lang.com/)
+- [SASS](https://sass-lang.com/)
 - [Pickr](https://github.com/Simonwep/pickr)
 
 ## Acknowledgements
