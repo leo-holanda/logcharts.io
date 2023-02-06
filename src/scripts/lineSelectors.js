@@ -107,6 +107,6 @@ export function addNewSelector(selectorID, color, defaultField) {
 function createNewLine() {
   let randomColor = generateRandomColor();
   let lineID = 'id' + new Date().valueOf();
-  addNewSelector(lineID, randomColor);
+  addNewSelector(lineID, randomColor, chart.defaultField);
   chart.addNewLine(lineID, randomColor);
 }
