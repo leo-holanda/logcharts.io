@@ -10,13 +10,10 @@ svg {
   background-color: white;
 }
 
-.chart-svg {
-  margin: 0px 20px 0px 20px;
-}
-
 .context-svg {
-  margin: 2px 20px 20px 20px;
+  margin-top: 2px;
   flex-grow: 1;
+  border-radius: 0 0 0.5rem 0.5rem;
 }
 
 /*

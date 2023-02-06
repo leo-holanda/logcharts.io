@@ -8,7 +8,7 @@
   background-color: #07132c;
   justify-content: center;
   align-items: center;
-  font-family: 'Alata', Helvetica, Arial, sans-serif;
+  font-family: "Alata", Helvetica, Arial, sans-serif;
 }
 .header h1 {
   font-size: 3.2em;
@@ -21,7 +21,7 @@
   text-align: center;
   display: flex;
   flex-direction: column;
-  width: 7%;
+  width: 10%;
   height: 100%;
 }
 
@@ -30,7 +30,7 @@
   padding: 5px;
   background-color: #07132c;
   color: white;
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
   font-weight: 800;
 }
 
@@ -45,11 +45,11 @@
   color: #041219;
   border: 0px;
   text-decoration: none;
-  font-family: 'Source Sans Pro', sans-serif;
-  padding: 5px;
-  margin: 2px;
-  width: 98%;
+  font-family: "Source Sans Pro", sans-serif;
+  padding: 0.5rem;
+  width: 100%;
   height: auto;
+  cursor: pointer;
 }
 .field-btn:hover {
   background-color: #fa7921;
@@ -73,13 +73,10 @@ svg {
   background-color: white;
 }
 
-.chart-svg {
-  margin: 0px 20px 0px 20px;
-}
-
 .context-svg {
-  margin: 2px 20px 20px 20px;
+  margin-top: 2px;
   flex-grow: 1;
+  border-radius: 0 0 0.5rem 0.5rem;
 }
 
 /*
@@ -144,27 +141,26 @@ svg {
 }
 
 .tooltip {
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
 }
 
 .stats-container {
   display: flex;
   background-color: white;
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
   font-size: 1.5em;
   font-weight: 700;
-  width: 100%;
-  height: 10%;
+  border-radius: 0.5rem;
 }
 
 .stats {
-  border-right: 2px solid #a9a9a9;
+  border-right: 0.125rem solid #f7f7f7;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-flow: column;
-  height: 100%;
-  width: 33%;
+  flex-grow: 1;
+  padding: 0.5rem;
 }
 .stats:last-of-type {
   border: 0;
@@ -184,7 +180,7 @@ svg {
   display: flex;
   flex-flow: column;
   width: 100%;
-  height: 100%;
+  margin: 1rem;
 }
 
 .form-container {
@@ -199,7 +195,7 @@ svg {
 .form-alert {
   background-color: red;
   color: white;
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
   padding: 10px;
   margin: 40px;
 }
@@ -226,7 +222,7 @@ form button {
   width: fit-content;
   margin: 30px;
   padding: 8px;
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
   cursor: pointer;
   background-color: transparent;
   border: 2px solid #07132c;
@@ -243,7 +239,7 @@ form button:hover {
   cursor: pointer;
   background-color: #07132c;
   padding: 15px;
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
   color: white;
   font-size: 1.25em;
   font-weight: 600;
@@ -257,7 +253,7 @@ form button:hover {
 
 .loader-wrapper {
   -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
+          backdrop-filter: blur(8px);
   position: absolute;
   left: 0;
   top: 100px;
@@ -277,7 +273,7 @@ form button:hover {
   width: 50px;
   height: 50px;
   -webkit-animation: spin 2s linear infinite;
-  animation: spin 2s linear infinite;
+          animation: spin 2s linear infinite;
 }
 
 @-webkit-keyframes spin {
@@ -298,7 +294,7 @@ form button:hover {
   }
 }
 .step {
-  font-family: 'Source Sans Pro', sans-serif;
+  font-family: "Source Sans Pro", sans-serif;
   width: 100%;
   height: 33.3%;
   display: flex;
@@ -328,9 +324,10 @@ form button:hover {
 .selector-container {
   display: flex;
   background-color: white;
-  font-family: 'Source Sans Pro', sans-serif;
-  margin: 20px 20px 0px 20px;
+  font-family: "Source Sans Pro", sans-serif;
+  margin-top: 1rem;
   border-bottom: 2px solid #f7f7f7;
+  border-radius: 0.5rem 0.5rem 0 0;
 }
 
 .add-selector-btn {
@@ -401,9 +398,10 @@ main {
   display: flex;
   overflow: hidden;
   height: 100%;
+  background-color: #f7f7f7;
 }
 
 .aligned {
   justify-content: center;
   align-items: center;
-} /*# sourceMappingURL=main.css.map */
+}/*# sourceMappingURL=main.css.map */

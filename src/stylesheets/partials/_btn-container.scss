@@ -2,7 +2,7 @@
   text-align: center;
   display: flex;
   flex-direction: column;
-  width: 7%;
+  width: 10%;
   height: 100%;
 }
 
@@ -27,10 +27,10 @@
   border: 0px;
   text-decoration: none;
   font-family: 'Source Sans Pro', sans-serif;
-  padding: 5px;
-  margin: 2px;
-  width: 98%;
+  padding: 0.5rem;
+  width: 100%;
   height: auto;
+  cursor: pointer;
 
   &:hover {
     background-color: $hover;

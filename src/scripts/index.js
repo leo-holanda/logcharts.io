@@ -76,6 +76,7 @@ function createChart(results, defaultField) {
   createButtons(results.meta.fields, defaultField);
   addUpdateByField();
   createAddSelectorBtn();
+  createStats(results.data, defaultField);
 
   chart = new Chart({
     container: document.querySelector('.chart-container'),
@@ -83,9 +84,8 @@ function createChart(results, defaultField) {
     defaultField: defaultField,
   });
 
-  chart.draw();
 
-  createStats(results.data, defaultField);
+  chart.draw();
 }
 
 function addDefaultFieldForm(results) {

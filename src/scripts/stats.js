@@ -26,7 +26,7 @@ export function createStats(log, defaultField) {
       case 0:
         element.id = 'min_value';
         value.innerHTML = extent[0];
-        title.innerHTML = 'Minimum Value';
+        title.innerHTML = 'Minimum';
         break;
       case 1:
         element.id = 'mean';
@@ -36,7 +36,7 @@ export function createStats(log, defaultField) {
       case 2:
         element.id = 'max_value';
         value.innerHTML = extent[1];
-        title.innerHTML = 'Maximum Value';
+        title.innerHTML = 'Maximum';
         break;
     }
 
