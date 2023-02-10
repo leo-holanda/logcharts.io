@@ -72,7 +72,7 @@ function createRepositoryButtons() {
   let bugReportLink = document.createElement('a')
   bugReportLink.setAttribute('href', 'https://github.com/leo-holanda/logcharts.io/issues/new')
   bugReportLink.setAttribute('target', '_blank')
-  bugReportLink.classList.add('report-bug-link')
+  bugReportLink.classList.add('repo-btn-link')
 
   let bugIcon = document.createElement('span');
   bugIcon.classList.add('material-icons-round')
@@ -85,10 +85,31 @@ function createRepositoryButtons() {
   bugReportBtn.appendChild(bugIcon);
   bugReportBtn.appendChild(bugReportBtnTitle);
   bugReportBtn.setAttribute('type', 'button');
-  bugReportBtn.classList.add('report-bug-btn');
+  bugReportBtn.classList.add('repo-btn');
   
   bugReportLink.appendChild(bugReportBtn)
   document.querySelector('.field-container').appendChild(bugReportLink);
+
+  let repoLink = document.createElement('a')
+  repoLink.setAttribute('href', 'https://github.com/leo-holanda/logcharts.io')
+  repoLink.setAttribute('target', '_blank')
+  repoLink.classList.add('repo-btn-link');
+
+  let gitHubIcon = document.createElement('span');
+  gitHubIcon.classList.add('material-icons-round')
+  gitHubIcon.textContent = 'star'
+
+  let repoBtnTitle = document.createElement('span');
+  repoBtnTitle.textContent = 'Star the GitHub Repo'
+
+  let repoBtn = document.createElement('button');
+  repoBtn.appendChild(gitHubIcon);
+  repoBtn.appendChild(repoBtnTitle);
+  repoBtn.setAttribute('type', 'button');
+  repoBtn.classList.add('repo-btn');
+  
+  repoLink.appendChild(repoBtn)
+  document.querySelector('.field-container').appendChild(repoLink);
   
 }
 

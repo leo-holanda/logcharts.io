@@ -35,12 +35,7 @@
   border-radius: 6px 6px 0 0;
 }
 
-.report-bug-link {
-  text-decoration: none;
-  margin-top: 1rem;
-}
-
-.report-bug-btn {
+.repo-btn {
   align-items: center;
   background-color: #07132c;
   border-radius: 6px;
@@ -50,13 +45,25 @@
   display: flex;
   font-family: "Source Sans Pro", sans-serif;
   font-weight: 800;
-  justify-content: center;
+  justify-content: left;
   padding: 5px;
   width: 100%;
 }
 
-.report-bug-btn > span {
+.repo-btn > span {
   margin-right: 0.25rem;
+}
+
+.repo-btn-link:first-of-type {
+  margin-top: 1rem;
+}
+
+.repo-btn-link:last-of-type {
+  margin-top: 0.25rem;
+}
+
+.repo-btn-link {
+  text-decoration: none;
 }
 
 .btn-container {
