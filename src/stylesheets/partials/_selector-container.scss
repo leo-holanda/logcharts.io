@@ -4,7 +4,7 @@
   font-family: 'Source Sans Pro', sans-serif;
   margin-top: 1rem;
   border-bottom: 2px solid #f7f7f7;
-  border-radius: 0.5rem 0.5rem 0 0;
+  border-radius: $default-border-radius $default-border-radius 0 0;
 }
 
 .add-selector-btn {

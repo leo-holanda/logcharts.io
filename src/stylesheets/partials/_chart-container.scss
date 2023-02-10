@@ -13,7 +13,7 @@ svg {
 .context-svg {
   margin-top: 2px;
   flex-grow: 1;
-  border-radius: 0 0 0.5rem 0.5rem;
+  border-radius: 0 0 $default-border-radius $default-border-radius;
 }
 
 /*

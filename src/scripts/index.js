@@ -32,14 +32,12 @@ function addAlert(message) {
 }
 
 function createContainers() {
-  //Remove aligned layout
   document.querySelector('main').classList.remove('aligned');
 
   let container = document.createElement('div');
   container.classList.add('field-container');
   document.querySelector('main').appendChild(container);
 
-  //Add btn container title
   let title = document.createElement('h4');
   title.innerHTML = 'FIELDS';
   title.classList.add('field-container-title');
@@ -70,10 +68,35 @@ function createContainers() {
   document.querySelector('.report-container').appendChild(container);
 }
 
+function createRepositoryButtons() {
+  let bugReportLink = document.createElement('a')
+  bugReportLink.setAttribute('href', 'https://github.com/leo-holanda/logcharts.io/issues/new')
+  bugReportLink.setAttribute('target', '_blank')
+  bugReportLink.classList.add('report-bug-link')
+
+  let bugIcon = document.createElement('span');
+  bugIcon.classList.add('material-icons-round')
+  bugIcon.textContent = 'bug_report'
+
+  let bugReportBtnTitle = document.createElement('span');
+  bugReportBtnTitle.textContent = 'Report a bug'
+
+  let bugReportBtn = document.createElement('button');
+  bugReportBtn.appendChild(bugIcon);
+  bugReportBtn.appendChild(bugReportBtnTitle);
+  bugReportBtn.setAttribute('type', 'button');
+  bugReportBtn.classList.add('report-bug-btn');
+  
+  bugReportLink.appendChild(bugReportBtn)
+  document.querySelector('.field-container').appendChild(bugReportLink);
+  
+}
+
 function createChart(results, defaultField) {
   removeForm();
   createContainers();
   createButtons(results.meta.fields, defaultField);
+  createRepositoryButtons();
   addUpdateByField();
   createAddSelectorBtn();
   createStats(results.data, defaultField);

@@ -50,7 +50,7 @@ form {
 .log-input-label {
   display: flex;
   margin: 30px;
-  border-radius: 10px;
+  border-radius:$default-border-radius;
   cursor: pointer;
   background-color: #07132c;
   padding: 15px;

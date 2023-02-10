@@ -13,7 +13,31 @@
   color: white;
   font-family: 'Source Sans Pro', sans-serif;
   font-weight: 800;
-  border-radius: 0.5rem 0.5rem 0 0;
+  border-radius: $default-border-radius $default-border-radius 0 0;
+}
+
+.report-bug-link {
+  text-decoration: none;
+  margin-top: 1rem;
+}
+
+.report-bug-btn {
+  align-items: center;
+  background-color: #07132c;
+  border-radius: $default-border-radius;
+  border-style: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 800;
+  justify-content: center;
+  padding: 5px;
+  width: 100%;
+}
+
+.report-bug-btn > span {
+  margin-right: 0.25rem;
 }
 
 .btn-container {

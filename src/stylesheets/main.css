@@ -32,7 +32,31 @@
   color: white;
   font-family: "Source Sans Pro", sans-serif;
   font-weight: 800;
-  border-radius: 0.5rem 0.5rem 0 0;
+  border-radius: 6px 6px 0 0;
+}
+
+.report-bug-link {
+  text-decoration: none;
+  margin-top: 1rem;
+}
+
+.report-bug-btn {
+  align-items: center;
+  background-color: #07132c;
+  border-radius: 6px;
+  border-style: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  font-family: "Source Sans Pro", sans-serif;
+  font-weight: 800;
+  justify-content: center;
+  padding: 5px;
+  width: 100%;
+}
+
+.report-bug-btn > span {
+  margin-right: 0.25rem;
 }
 
 .btn-container {
@@ -77,7 +101,7 @@ svg {
 .context-svg {
   margin-top: 2px;
   flex-grow: 1;
-  border-radius: 0 0 0.5rem 0.5rem;
+  border-radius: 0 0 6px 6px;
 }
 
 /*
@@ -151,7 +175,7 @@ svg {
   font-family: "Source Sans Pro", sans-serif;
   font-size: 1.5em;
   font-weight: 700;
-  border-radius: 0.5rem;
+  border-radius: 6px;
 }
 
 .stats {
@@ -236,7 +260,7 @@ form button:hover {
 .log-input-label {
   display: flex;
   margin: 30px;
-  border-radius: 10px;
+  border-radius: 6px;
   cursor: pointer;
   background-color: #07132c;
   padding: 15px;
@@ -328,7 +352,7 @@ form button:hover {
   font-family: "Source Sans Pro", sans-serif;
   margin-top: 1rem;
   border-bottom: 2px solid #f7f7f7;
-  border-radius: 0.5rem 0.5rem 0 0;
+  border-radius: 6px 6px 0 0;
 }
 
 .add-selector-btn {
