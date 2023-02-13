@@ -58,6 +58,10 @@ function createContainers() {
   document.querySelector('.field-container').appendChild(container);
 
   container = document.createElement('div');
+  container.classList.add('repo-btn-container');
+  document.querySelector('.field-container').appendChild(container);
+
+  container = document.createElement('div');
   container.classList.add('report-container');
   document.querySelector('main').appendChild(container);
 
@@ -101,7 +105,7 @@ function createRepositoryButtons() {
   bugReportBtn.classList.add('repo-btn');
 
   bugReportLink.appendChild(bugReportBtn);
-  document.querySelector('.field-container').appendChild(bugReportLink);
+  document.querySelector('.repo-btn-container').appendChild(bugReportLink);
 
   let repoLink = document.createElement('a');
   repoLink.setAttribute('href', 'https://github.com/leo-holanda/logcharts.io');
@@ -122,7 +126,7 @@ function createRepositoryButtons() {
   repoBtn.classList.add('repo-btn');
 
   repoLink.appendChild(repoBtn);
-  document.querySelector('.field-container').appendChild(repoLink);
+  document.querySelector('.repo-btn-container').appendChild(repoLink);
 }
 
 function createChart(results, defaultField) {

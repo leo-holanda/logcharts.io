@@ -16,6 +16,10 @@
   border-radius: $default-border-radius $default-border-radius 0 0;
 }
 
+.repo-btn-container {
+  margin-top: auto;
+}
+
 .repo-btn {
   align-items: center;
   background-color: #07132c;
@@ -29,18 +33,14 @@
   justify-content: left;
   padding: 5px;
   width: 100%;
+
+  &:first-of-type {
+    margin-bottom: 0.25rem;
+  }
 }
 
 .repo-btn > span {
   margin-right: 0.25rem;
-}
-
-.repo-btn-link:first-of-type {
-  margin-top: 1rem;
-}
-
-.repo-btn-link:last-of-type {
-  margin-top: 0.25rem;
 }
 
 .repo-btn-link {
@@ -48,6 +48,7 @@
 }
 
 .btn-container {
+  margin-bottom: 1rem;
   overflow-y: auto;
   overflow-x: hidden;
 }
