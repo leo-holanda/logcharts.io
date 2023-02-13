@@ -1,11 +1,21 @@
 import { chart } from './index.js';
 import { updateStats } from './stats.js';
 
-// Each field in the csv file becomes a button
-export function createButtons(fields, defaultField) {
+export function createButtons(fields, defaultField, searchText = undefined) {
+  if (searchText) {
+    fields = fields.filter(
+      (field) => field && field.toLowerCase().includes(searchText.toLowerCase())
+    );
+
+    if (fields.length == 0) {
+      document.querySelector('.btn-container').innerHTML =
+        "The search didn't found a field with your search string.";
+      return;
+    }
+  }
+
   let btn;
-  let field;
-  for (field of fields) {
+  fields.forEach((field) => {
     if (field && !field.includes('Time') && !field.includes('Date')) {
       btn = document.createElement('button');
       btn.id = field;
@@ -13,14 +23,12 @@ export function createButtons(fields, defaultField) {
       btn.classList.add('field-btn');
       document.querySelector('.btn-container').appendChild(btn);
     }
-  }
+  });
 
   let defaultBtn = document.getElementById(defaultField);
-  defaultBtn.focus();
   defaultBtn.scrollIntoView({ block: 'center' });
 }
 
-//When user click in a field button, update chart and statistics with field data
 export function addUpdateByField() {
   document
     .querySelector('.btn-container')

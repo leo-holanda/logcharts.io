@@ -9,7 +9,6 @@ import { createStats } from './stats.js';
 import { createButtons, addUpdateByField } from './fieldButtons.js';
 import { createAddSelectorBtn } from './lineSelectors.js';
 
-//Remove form so buttons and graph can be displayed
 function removeForm() {
   document.querySelector('.form-container').remove();
   let loader;
@@ -18,7 +17,6 @@ function removeForm() {
   document.querySelector('.header').remove();
 }
 
-//Add an alert if there isn't one
 function addAlert(message) {
   if (document.querySelector('.form-alert') != null) {
     document.querySelector('.form-alert').innerHTML = message;
@@ -32,7 +30,8 @@ function addAlert(message) {
 }
 
 function reloadFieldsList() {
-  console.log('oi');
+  document.querySelector('.btn-container').replaceChildren();
+  createButtons(fields, chart.defaultField, this.value);
 }
 
 function createContainers() {
@@ -175,7 +174,6 @@ function addDefaultFieldForm(results) {
   container.appendChild(fieldForm);
 }
 
-// When user sends csv or click on example button...
 document.getElementById('log_input').addEventListener('change', showUserLog);
 document.getElementById('example').addEventListener('click', showExample);
 
@@ -190,8 +188,8 @@ async function showExample() {
 }
 
 export let chart = undefined;
+export let fields = undefined;
 function handleLog(log) {
-  // Parse the csv and process the results
   Papa.parse(log, {
     header: true,
     encoding: 'latin3', // Important for degree symbol
@@ -201,6 +199,7 @@ function handleLog(log) {
     },
     complete: function(results) {
       if (hasTimeField(results.meta.fields)) {
+        fields = results.meta.fields;
         addDefaultFieldForm(results);
       } else {
         addAlert('Please send only logs from HWInfo!');
