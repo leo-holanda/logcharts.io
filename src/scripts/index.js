@@ -31,6 +31,10 @@ function addAlert(message) {
   document.querySelector('.third-step').appendChild(alert);
 }
 
+function reloadFieldsList() {
+  console.log('oi');
+}
+
 function createContainers() {
   document.querySelector('main').classList.remove('aligned');
 
@@ -42,6 +46,13 @@ function createContainers() {
   title.innerHTML = 'FIELDS';
   title.classList.add('field-container-title');
   document.querySelector('.field-container').appendChild(title);
+
+  let fieldSearchInput = document.createElement('input');
+  fieldSearchInput.type = 'text';
+  fieldSearchInput.placeholder = 'Search by field';
+  fieldSearchInput.classList.add('field-search-input');
+  fieldSearchInput.addEventListener('input', reloadFieldsList);
+  document.querySelector('.field-container').appendChild(fieldSearchInput);
 
   container = document.createElement('div');
   container.classList.add('btn-container');
@@ -69,48 +80,50 @@ function createContainers() {
 }
 
 function createRepositoryButtons() {
-  let bugReportLink = document.createElement('a')
-  bugReportLink.setAttribute('href', 'https://github.com/leo-holanda/logcharts.io/issues/new')
-  bugReportLink.setAttribute('target', '_blank')
-  bugReportLink.classList.add('repo-btn-link')
+  let bugReportLink = document.createElement('a');
+  bugReportLink.setAttribute(
+    'href',
+    'https://github.com/leo-holanda/logcharts.io/issues/new'
+  );
+  bugReportLink.setAttribute('target', '_blank');
+  bugReportLink.classList.add('repo-btn-link');
 
   let bugIcon = document.createElement('span');
-  bugIcon.classList.add('material-icons-round')
-  bugIcon.textContent = 'bug_report'
+  bugIcon.classList.add('material-icons-round');
+  bugIcon.textContent = 'bug_report';
 
   let bugReportBtnTitle = document.createElement('span');
-  bugReportBtnTitle.textContent = 'Report a bug'
+  bugReportBtnTitle.textContent = 'Report a bug';
 
   let bugReportBtn = document.createElement('button');
   bugReportBtn.appendChild(bugIcon);
   bugReportBtn.appendChild(bugReportBtnTitle);
   bugReportBtn.setAttribute('type', 'button');
   bugReportBtn.classList.add('repo-btn');
-  
-  bugReportLink.appendChild(bugReportBtn)
+
+  bugReportLink.appendChild(bugReportBtn);
   document.querySelector('.field-container').appendChild(bugReportLink);
 
-  let repoLink = document.createElement('a')
-  repoLink.setAttribute('href', 'https://github.com/leo-holanda/logcharts.io')
-  repoLink.setAttribute('target', '_blank')
+  let repoLink = document.createElement('a');
+  repoLink.setAttribute('href', 'https://github.com/leo-holanda/logcharts.io');
+  repoLink.setAttribute('target', '_blank');
   repoLink.classList.add('repo-btn-link');
 
   let gitHubIcon = document.createElement('span');
-  gitHubIcon.classList.add('material-icons-round')
-  gitHubIcon.textContent = 'star'
+  gitHubIcon.classList.add('material-icons-round');
+  gitHubIcon.textContent = 'star';
 
   let repoBtnTitle = document.createElement('span');
-  repoBtnTitle.textContent = 'Star the GitHub Repo'
+  repoBtnTitle.textContent = 'Star the GitHub Repo';
 
   let repoBtn = document.createElement('button');
   repoBtn.appendChild(gitHubIcon);
   repoBtn.appendChild(repoBtnTitle);
   repoBtn.setAttribute('type', 'button');
   repoBtn.classList.add('repo-btn');
-  
-  repoLink.appendChild(repoBtn)
+
+  repoLink.appendChild(repoBtn);
   document.querySelector('.field-container').appendChild(repoLink);
-  
 }
 
 function createChart(results, defaultField) {
@@ -127,7 +140,6 @@ function createChart(results, defaultField) {
     parsedLog: results.data,
     defaultField: defaultField,
   });
-
 
   chart.draw();
 }
