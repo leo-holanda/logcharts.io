@@ -31,7 +31,7 @@
   color: white;
   font-family: "Source Sans Pro", sans-serif;
   font-weight: 800;
-  border-radius: 6px 6px 0 0;
+  border-radius: 6px;
 }
 
 .repo-btn-container {
@@ -92,11 +92,24 @@
   font-weight: 900;
 }
 
-.field-search-input {
-  border: 2px solid grey;
+.field-search-container {
+  display: flex;
+  background: white;
+  align-items: center;
+  justify-content: space-evenly;
   padding: 0.5rem;
-  margin: 0.5rem;
+  border-radius: 6px 6px 0 0;
+  margin: 0.5rem 0 0 0;
+  border-bottom: 2px solid #f7f7f7;
+}
+
+.field-search-input {
+  width: 100%;
+  border: 2px solid grey;
+  margin: 0.25rem;
   border-radius: 6px;
+  border-style: none;
+  outline: none;
 }
 
 .chart-container {

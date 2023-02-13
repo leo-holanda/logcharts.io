@@ -34,6 +34,22 @@ function reloadFieldsList() {
   createButtons(fields, chart.defaultField, this.value);
 }
 
+function createFieldSearch() {
+  let searchIcon = document.createElement('span');
+  searchIcon.classList.add('material-icons-round');
+  searchIcon.textContent = 'search';
+  document.querySelector('.field-search-container').appendChild(searchIcon);
+
+  let fieldSearchInput = document.createElement('input');
+  fieldSearchInput.type = 'text';
+  fieldSearchInput.placeholder = 'Search by field';
+  fieldSearchInput.classList.add('field-search-input');
+  fieldSearchInput.addEventListener('input', reloadFieldsList);
+  document
+    .querySelector('.field-search-container')
+    .appendChild(fieldSearchInput);
+}
+
 function createContainers() {
   document.querySelector('main').classList.remove('aligned');
 
@@ -46,12 +62,9 @@ function createContainers() {
   title.classList.add('field-container-title');
   document.querySelector('.field-container').appendChild(title);
 
-  let fieldSearchInput = document.createElement('input');
-  fieldSearchInput.type = 'text';
-  fieldSearchInput.placeholder = 'Search by field';
-  fieldSearchInput.classList.add('field-search-input');
-  fieldSearchInput.addEventListener('input', reloadFieldsList);
-  document.querySelector('.field-container').appendChild(fieldSearchInput);
+  container = document.createElement('div');
+  container.classList.add('field-search-container');
+  document.querySelector('.field-container').appendChild(container);
 
   container = document.createElement('div');
   container.classList.add('btn-container');
@@ -132,6 +145,7 @@ function createRepositoryButtons() {
 function createChart(results, defaultField) {
   removeForm();
   createContainers();
+  createFieldSearch();
   createButtons(results.meta.fields, defaultField);
   createRepositoryButtons();
   addUpdateByField();
