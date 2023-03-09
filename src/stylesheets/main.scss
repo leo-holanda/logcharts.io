@@ -14,6 +14,10 @@
   --default-border-radius: 6px;
 
   --chart-axis-color: black;
+
+  --scrollbar-thumb-color: #e0e0e0;
+  --scrollbar-thumb-div-hover-color: #cccccc;
+  --scrollbar-thumb-hover-color: #adadad;
 }
 
 @import 'partials/header';
@@ -53,12 +57,39 @@ main {
   align-items: center;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--light-background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb-color);
+  border-radius: 10px;
+}
+
+div:hover::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb-div-hover-color);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover-color) !important;
+}
+
 [data-theme='dark'] {
   --background: #121212;
   --light-background: #1f1f1f;
+
   --light-font-color: white;
   --dark-font-color: white;
+
   --primary: #1f1f1f;
   --border-color: #121212;
   --chart-axis-color: white;
+
+  --scrollbar-thumb-color: #3d3d3d;
+  --scrollbar-thumb-div-hover-color: #525252;
+  --scrollbar-thumb-hover-color: #707070;
 }
