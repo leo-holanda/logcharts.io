@@ -37,6 +37,7 @@ function reloadFieldsList() {
 function createFieldSearch() {
   let searchIcon = document.createElement('span');
   searchIcon.classList.add('material-icons-round');
+  searchIcon.classList.add('field-search-icon');
   searchIcon.textContent = 'search';
   document.querySelector('.field-search-container').appendChild(searchIcon);
 
@@ -95,6 +96,19 @@ function createContainers() {
   document.querySelector('.report-container').appendChild(container);
 }
 
+function switchTheme() {
+  const currentTheme = document.documentElement.getAttribute('data-theme');
+
+  document.documentElement.setAttribute(
+    'data-theme',
+    currentTheme == 'light' ? 'dark' : 'light'
+  );
+
+  const themeIcon = document.querySelector('#change_theme_icon');
+  themeIcon.textContent =
+    (currentTheme == 'light' ? 'light' : 'dark') + '_mode';
+}
+
 function createRepositoryButtons() {
   let bugReportLink = document.createElement('a');
   bugReportLink.setAttribute(
@@ -140,6 +154,24 @@ function createRepositoryButtons() {
 
   repoLink.appendChild(repoBtn);
   document.querySelector('.repo-btn-container').appendChild(repoLink);
+
+  let themeIcon = document.createElement('span');
+  themeIcon.id = 'change_theme_icon';
+  themeIcon.classList.add('material-icons-round');
+  themeIcon.textContent = 'dark_mode';
+
+  let changeThemeBtnTitle = document.createElement('span');
+  changeThemeBtnTitle.textContent = 'Change theme';
+
+  let changeThemeBtn = document.createElement('button');
+  changeThemeBtn.appendChild(themeIcon);
+  changeThemeBtn.appendChild(changeThemeBtnTitle);
+  changeThemeBtn.setAttribute('type', 'button');
+  changeThemeBtn.classList.add('repo-btn');
+
+  changeThemeBtn.addEventListener('click', switchTheme);
+
+  document.querySelector('.repo-btn-container').appendChild(changeThemeBtn);
 }
 
 function createChart(results, defaultField) {
@@ -225,3 +257,7 @@ function handleLog(log) {
     },
   });
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.documentElement.setAttribute('data-theme', 'light');
+});

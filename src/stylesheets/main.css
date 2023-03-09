@@ -469,4 +469,14 @@ main {
 .aligned {
   justify-content: center;
   align-items: center;
+}
+
+[data-theme=dark] {
+  --background: #121212;
+  --light-background: #1f1f1f;
+  --light-font-color: white;
+  --dark-font-color: white;
+  --primary: #1f1f1f;
+  --border-color: #121212;
+  --chart-axis-color: white;
 }/*# sourceMappingURL=main.css.map */
