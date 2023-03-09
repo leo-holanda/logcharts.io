@@ -52,6 +52,10 @@
   margin-top: auto;
 }
 
+.repo-btn-container:last-child > button {
+  margin: 0;
+}
+
 .repo-btn {
   align-items: center;
   background-color: var(--primary);
@@ -65,8 +69,6 @@
   justify-content: left;
   padding: 5px;
   width: 100%;
-}
-.repo-btn:first-of-type {
   margin-bottom: 0.25rem;
 }
 
