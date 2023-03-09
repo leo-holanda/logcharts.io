@@ -1,17 +1,31 @@
+:root {
+  --background: #f7f7f7;
+  --light-background: white;
+  --light-font-color: white;
+  --dark-font-color: #041219;
+  --secondary-font-color: #a9a9a9;
+  --border-color: #f7f7f7;
+  --primary: #07132c;
+  --focus: #119da4ff;
+  --hover: #fa7921ff;
+  --default-border-radius: 6px;
+  --chart-axis-color: black;
+}
+
 .header {
   display: flex;
   position: relative;
   width: 100%;
   height: -moz-fit-content;
   height: fit-content;
-  background-color: #07132c;
+  background-color: var(--primary);
   justify-content: center;
   align-items: center;
   font-family: "Alata", Helvetica, Arial, sans-serif;
 }
 .header h1 {
   font-size: 3.2em;
-  color: white;
+  color: var(--light-font-color);
   padding: 15px;
   margin: 0px;
 }
@@ -27,11 +41,11 @@
 .field-container-title {
   margin: 0px;
   padding: 5px;
-  background-color: #07132c;
-  color: white;
+  background-color: var(--primary);
+  color: var(--light-font-color);
   font-family: "Source Sans Pro", sans-serif;
   font-weight: 800;
-  border-radius: 6px;
+  border-radius: var(--default-border-radius);
 }
 
 .repo-btn-container {
@@ -40,10 +54,10 @@
 
 .repo-btn {
   align-items: center;
-  background-color: #07132c;
-  border-radius: 6px;
+  background-color: var(--primary);
+  border-radius: var(--default-border-radius);
   border-style: none;
-  color: white;
+  color: var(--light-font-color);
   cursor: pointer;
   display: flex;
   font-family: "Source Sans Pro", sans-serif;
@@ -72,8 +86,8 @@
 
 .field-btn {
   transition: 0.1s;
-  background-color: white;
-  color: #041219;
+  background-color: var(--light-background);
+  color: var(--dark-font-color);
   border: 0px;
   text-decoration: none;
   font-family: "Source Sans Pro", sans-serif;
@@ -83,51 +97,56 @@
   cursor: pointer;
 }
 .field-btn:hover {
-  background-color: #fa7921;
-  color: white;
+  background-color: var(--hover);
+  color: var(--light-font-color);
 }
 .field-btn:focus {
-  background-color: #119da4;
+  background-color: var(--focus);
   color: white !important;
   font-weight: 900;
 }
 
 .field-search-container {
   display: flex;
-  background: white;
+  background: var(--light-background);
   align-items: center;
   justify-content: space-evenly;
   padding: 0.5rem;
-  border-radius: 6px 6px 0 0;
+  border-radius: var(--default-border-radius) var(--default-border-radius) 0 0;
   margin: 0.5rem 0 0 0;
-  border-bottom: 2px solid #f7f7f7;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.field-search-icon {
+  color: var(--dark-font-color);
 }
 
 .field-search-input {
   width: 100%;
-  border: 2px solid grey;
+  border: 2px solid var(--border-color);
   margin: 0.25rem;
-  border-radius: 6px;
+  border-radius: var(--default-border-radius);
   border-style: none;
   outline: none;
+  background-color: var(--light-background);
 }
 
 .chart-container {
   display: flex;
   flex-flow: column;
-  background-color: #f7f7f7;
+  background-color: var(--light-background);
   width: 100%;
   height: 100%;
 }
 
 svg {
-  background-color: white;
+  background-color: var(--light-background);
 }
 
 .context-svg {
   margin-top: 2px;
   flex-grow: 1;
-  border-radius: 0 0 6px 6px;
+  border-radius: 0 0 var(--default-border-radius) var(--default-border-radius);
 }
 
 /*
@@ -140,6 +159,7 @@ svg {
     It woulnd't touch the domain line but the chart line
 */
 .y-axis {
+  color: var(--chart-axis-color);
   font-size: 0.7em;
 }
 .y-axis .tick line {
@@ -154,6 +174,7 @@ svg {
 
 .x-axis {
   font-size: 0.7em;
+  color: var(--chart-axis-color);
 }
 
 /*
@@ -161,6 +182,9 @@ svg {
   All grid lines but the first one appears on the screen
   Same way as the y-axis
 */
+.grid {
+  color: var(--chart-axis-color);
+}
 .grid .tick {
   opacity: 0.13;
 }
@@ -197,15 +221,15 @@ svg {
 
 .stats-container {
   display: flex;
-  background-color: white;
+  background-color: var(--light-background);
   font-family: "Source Sans Pro", sans-serif;
   font-size: 1.5em;
   font-weight: 700;
-  border-radius: 6px;
+  border-radius: var(--default-border-radius);
 }
 
 .stats {
-  border-right: 0.125rem solid #f7f7f7;
+  border-right: 0.125rem solid var(--border-color);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -219,15 +243,15 @@ svg {
 
 .stats-title {
   margin: 0;
-  color: #a9a9a9;
+  color: var(--secondary-font-color);
 }
 
 .stats-value {
+  color: var(--dark-font-color);
   margin: 0;
 }
 
 .report-container {
-  background-color: #f7f7f7;
   display: flex;
   flex-flow: column;
   width: 100%;
@@ -245,7 +269,7 @@ svg {
 
 .form-alert {
   background-color: red;
-  color: white;
+  color: var(--light-font-color);
   font-family: "Source Sans Pro", sans-serif;
   padding: 10px;
   margin: 40px;
@@ -275,22 +299,22 @@ form button {
   font-family: "Source Sans Pro", sans-serif;
   cursor: pointer;
   background-color: transparent;
-  border: 2px solid #07132c;
+  border: 2px solid var(--primary);
 }
 form button:hover {
-  background-color: #07132c;
-  color: white;
+  background-color: var(--primary);
+  color: var(--light-font-color);
 }
 
 .log-input-label {
   display: flex;
   margin: 30px;
-  border-radius: 6px;
+  border-radius: var(--default-border-radius);
   cursor: pointer;
-  background-color: #07132c;
+  background-color: var(--primary);
   padding: 15px;
   font-family: "Source Sans Pro", sans-serif;
-  color: white;
+  color: var(--light-font-color);
   font-size: 1.25em;
   font-weight: 600;
 }
@@ -318,7 +342,7 @@ form button:hover {
 .loader {
   margin-top: 30px;
   border: 4px solid #f3f3f3;
-  border-top: 4px solid #07132c;
+  border-top: 4px solid var(--primary);
   border-radius: 50%;
   width: 50px;
   height: 50px;
@@ -341,11 +365,11 @@ form button:hover {
   justify-content: center;
   align-items: center;
   text-align: center;
-  color: #07132c;
+  color: var(--primary);
 }
 .step a {
   text-decoration: none;
-  color: white;
+  color: var(--light-font-color);
 }
 
 .first-step {
@@ -363,17 +387,17 @@ form button:hover {
 
 .selector-container {
   display: flex;
-  background-color: white;
+  background-color: var(--light-background);
   font-family: "Source Sans Pro", sans-serif;
   margin-top: 1rem;
-  border-bottom: 2px solid #f7f7f7;
-  border-radius: 6px 6px 0 0;
+  border-bottom: 2px solid var(--border-color);
+  border-radius: var(--default-border-radius) var(--default-border-radius) 0 0;
 }
 
 .add-selector-btn {
   display: flex;
   color: #4e7bff;
-  background-color: white;
+  background-color: var(--light-background);
   border: 0px;
   text-decoration: none;
   padding: 5px;
@@ -392,6 +416,7 @@ form button:hover {
   display: flex;
   align-items: center;
   padding: 5px;
+  color: var(--dark-font-color);
 }
 .selector-div:hover > .pickr {
   display: flex;
@@ -415,7 +440,7 @@ form button:hover {
   right: -21px;
 }
 .pickr i {
-  color: #07132c;
+  color: var(--primary);
   padding: 0.5em;
   cursor: pointer;
 }
@@ -423,6 +448,7 @@ form button:hover {
 html {
   width: 100vw;
   height: 100vh;
+  background-color: var(--background);
 }
 
 body {
@@ -438,7 +464,6 @@ main {
   display: flex;
   overflow: hidden;
   height: 100%;
-  background-color: #f7f7f7;
 }
 
 .aligned {

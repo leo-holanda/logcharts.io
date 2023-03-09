@@ -1,19 +1,19 @@
 .chart-container {
   display: flex;
   flex-flow: column;
-  background-color: #f7f7f7;
+  background-color: var(--light-background);
   width: 100%;
   height: 100%;
 }
 
 svg {
-  background-color: white;
+  background-color: var(--light-background);
 }
 
 .context-svg {
   margin-top: 2px;
   flex-grow: 1;
-  border-radius: 0 0 $default-border-radius $default-border-radius;
+  border-radius: 0 0 var(--default-border-radius) var(--default-border-radius);
 }
 
 /*
@@ -27,6 +27,8 @@ svg {
 */
 
 .y-axis {
+  color: var(--chart-axis-color);
+
   font-size: 0.7em;
   .tick {
     line {
@@ -48,6 +50,7 @@ svg {
 
 .x-axis {
   font-size: 0.7em;
+  color: var(--chart-axis-color);
 }
 
 /*
@@ -57,6 +60,8 @@ svg {
 */
 
 .grid {
+  color: var(--chart-axis-color);
+
   .tick {
     opacity: 0.13;
 

@@ -9,7 +9,7 @@
 
 .form-alert {
   background-color: red;
-  color: white;
+  color: var(--light-font-color);
   font-family: 'Source Sans Pro', sans-serif;
   padding: 10px;
   margin: 40px;
@@ -38,24 +38,24 @@ form {
     font-family: 'Source Sans Pro', sans-serif;
     cursor: pointer;
     background-color: transparent;
-    border: 2px solid #07132c;
+    border: 2px solid var(--primary);
   }
 
   button:hover {
-    background-color: #07132c;
-    color: white;
+    background-color: var(--primary);
+    color: var(--light-font-color);
   }
 }
 
 .log-input-label {
   display: flex;
   margin: 30px;
-  border-radius:$default-border-radius;
+  border-radius: var(--default-border-radius);
   cursor: pointer;
-  background-color: #07132c;
+  background-color: var(--primary);
   padding: 15px;
   font-family: 'Source Sans Pro', sans-serif;
-  color: white;
+  color: var(--light-font-color);
   font-size: 1.25em;
   font-weight: 600;
 

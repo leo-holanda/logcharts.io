@@ -1,14 +1,14 @@
 .line-container {
   display: flex;
-  background-color: white;
+  background-color: var(--light-background);
   font-family: 'Source Sans Pro', sans-serif;
   margin: 50px 20px 0px 20px;
-  border-bottom: 2px solid #f7f7f7;
+  border-bottom: 2px solid var(--border-color);
 }
 
 .add-line-btn {
   color: #4e7bff;
-  background-color: white;
+  background-color: var(--light-background);
   border: 0px;
   text-decoration: none;
   padding: 5px;

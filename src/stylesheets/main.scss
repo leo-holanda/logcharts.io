@@ -1,7 +1,20 @@
-$primary: #07132c;
-$focus: #119da4ff;
-$hover: #fa7921ff;
-$default-border-radius: 6px;
+:root {
+  --background: #f7f7f7;
+  --light-background: white;
+
+  --light-font-color: white;
+  --dark-font-color: #041219;
+  --secondary-font-color: #a9a9a9;
+
+  --border-color: #f7f7f7;
+
+  --primary: #07132c;
+  --focus: #119da4ff;
+  --hover: #fa7921ff;
+  --default-border-radius: 6px;
+
+  --chart-axis-color: black;
+}
 
 @import 'partials/header';
 @import 'partials/btn-container';
@@ -17,6 +30,7 @@ $default-border-radius: 6px;
 html {
   width: 100vw;
   height: 100vh;
+  background-color: var(--background);
 }
 
 body {
@@ -32,7 +46,6 @@ main {
   display: flex;
   overflow: hidden;
   height: 100%;
-  background-color: #f7f7f7;
 }
 
 .aligned {

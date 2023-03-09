@@ -6,11 +6,11 @@
   justify-content: center;
   align-items: center;
   text-align: center;
-  color: $primary;
+  color: var(--primary);
 
   a {
     text-decoration: none;
-    color: white;
+    color: var(--light-font-color);
   }
 }
 

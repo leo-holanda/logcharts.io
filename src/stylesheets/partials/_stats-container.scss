@@ -1,14 +1,14 @@
 .stats-container {
   display: flex;
-  background-color: white;
+  background-color: var(--light-background);
   font-family: 'Source Sans Pro', sans-serif;
   font-size: 1.5em;
   font-weight: 700;
-  border-radius: $default-border-radius;
+  border-radius: var(--default-border-radius);
 }
 
 .stats {
-  border-right: 0.125rem solid #f7f7f7;
+  border-right: 0.125rem solid var(--border-color);
   &:last-of-type {
     border: 0;
   }
@@ -22,9 +22,10 @@
 
 .stats-title {
   margin: 0;
-  color: #a9a9a9;
+  color: var(--secondary-font-color);
 }
 
 .stats-value {
+  color: var(--dark-font-color);
   margin: 0;
 }

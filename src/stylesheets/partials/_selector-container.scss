@@ -1,16 +1,16 @@
 .selector-container {
   display: flex;
-  background-color: white;
+  background-color: var(--light-background);
   font-family: 'Source Sans Pro', sans-serif;
   margin-top: 1rem;
-  border-bottom: 2px solid #f7f7f7;
-  border-radius: $default-border-radius $default-border-radius 0 0;
+  border-bottom: 2px solid var(--border-color);
+  border-radius: var(--default-border-radius) var(--default-border-radius) 0 0;
 }
 
 .add-selector-btn {
   display: flex;
   color: #4e7bff;
-  background-color: white;
+  background-color: var(--light-background);
   border: 0px;
   text-decoration: none;
   padding: 5px;
@@ -29,6 +29,7 @@
   display: flex;
   align-items: center;
   padding: 5px;
+  color: var(--dark-font-color);
 
   &:hover > .pickr {
     display: flex;
