@@ -18,10 +18,15 @@
 
 .repo-btn-container {
   margin-top: auto;
-}
 
-.repo-btn-container:last-child > button {
-  margin: 0;
+  &:last-child > button {
+    margin: 0;
+  }
+
+  & button:hover {
+    background: var(--primary-hover);
+    transition: 0.25s;
+  }
 }
 
 .repo-btn {
@@ -38,10 +43,10 @@
   padding: 5px;
   width: 100%;
   margin-bottom: 0.25rem;
-}
 
-.repo-btn > span {
-  margin-right: 0.25rem;
+  & > span {
+    margin-right: 0.25rem;
+  }
 }
 
 .repo-btn-link {

@@ -9,15 +9,17 @@
   --border-color: #f7f7f7;
 
   --primary: #07132c;
+  --primary-hover: #112d6a;
   --focus: #119da4ff;
   --hover: #fa7921ff;
-  --default-border-radius: 6px;
 
   --chart-axis-color: black;
 
   --scrollbar-thumb-color: #e0e0e0;
   --scrollbar-thumb-div-hover-color: #cccccc;
   --scrollbar-thumb-hover-color: #adadad;
+
+  --default-border-radius: 6px;
 }
 
 @import 'partials/header';
@@ -86,6 +88,7 @@ div:hover::-webkit-scrollbar-thumb {
   --dark-font-color: white;
 
   --primary: #1f1f1f;
+  --primary-hover: #3d3d3d;
   --border-color: #121212;
   --chart-axis-color: white;
 

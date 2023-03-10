@@ -6,13 +6,14 @@
   --secondary-font-color: #a9a9a9;
   --border-color: #f7f7f7;
   --primary: #07132c;
+  --primary-hover: #112d6a;
   --focus: #119da4ff;
   --hover: #fa7921ff;
-  --default-border-radius: 6px;
   --chart-axis-color: black;
   --scrollbar-thumb-color: #e0e0e0;
   --scrollbar-thumb-div-hover-color: #cccccc;
   --scrollbar-thumb-hover-color: #adadad;
+  --default-border-radius: 6px;
 }
 
 .header {
@@ -54,9 +55,12 @@
 .repo-btn-container {
   margin-top: auto;
 }
-
 .repo-btn-container:last-child > button {
   margin: 0;
+}
+.repo-btn-container button:hover {
+  background: var(--primary-hover);
+  transition: 0.25s;
 }
 
 .repo-btn {
@@ -74,7 +78,6 @@
   width: 100%;
   margin-bottom: 0.25rem;
 }
-
 .repo-btn > span {
   margin-right: 0.25rem;
 }
@@ -502,6 +505,7 @@ div:hover::-webkit-scrollbar-thumb {
   --light-font-color: white;
   --dark-font-color: white;
   --primary: #1f1f1f;
+  --primary-hover: #3d3d3d;
   --border-color: #121212;
   --chart-axis-color: white;
   --scrollbar-thumb-color: #3d3d3d;
