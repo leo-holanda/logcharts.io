@@ -98,15 +98,14 @@ function createContainers() {
 
 function switchTheme() {
   const currentTheme = document.documentElement.getAttribute('data-theme');
+  const newTheme = currentTheme == 'light' ? 'dark' : 'light';
 
-  document.documentElement.setAttribute(
-    'data-theme',
-    currentTheme == 'light' ? 'dark' : 'light'
-  );
+  document.documentElement.setAttribute('data-theme', newTheme);
 
-  const themeIcon = document.querySelector('#change_theme_icon');
-  themeIcon.textContent =
-    (currentTheme == 'light' ? 'light' : 'dark') + '_mode';
+  const themeIcon = document.querySelector('#theme_icon');
+  themeIcon.textContent = currentTheme + '_mode';
+
+  localStorage.setItem('theme', newTheme);
 }
 
 function createRepositoryButtons() {
@@ -155,10 +154,12 @@ function createRepositoryButtons() {
   repoLink.appendChild(repoBtn);
   document.querySelector('.repo-btn-container').appendChild(repoLink);
 
+  const currentTheme = document.documentElement.getAttribute('data-theme');
   let themeIcon = document.createElement('span');
-  themeIcon.id = 'change_theme_icon';
+  themeIcon.id = 'theme_icon';
   themeIcon.classList.add('material-icons-round');
-  themeIcon.textContent = 'dark_mode';
+  themeIcon.textContent =
+    (currentTheme == 'light' ? 'dark' : 'light') + '_mode';
 
   let changeThemeBtnTitle = document.createElement('span');
   changeThemeBtnTitle.textContent = 'Change theme';
@@ -259,5 +260,9 @@ function handleLog(log) {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  document.documentElement.setAttribute('data-theme', 'light');
+  const userPreferredTheme = localStorage.getItem('theme');
+  document.documentElement.setAttribute(
+    'data-theme',
+    userPreferredTheme || 'light'
+  );
 });
