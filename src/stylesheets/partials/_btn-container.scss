@@ -57,6 +57,7 @@
   margin-bottom: 1rem;
   overflow-y: auto;
   overflow-x: hidden;
+  color: var(--dark-font-color);
 }
 
 .field-btn {
@@ -99,6 +100,7 @@
 }
 
 .field-search-input {
+  color: var(--dark-font-color);
   width: 100%;
   border: 2px solid var(--border-color);
   margin: 0.25rem;
