@@ -13,7 +13,7 @@ export function createStats(log, defaultField) {
   for (step; step < 3; step++) {
     //For each measure, create a div that contains a title and a value
     element = document.createElement('div');
-    title = document.createElement('h6');
+    title = document.createElement('span');
     value = document.createElement('h4');
 
     element.classList.add('stats');
