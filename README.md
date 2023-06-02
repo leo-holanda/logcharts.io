@@ -29,9 +29,9 @@ By interpreting the HWInfo logs in a more intuitive way, you can have a better i
 
 `git clone https://github.com/leo-holanda/logcharts.io.git`
 
-**Install dependencies**
+**Install dev dependencies**
 
-`yarn`
+`npm i`
 
 ## Getting Started
 
