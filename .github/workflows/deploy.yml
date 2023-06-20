@@ -1,11 +1,13 @@
-name: deploy-logcharts
+name: Deploy logcharts.io
 on:
   push:
     branches:
       - master
+permissions:
+  id-token: write
 
 jobs:
-  build-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -13,13 +15,21 @@ jobs:
       - name: Set-up Node
         uses: actions/setup-node@v1
         with:
-          node-version: "10.x"
-      - run: npm install
-      - run: npm run build
+          node-version: "15.x"
+      - name: Build
+        run: npm run build
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
           path: '.'
+  
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
