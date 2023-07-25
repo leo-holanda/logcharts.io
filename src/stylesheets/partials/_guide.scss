@@ -1,7 +1,7 @@
 .step {
   font-family: 'Source Sans Pro', sans-serif;
   width: 100%;
-  height: 33.3%;
+  height: 33%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -25,4 +25,25 @@
 .third-step {
   flex-flow: column;
   background-color: #abe1ed;
+}
+
+.author-info {
+  align-items: center;
+  background-color: black;
+  color: white;
+  display: flex;
+  font-family: 'Source Sans Pro', sans-serif;
+  height: 1%;
+  justify-content: center;
+  padding: 1rem;
+  width: 100%;
+  width: 100%;
+
+  .separator {
+    margin: 0 0.5rem;
+  }
+
+  & > div span {
+    margin-right: 0.5rem;
+  }
 }
