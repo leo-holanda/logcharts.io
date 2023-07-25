@@ -7,7 +7,8 @@
   "license": "MIT",
   "scripts": {
     "build": "esbuild src/scripts/index.js src/stylesheets/main.css --outdir=dist --bundle --minify",
-    "build-dev": "esbuild src/scripts/index.js src/stylesheets/main.css --outdir=dist --bundle --sourcemap"
+    "build-dev": "esbuild src/scripts/index.js src/stylesheets/main.css --outdir=dist --bundle --sourcemap",
+    "watch": "esbuild src/scripts/index.js src/stylesheets/main.css --outdir=dist --bundle --watch"
   },
   "dependencies": {
     "esbuild": "0.17.19"
