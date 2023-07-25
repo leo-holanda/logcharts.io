@@ -103,7 +103,12 @@ function switchTheme() {
   document.documentElement.setAttribute('data-theme', newTheme);
 
   const themeIcon = document.querySelector('#theme_icon');
-  themeIcon.textContent = currentTheme + '_mode';
+
+  themeIcon.classList = [];
+  themeIcon.classList.add('bi');
+  themeIcon.classList.add(
+    currentTheme == 'light' ? 'bi-sun-fill' : 'bi-moon-fill'
+  );
 
   localStorage.setItem('theme', newTheme);
 }
@@ -118,8 +123,8 @@ function createRepositoryButtons() {
   bugReportLink.classList.add('repo-btn-link');
 
   let bugIcon = document.createElement('span');
-  bugIcon.classList.add('material-icons-round');
-  bugIcon.textContent = 'bug_report';
+  bugIcon.classList.add('bi');
+  bugIcon.classList.add('bi-bug-fill');
 
   let bugReportBtnTitle = document.createElement('span');
   bugReportBtnTitle.textContent = 'Report a bug';
@@ -139,8 +144,8 @@ function createRepositoryButtons() {
   repoLink.classList.add('repo-btn-link');
 
   let gitHubIcon = document.createElement('span');
-  gitHubIcon.classList.add('material-icons-round');
-  gitHubIcon.textContent = 'star';
+  gitHubIcon.classList.add('bi');
+  gitHubIcon.classList.add('bi-star-fill');
 
   let repoBtnTitle = document.createElement('span');
   repoBtnTitle.textContent = 'Star the GitHub Repo';
@@ -157,9 +162,10 @@ function createRepositoryButtons() {
   const currentTheme = document.documentElement.getAttribute('data-theme');
   let themeIcon = document.createElement('span');
   themeIcon.id = 'theme_icon';
-  themeIcon.classList.add('material-icons-round');
-  themeIcon.textContent =
-    (currentTheme == 'light' ? 'dark' : 'light') + '_mode';
+  themeIcon.classList.add('bi');
+  themeIcon.classList.add(
+    currentTheme == 'light' ? 'bi-moon-fill' : 'bi-sun-fill'
+  );
 
   let changeThemeBtnTitle = document.createElement('span');
   changeThemeBtnTitle.textContent = 'Change theme';
@@ -245,10 +251,10 @@ function handleLog(log) {
     header: true,
     encoding: 'latin3', // Important for degree symbol
     skipEmptyLines: true,
-    transformHeader: function(header) {
+    transformHeader: function (header) {
       return header.replace('�', '°');
     },
-    complete: function(results) {
+    complete: function (results) {
       if (hasTimeField(results.meta.fields)) {
         fields = results.meta.fields;
         addDefaultFieldForm(results);

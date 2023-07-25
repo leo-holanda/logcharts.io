@@ -6,11 +6,11 @@
   "author": "leo-holanda <leo.uldholanda@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "build": "esbuild src/scripts/index.js src/stylesheets/main.css --outdir=dist --bundle --minify",
-    "build-dev": "esbuild src/scripts/index.js src/stylesheets/main.css --outdir=dist --bundle --sourcemap",
-    "watch": "esbuild src/scripts/index.js src/stylesheets/main.css --outdir=dist --bundle --watch"
+    "build": "esbuild src/scripts/index.js src/stylesheets/main.css --outdir=dist --bundle --minify --loader:.woff=dataurl --loader:.woff2=dataurl",
+    "watch": "esbuild src/scripts/index.js src/stylesheets/main.css --outdir=dist --bundle --sourcemap --loader:.woff=dataurl --loader:.woff2=dataurl --watch"
   },
   "dependencies": {
+    "bootstrap-icons": "^1.10.5",
     "esbuild": "0.17.19"
   },
   "devDependencies": {

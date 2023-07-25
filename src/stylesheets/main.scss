@@ -22,6 +22,7 @@
   --default-border-radius: 6px;
 }
 
+@import 'bootstrap-icons/font/bootstrap-icons.css';
 @import 'partials/header';
 @import 'partials/btn-container';
 @import 'partials/chart-container';
@@ -96,4 +97,8 @@ div:hover::-webkit-scrollbar-thumb {
   --scrollbar-thumb-color: #3d3d3d;
   --scrollbar-thumb-div-hover-color: #525252;
   --scrollbar-thumb-hover-color: #707070;
+}
+
+.bi {
+  font-size: 1.25rem;
 }

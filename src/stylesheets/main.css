@@ -1,3 +1,4 @@
+@import 'bootstrap-icons/font/bootstrap-icons.css';
 :root {
   --background: #f7f7f7;
   --light-background: white;
@@ -80,6 +81,9 @@
 }
 .repo-btn > span {
   margin-right: 0.25rem;
+}
+.repo-btn .bi {
+  padding: 0.125rem;
 }
 
 .repo-btn-link {
@@ -334,6 +338,9 @@ form button:hover {
 .log-input-label:hover {
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.5);
 }
+.log-input-label .bi {
+  margin-right: 0.5rem;
+}
 
 .loader-wrapper {
   -webkit-backdrop-filter: blur(8px);
@@ -515,4 +522,8 @@ div:hover::-webkit-scrollbar-thumb {
   --scrollbar-thumb-color: #3d3d3d;
   --scrollbar-thumb-div-hover-color: #525252;
   --scrollbar-thumb-hover-color: #707070;
+}
+
+.bi {
+  font-size: 1.25rem;
 }/*# sourceMappingURL=main.css.map */

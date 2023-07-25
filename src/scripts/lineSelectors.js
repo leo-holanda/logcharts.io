@@ -4,8 +4,8 @@ import { chart } from './index.js';
 export function createAddSelectorBtn() {
   let addSelectorBtn = document.createElement('button');
   let addSelectorIcon = document.createElement('span');
-  addSelectorIcon.classList.add('material-icons-round');
-  addSelectorIcon.innerHTML = 'add_circle';
+  addSelectorIcon.classList.add('bi');
+  addSelectorIcon.classList.add('bi-plus-circle-fill');
   addSelectorBtn.classList.add('add-selector-btn');
   addSelectorBtn.id = 'add_selector_btn';
   addSelectorBtn.addEventListener('click', createNewLine);
@@ -78,7 +78,7 @@ export function addNewSelector(selectorID, color, defaultField) {
     },
   });
 
-  pickr.on('change', function(color, source, instance) {
+  pickr.on('change', function (color, source, instance) {
     document
       .querySelector('path#' + selectorID)
       .setAttribute('stroke', color.toHEXA());
@@ -90,7 +90,7 @@ export function addNewSelector(selectorID, color, defaultField) {
     let removeSelector = document.createElement('i');
     removeSelector.classList.add('fas');
     removeSelector.classList.add('fa-trash');
-    removeSelector.addEventListener('click', function() {
+    removeSelector.addEventListener('click', function () {
       document.querySelector('path#' + selectorID).remove();
       selectorDiv.remove();
     });

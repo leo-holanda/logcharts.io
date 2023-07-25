@@ -66,4 +66,8 @@ form {
   &:hover {
     box-shadow: 0 8px 18px rgba(0, 0, 0, 0.5);
   }
+
+  & .bi {
+    margin-right: 0.5rem;
+  }
 }
