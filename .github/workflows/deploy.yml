@@ -2,7 +2,7 @@ name: Deploy logcharts.io
 on:
   push:
     branches:
-      - master
+      - pages
 permissions:
   contents: read
   pages: write
