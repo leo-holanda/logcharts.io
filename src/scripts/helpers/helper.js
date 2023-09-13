@@ -1,7 +1,7 @@
 export async function getLogExample() {
-  return await fetch('./assets/example.CSV').then((response) => {
-    return response.text();
-  });
+  return await fetch('./assets/example.csv').then((response) =>
+    response.text()
+  );
 }
 
 //Sometimes file type can be empty. In this case
