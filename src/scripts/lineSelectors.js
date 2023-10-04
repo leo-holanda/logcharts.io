@@ -88,8 +88,8 @@ export function addNewSelector(selectorID, color, defaultField) {
 
   if (!isFirstSelector) {
     let removeSelector = document.createElement('i');
-    removeSelector.classList.add('fas');
-    removeSelector.classList.add('fa-trash');
+    removeSelector.classList.add('bi');
+    removeSelector.classList.add('bi-trash3-fill');
     removeSelector.addEventListener('click', function () {
       document.querySelector('path#' + selectorID).remove();
       selectorDiv.remove();
