@@ -17,6 +17,10 @@
       href="https://fonts.googleapis.com/icon?family=Material+Icons+Round"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css"
+    />
     <title>LogCharts</title>
   </head>
   <body>
@@ -47,11 +51,14 @@
               name="log_input"
               accept=".csv"
             />
+
             <label class="log-input-label" for="log_input">
               <span class="bi bi-upload"></span>
               <span>Upload your log</span>
             </label>
+
             <h2>or</h2>
+
             <button type="button" id="example">See an example</button>
           </form>
           <p>
@@ -65,25 +72,42 @@
           </p>
         </div>
 
-        <div class="author-info">
-          <span>Made by Leo</span>
-          <span class="separator">|</span>
-          <div>
+        <div class="footer">
+          <div class="github-link">
             <a
               style="color: #ffffff"
               target="_blank"
-              href="https://github.com/leo-holanda"
-              aria-label="Author GitHub profile link"
+              href="https://github.com/leo-holanda/logcharts.io"
+              aria-label="GitHub repository link"
             >
               <span class="bi bi-github"></span>
+              <span>leo-holanda/logcharts.io</span>
             </a>
+          </div>
+
+          <div class="profile-link">
+            <span
+              >Made by
+              <a
+                style="color: #ffffff"
+                target="_blank"
+                href="https://github.com/leo-holanda"
+                aria-label="Author GitHub profile link"
+              >
+                Leo
+              </a></span
+            >
+          </div>
+
+          <div class="sponsor-link">
             <a
               style="color: #ffffff"
               target="_blank"
-              href="https://www.linkedin.com/in/leonardoulisses"
-              aria-label="Author Linkedin profile link"
+              href="https://ko-fi.com/leoholanda"
+              aria-label="Author GitHub profile link"
             >
-              <span class="bi bi-linkedin"></span>
+              <span class="bi bi-cup-hot-fill"></span>
+              <span>Like the tool? Buy me a coffee!</span>
             </a>
           </div>
         </div>

@@ -1,4 +1,3 @@
-@import 'bootstrap-icons/font/bootstrap-icons.css';
 :root {
   --background: #f7f7f7;
   --light-background: white;
@@ -403,23 +402,37 @@ form button:hover {
   background-color: #abe1ed;
 }
 
-.author-info {
+.footer {
   align-items: center;
   background-color: black;
   color: white;
   display: flex;
   font-family: "Source Sans Pro", sans-serif;
   height: 1%;
-  justify-content: center;
+  justify-content: space-between;
   padding: 1rem;
   width: 100%;
   width: 100%;
 }
-.author-info .separator {
+.footer .separator {
   margin: 0 0.5rem;
 }
-.author-info > div span {
+.footer > div span {
   margin-right: 0.5rem;
+}
+
+.github-link {
+  margin-left: 16px;
+  font-size: 0.85rem;
+}
+
+.profile-link {
+  font-size: 0.85rem;
+}
+
+.sponsor-link {
+  margin-right: 16px;
+  font-size: 0.85rem;
 }
 
 .selector-container {
