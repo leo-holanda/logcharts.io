@@ -56,9 +56,6 @@
 .repo-btn-container {
   margin-top: auto;
 }
-.repo-btn-container:last-child > button {
-  margin: 0;
-}
 .repo-btn-container button:hover {
   background: var(--primary-hover);
   transition: 0.25s;
@@ -84,6 +81,10 @@
 }
 .repo-btn .bi {
   padding: 0.125rem;
+}
+
+.last-repo-btn {
+  margin: 0;
 }
 
 .repo-btn-link {

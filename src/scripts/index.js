@@ -179,6 +179,28 @@ function createRepositoryButtons() {
   changeThemeBtn.addEventListener('click', switchTheme);
 
   document.querySelector('.repo-btn-container').appendChild(changeThemeBtn);
+
+  let sponsorLink = document.createElement('a');
+  sponsorLink.setAttribute('href', 'https://ko-fi.com/leoholanda');
+  sponsorLink.setAttribute('target', '_blank');
+  sponsorLink.classList.add('repo-btn-link');
+
+  let sponsorIcon = document.createElement('span');
+  sponsorIcon.classList.add('bi');
+  sponsorIcon.classList.add('bi-cup-hot-fill');
+
+  let sponsorBtnTitle = document.createElement('span');
+  sponsorBtnTitle.textContent = 'Buy me a coffee';
+
+  let sponsorBtn = document.createElement('button');
+  sponsorBtn.appendChild(sponsorIcon);
+  sponsorBtn.appendChild(sponsorBtnTitle);
+  sponsorBtn.setAttribute('type', 'button');
+  sponsorBtn.classList.add('repo-btn');
+  sponsorBtn.classList.add('last-repo-btn');
+
+  sponsorLink.appendChild(sponsorBtn);
+  document.querySelector('.repo-btn-container').appendChild(sponsorLink);
 }
 
 function createChart(results, defaultField) {
